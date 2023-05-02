@@ -19,13 +19,6 @@ class Employees extends Component
 
     public function render()
     {
-        $this->user = session()->get('user'); /* Monto en una sola una ocacion el user */
-        
-        $url = config('app.api') . '/employee';
-        $response = Http::withToken($this->user['token'])->get($url);
-        $this->employees = $response->json();
-        $this->employees = $this->employees['data'];
-
         /* Aqui realizo el filtrado de busqueda */
         if ($this->search) {
             $this->applyFilters();

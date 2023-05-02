@@ -13,6 +13,10 @@ class RolController extends Controller
      */
     public function index()
     {
+        if (!session()->get('user')) {
+            return redirect()->route('auth.login');
+        }
+
         $user = session()->get('user');
 
         $url = config('app.api') . '/rol';
@@ -29,6 +33,10 @@ class RolController extends Controller
      */
     public function store(Request $request)
     {
+        if (!session()->get('user')) {
+            return redirect()->route('auth.login');
+        }
+
         $user = session()->get('user');
 
         $url = config('app.api') . '/rol/';
@@ -55,7 +63,9 @@ class RolController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        if (!session()->get('user')) {
+            return redirect()->route('auth.login');
+        }
     }
 
     /**

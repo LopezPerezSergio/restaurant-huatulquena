@@ -22,7 +22,7 @@
             <form action="{{ $url }}" method="POST">
                 @csrf
                 
-                {{ $form }}
+                {{ $slot }}
 
                 <div class="items-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
                     <button type="submit"

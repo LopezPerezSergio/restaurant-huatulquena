@@ -104,10 +104,10 @@
                                     {{ $employee['codigoAcceso'] }}
                                 </td>
                                 <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{-- <div class="flex items-center space-x-4">
-                                        <button type="button" data-drawer-target="drawer-update-product"
-                                            data-drawer-show="drawer-update-product"
-                                            aria-controls="drawer-update-product"
+                                    <div class="flex items-center space-x-4">
+                                        <button type="button" data-drawer-target="drawer-update-employee-{{ $employee['id'] }}"
+                                            data-drawer-show="drawer-update-employee-{{ $employee['id'] }}"
+                                            aria-controls="drawer-update-employee-{{ $employee['id'] }}"
                                             class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5"
                                                 viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -117,11 +117,11 @@
                                                     d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
                                                     clip-rule="evenodd" />
                                             </svg>
-                                            Edit
+                                            Editar
                                         </button>
-                                        <button type="button" data-drawer-target="drawer-read-product-advanced"
-                                            data-drawer-show="drawer-read-product-advanced"
-                                            aria-controls="drawer-read-product-advanced"
+                                        <button type="button" data-drawer-target="drawer-read-employee-{{ $employee['id'] }}-advanced"
+                                            data-drawer-show="drawer-read-employee-{{ $employee['id'] }}-advanced"
+                                            aria-controls="drawer-read-employee-{{ $employee['id'] }}-advanced"
                                             class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"
                                                 fill="currentColor" class="w-4 h-4 mr-2 -ml-0.5">
@@ -130,7 +130,8 @@
                                                     d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" />
                                             </svg>
                                             Preview
-                                        </button>
+                                        </button>{{-- 
+                                        
                                         <button type="button" data-modal-target="delete-modal"
                                             data-modal-toggle="delete-modal"
                                             class="flex items-center text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
@@ -141,8 +142,8 @@
                                                     clip-rule="evenodd" />
                                             </svg>
                                             Delete
-                                        </button>
-                                    </div> --}}
+                                        </button> --}}
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

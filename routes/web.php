@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\RolController;
 use App\Http\Controllers\Auth\AuthController;
@@ -32,9 +33,7 @@ Route::prefix('auth')->group(function () {
 /* Rutas del administrador */
 Route::middleware('AuthApi')->prefix('admin')->group(function () {
     // Esta ruta solo puede ser accedida por usuarios autenticados
-    Route::get('dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', DashboardController::class)->name('dashboard');
 
     Route::resource('roles', RolController::class)->names('roles');
     Route::resource('employees', EmployeeController::class)->names('employees');
