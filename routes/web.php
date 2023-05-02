@@ -18,22 +18,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 /* Ruta de la pagina welcome */
+
 Route::get('/', WelcomeController::class);
 
 /* Rutas de logueo */
-Route::prefix('auth')->group(function (){
+Route::prefix('auth')->group(function () {
     Route::get('login', [AuthController::class, 'login'])->name('auth.login')/* ->middleware('Prevent.authenticated') */;
     Route::post('authenticate', [AuthController::class, 'authenticate'])->name('auth.authenticate');
 });
 
 
-// Esta ruta solo puede ser accedida por usuarios autenticados
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-})->name('dashboard')->middleware('AuthApi');
 
 /* Rutas del administrador */
-Route::prefix('admin')->group(function (){
+Route::middleware('AuthApi')->prefix('admin')->group(function () {
+    // Esta ruta solo puede ser accedida por usuarios autenticados
+    Route::get('dashboard', function () {
+        return view('admin.dashboard');
+    })->name('dashboard');
+
     Route::resource('roles', RolController::class)->names('roles');
     Route::resource('employees', EmployeeController::class)->names('employees');
-})->middleware('AuthApi');
+});

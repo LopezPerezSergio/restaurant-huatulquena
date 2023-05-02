@@ -29,7 +29,7 @@ class EmployeeController extends Controller
     {
         $user = session()->get('user');
 
-        $url = config('app.api') . '/rol/search-id/'.$request->rol;
+        $url = config('app.api') . '/rol/search-id/' . $request->rol;
         $response = Http::withToken($user['token'])->get($url);
         $rol = $response->collect('data');
         $rol = ['id' => $rol['id'], 'nombre' =>  $rol['nombre']];

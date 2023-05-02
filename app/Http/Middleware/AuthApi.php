@@ -20,19 +20,19 @@ class AuthApi
         if (session()->get('user')) {
             $user = session()->get('user');
             $url = config('app.api') . '/login/valid/token/' . $user['token']; //http://localhost:8080/login/valid/token
-            
+
             $response = Http::get($url);
             $validate_token = $response->collect('data');
 
-            if ($validate_token) {
-                // Usuario autenticado, continuar con la solicitud
-                return $next($request);
+            if ($validate_token === 'false') {
+                // Destruimos el usuario de la sesion
+                session()->forget('user');
+                // Usuario no autenticado, redirigir a la página de inicio de sesión
+                return redirect()->route('auth.login');
             }
-
-            session()->forget('user');
         }
 
-        // Usuario no autenticado, redirigir a la página de inicio de sesión
-        return redirect()->route('auth.login');
+        // Usuario autenticado, continuar con la solicitud
+        return $next($request);
     }
 }

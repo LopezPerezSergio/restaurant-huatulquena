@@ -4,6 +4,7 @@
             {{ session('alert-employee') }}
         </x-alert.success>
     @endif
+    
     <x-slot:navbar>
         <x-navbar.siderbar />
     </x-slot:navbar>
