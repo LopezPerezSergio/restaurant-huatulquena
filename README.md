@@ -3,7 +3,7 @@
 - Instalar las dependencias de NodeJs: npm install
 - Copiar el .env.example y cambiarle el nombre por .env
 - Generar la llave de app con el comando: php artisan key:generate
-- Generar el link del storage:  php artisan storage:generate
+- Generar el link del storage:  php artisan storage:link
 - Copiar la carpeta de las imagenes en el link generado.
 
 
