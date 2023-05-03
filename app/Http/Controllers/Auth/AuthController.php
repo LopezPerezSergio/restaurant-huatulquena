@@ -25,8 +25,8 @@ class AuthController extends Controller
 
         /*  Datos Incorrectos(Usuario y contraseña) la respuesta es:
                 {
-                    "httpCode":403,
-                    "data":[],
+                    "httpCode":401,
+                    "data":['false'],
                     "mensage":"usuario inexistente"
                 } 
             
@@ -44,7 +44,6 @@ class AuthController extends Controller
                     }
                 }
         */
-
         try {
             if ($response->json()) { // Verifico si los datos que mande son correctos
                 $dataUser = $response->collect('data');
