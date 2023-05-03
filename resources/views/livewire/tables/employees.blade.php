@@ -1,5 +1,5 @@
 <!-- Start block -->
-<section class="bg-gray-50 dark:bg-gray-900 antialiased">
+<section x-data class="bg-gray-50 dark:bg-gray-900 antialiased">
     <div class="mx-auto max-w-screen-2xl ">
         <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
             <div
@@ -16,7 +16,7 @@
                                 </svg>
                             </div>
                             {{-- Input que esta conectado con la propiedad Search --}}
-                            <input wire:model.debounce.500ms="search" type="text" id="simple-search" placeholder="Buscar empleado ..." required=""
+                            <input wire:model="search" type="text" id="simple-search" placeholder="Buscar empleado ..." required=""
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                         </div>
                     </div>
@@ -235,7 +235,7 @@
                 <div id="roles-body" class="hidden" aria-labelledby="roles-heading">
                     <div class="py-2 font-light border-b border-gray-200 dark:border-gray-600">
                         <ul class="space-y-2">
-                            @foreach ($list_roles as $rol)
+                            @foreach ($roles as $rol)
                                 <li class="flex items-center">
                                     <button type="button" wire:click="$set('filter', '{{ $rol['nombre'] }}')"
                                         class="w-full flex items-center p-2 rounded-lg {{ $rol['nombre'] == $filter ? 'bg-gray-100 dark:bg-gray-700 text-gray-900  dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800' : 'text-gray-900  dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700' }}">
