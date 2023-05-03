@@ -21,11 +21,11 @@ class EmployeeController extends Controller
 
         $url = config('app.api') . '/rol';
         $response = Http::withToken($user['token'])->get($url);
-        $roles = $response->collect('data');
+        $roles = $response->json('data');
 
         $url = config('app.api') . '/employee';
         $response = Http::withToken($user['token'])->get($url);
-        $employees = $response->collect('data');
+        $employees = $response->json('data');
 
         return view('admin.employees.index', compact('roles', 'employees'));
         

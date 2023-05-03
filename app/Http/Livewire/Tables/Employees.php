@@ -7,24 +7,29 @@ use Livewire\Component;
 
 class Employees extends Component
 {
-    public $user;
+
     public $employees;
-    public $list_roles; /*  Propiedad que guarda los roles existentes en la base de datos ------- los datos se le pasa cuando se declara*/
+    public $roles; /*  Propiedad que guarda los roles existentes en la base de datos ------- los datos se le pasa cuando se declara*/
 
-
-    public $filter = ''; /* Propiedad para filtros complejos -----> aun no funciona */
     public $search = ''; /* Prpiedad que esta conectada con el,input search */
-
-   
+    public $filter = ''; /* Propiedad para filtros complejos -----> aun no funciona */
 
     public function render()
     {
         /* Aqui realizo el filtrado de busqueda */
-        if ($this->search) {
-            $this->applyFilters();
-        }
-        /* Aqui le paso la coleccion de empleados */
+        $this->filters();
+
+        /* Aqui le paso la coleccion de empleados y roles por default al ser un componente */
         return view('livewire.tables.employees', ['employees' => $this->employees]);
+    }
+
+    public function filters()
+    {
+        if ($this->search) {
+            $this->employees = array_filter($this->employees, function ($employee) {
+                return str_contains(strtolower($employee['nombre']), strtolower($this->search));
+            });
+        }
     }
 
     public function search()
@@ -39,7 +44,7 @@ class Employees extends Component
     public function applyFilters()
     {
         $this->employees = collect($this->employees);
-       /*  if ($this->filterBy && $this->filterValue) {
+        /*  if ($this->filterBy && $this->filterValue) {
             $this->employees = collect($this->employees)->filter(function ($employee) {
                 return $employee[$this->filterBy] == $this->filterValue;
             })->toArray();
