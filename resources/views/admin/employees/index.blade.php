@@ -15,7 +15,7 @@
 
     {{-- Codificacion componente  --}}
     @livewire('tables.employees', ['roles' => $roles, 'employees' => $employees]) {{-- Lamo el componente de livewire y le paso los roles a la propiedad roles del componente --}}
-    
+
     {{-- codificacion normal --}}
     <x-modal.create>
         <x-slot:modulo>
@@ -110,7 +110,8 @@
             <div class="grid gap-4 mb-4 sm:grid-cols-2">
                 <div>
                     <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre
-                        (s)</label>
+                        (s)
+                    </label>
                     <input type="text" name="nombre" id="nombre"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         value="{{ $employee['nombre'] }}" placeholder="Nombre" required="">
@@ -131,7 +132,8 @@
                 </div>
                 <div>
                     <label for="codigoAcceso"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Codigo de
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Codigo
+                        de
                         Acceso</label>
                     <input type="text" name="codigoAcceso" id="codigoAcceso"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -187,16 +189,19 @@
             <x-slot:id>
                 {{ 'employee-' . $employee['id'] }}
             </x-slot:id>
-            <x-slot:employee>
+
+            <x-slot:name>
                 {{ $employee['nombre'] . ' ' . $employee['apellidos'] }}
-            </x-slot:employee>
-            <x-slot:rol>
+            </x-slot:name>
+
+            <x-slot:filter>
                 {{ $employee['rolName'] }}
-            </x-slot:rol>
+            </x-slot:filter>
 
             <div
                 class="col-span-2 p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 sm:col-span-1 dark:border-gray-600">
-                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Nombre</dt>
+                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">
+                    Nombre</dt>
                 <dd class="flex items-center text-gray-500 dark:text-gray-400">
                     <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -209,7 +214,8 @@
             </div>
             <div
                 class="col-span-2 p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 sm:col-span-1 dark:border-gray-600">
-                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Puesto</dt>
+                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">
+                    Puesto</dt>
                 <dd class="flex items-center text-gray-500 dark:text-gray-400">
                     <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -222,7 +228,8 @@
             </div>
             <div
                 class="col-span-2 p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 sm:col-span-1 dark:border-gray-600">
-                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Estado</dt>
+                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">
+                    Estado</dt>
                 <dd class="flex items-center text-gray-500 dark:text-gray-400">
                     <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -238,7 +245,8 @@
             </div>
             <div
                 class="col-span-2 p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 sm:col-span-1 dark:border-gray-600">
-                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Telefono</dt>
+                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">
+                    Telefono</dt>
                 <dd class="flex items-center text-gray-500 dark:text-gray-400">
                     <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -250,7 +258,8 @@
                 </dd>
             </div>
             <div class="p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
-                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Sueldo por dia</dt>
+                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">
+                    Sueldo por dia</dt>
                 <dd class="text-gray-500 dark:text-gray-400">
                     <span
                         class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">
@@ -268,7 +277,8 @@
                 </dd>
             </div>
             <div class="p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
-                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Comision</dt>
+                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">
+                    Comision</dt>
                 <dd class="text-gray-500 dark:text-gray-400">
                     <span
                         class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">
@@ -287,12 +297,17 @@
             </div>
             <div
                 class="col-span-2 p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700  dark:border-gray-600">
-                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Codigo de Acceso del empleado</dt>
+                <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">
+                    Codigo de Acceso del empleado
+                </dt>
                 <dd class="flex items-center text-gray-500 dark:text-gray-400">
-                    <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path d="M4.5 3.75a3 3 0 00-3 3v.75h21v-.75a3 3 0 00-3-3h-15z"></path>
-                        <path clip-rule="evenodd" fill-rule="evenodd" d="M22.5 9.75h-21v7.5a3 3 0 003 3h15a3 3 0 003-3v-7.5zm-18 3.75a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z"></path>
-                      </svg>
+                        <path clip-rule="evenodd" fill-rule="evenodd"
+                            d="M22.5 9.75h-21v7.5a3 3 0 003 3h15a3 3 0 003-3v-7.5zm-18 3.75a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3z">
+                        </path>
+                    </svg>
                     {{ $employee['codigoAcceso'] }}
                 </dd>
             </div>
