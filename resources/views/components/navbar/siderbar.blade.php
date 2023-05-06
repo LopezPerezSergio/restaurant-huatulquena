@@ -151,6 +151,7 @@
                         </li>
                     </ul>
                 </li>
+                <!--  -->
                 <li>
                     <button type="button"
                         class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -172,7 +173,7 @@
                     </button>
                     <ul id="dropdown-categorias" class="hidden px-3 space-y-2">
                         <li>
-                            <a href="#"
+                            <a href="{{ route('products.index') }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg 
                                 pl-5 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                                 <svg class="flex-shrink-0 w-6 h-6 text-gray-500 dark:text-gray-400"
@@ -187,7 +188,7 @@
                         </li>
 
                         <li>
-                            <a href="#"
+                            <a href="{{ route('categories.index') }}"
                                 class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-5 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                                 <svg class="flex-shrink-0 w-6 h-6 text-gray-500 dark:text-gray-400"
                                 fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
