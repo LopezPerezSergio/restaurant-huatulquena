@@ -128,12 +128,12 @@
                     <x-slot:id>
                         {{ 'product-' . $product['id'] }}
                     </x-slot:id>
-                    <x-slot:employee>
+                    <x-slot:name>
                         {{ $product['nombre'] }}
-                    </x-slot:employee>
-                    <x-slot:rol>
+                    </x-slot:name>
+                    <x-slot:filter>
                         {{ $product['categoriaName'] }}
-                    </x-slot:rol>
+                    </x-slot:filter>
 
                     <div
                         class="col-span-2 p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 sm:col-span-1 dark:border-gray-600">
