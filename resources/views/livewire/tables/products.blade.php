@@ -1,5 +1,7 @@
-<!-- Start block -->
-<section x-data class="bg-gray-50 dark:bg-gray-900 antialiased">
+<div>
+    {{-- Do your work, then step back. --}}
+
+    <section x-data class="bg-gray-50 dark:bg-gray-900 antialiased">
     <div class="mx-auto max-w-screen-2xl ">
         <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
             <div
@@ -16,10 +18,11 @@
                                 </svg>
                             </div>
                             {{-- Input que esta conectado con la propiedad Search --}}
-                            <input wire:model="search" type="text" id="simple-search" placeholder="Buscar empleado ..." required=""
+                            <input wire:model="search" type="text" id="nombre" name="nombre"
+                                placeholder="Buscar producto ..."
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                         </div>
-                    </div> 
+                    </div>
                 </div>
                 <div
                     class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
@@ -50,64 +53,57 @@
                     </button>
                 </div>
             </div>
+
+            <!-- tabla de datos -->
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="p-4">Empleado</th>
-                            <th scope="col" class="p-4">Telefono</th>
-                            <th scope="col" class="p-4">Puesto</th>
-                            <th scope="col" class="p-4">Sueldo/Dia</th>
-                            <th scope="col" class="p-4">Comision</th>
+                            <th scope="col" class="p-4">Nombre</th>
+                            <th scope="col" class="p-4">Tamaño</th>
                             <th scope="col" class="p-4">Estado</th>
-                            <th scope="col" class="p-4">Codigo de Acceso</th>
+                            <th scope="col" class="p-4">Vendidos</th>
+                            <th scope="col" class="p-4">Categoria</th>
+                            <th scope="col" class="p-4">Precio</th>
                             <th scope="col" class="p-4">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($employees as $employee)
+                        @forelse ($products as $product)
                             <tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                
                                 <th scope="row"
                                     class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     <div class="flex items-center mr-3">
-                                        <svg class="w-8 h-8 mr-2 text-gray-500 dark:text-gray-400" fill="currentColor"
-                                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                            <path clip-rule="evenodd" fill-rule="evenodd"
-                                                d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z">
-                                            </path>
-                                        </svg>
-                                        {{ $employee['nombre'] . ' ' . $employee['apellidos'] }}
+                                        <img src="https://flowbite.s3.amazonaws.com/blocks/application-ui/products/imac-front-image.png"
+                                            alt="iMac Front Image" class="h-8 w-auto mr-3">
+                                            {{$product['nombre']}}
                                     </div>
                                 </th>
                                 <td class="px-4 py-3">
                                     <span
                                         class="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">
-                                        {{ $employee['telefono'] }}
-                                    </span>
+                                        {{$product['tamanio']}}
+                                        </span>
                                 </td>
                                 <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{ $employee['rolName'] }}
+                                    <div class="flex items-center">
+                                        <div class="h-4 w-4 rounded-full inline-block mr-2 {{ $product['status'] == '1' ? 'bg-green-600 text-green-600' : 'bg-red-600 text-red-600' }}"></div>
+                                        {{ $product['status'] == '1' ? 'Activo' : 'Inactivo' }}
+                                        
+                                    </div>
                                 </td>
-                                <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">$
-                                    {{ $employee['sueldo'] }}
+                                <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$product['contador']}}
                                 </td>
-                                <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">$
-                                    {{ $employee['sueldo'] }}
+                                <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{$product['categoriaName']}}
                                 </td>
-                                <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    <span
-                                        class="w-full text-xs font-medium inline-flex items-center px-2 py-1 rounded {{ $employee['status'] == '1' ? 'bg-green-100 text-green-800  dark:bg-green-200 dark:text-green-800' : 'bg-red-100 text-red-800 dark:bg-red-200 dark:text-red-800' }} ">
-                                        {{ $employee['status'] == '1' ? 'Activo' : 'Inactivo' }}
-                                    </span>
-                                </td>
-                                <td class="px-4 py-3">
-                                    {{ $employee['codigoAcceso'] }}
+                                <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">${{$product['precio']}}
                                 </td>
                                 <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     <div class="flex items-center space-x-4">
-                                        <button type="button" data-drawer-target="drawer-update-employee-{{ $employee['id'] }}"
-                                            data-drawer-show="drawer-update-employee-{{ $employee['id'] }}"
-                                            aria-controls="drawer-update-employee-{{ $employee['id'] }}"
+                                    <button type="button" data-drawer-target="drawer-update-product-{{ $product['id'] }}"
+                                            data-drawer-show="drawer-update-product-{{ $product['id'] }}"
+                                            aria-controls="drawer-update-product-{{ $product['id'] }}"
                                             class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5"
                                                 viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -119,9 +115,9 @@
                                             </svg>
                                             Editar
                                         </button>
-                                        <button type="button" data-drawer-target="drawer-read-employee-{{ $employee['id'] }}-advanced"
-                                            data-drawer-show="drawer-read-employee-{{ $employee['id'] }}-advanced"
-                                            aria-controls="drawer-read-employee-{{ $employee['id'] }}-advanced"
+                                        <button type="button" data-drawer-target="drawer-read-product-{{ $product['id'] }}-advanced"
+                                            data-drawer-show="drawer-read-product-{{ $product['id'] }}-advanced"
+                                            aria-controls="drawer-read-product-{{ $product['id'] }}-advanced"
                                             class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"
                                                 fill="currentColor" class="w-4 h-4 mr-2 -ml-0.5">
@@ -130,8 +126,7 @@
                                                     d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" />
                                             </svg>
                                             Preview
-                                        </button>{{-- 
-                                        
+                                        </button>
                                         <button type="button" data-modal-target="delete-modal"
                                             data-modal-toggle="delete-modal"
                                             class="flex items-center text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
@@ -142,11 +137,30 @@
                                                     clip-rule="evenodd" />
                                             </svg>
                                             Delete
-                                        </button> --}}
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700 ">
+                                <td colspan="4" class="px-6 py-4">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="flex-shrink-0">
+                                            <img class="w-8 h-8 rounded-full"
+                                                src="{{ Storage::url('public/images/info.png') }}" alt="Neil image">
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                No hay productos
+                                            </p>
+                                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                                ¿Esta seguro de su busqueda?
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -206,6 +220,8 @@
                 </ul>
             </nav>
         </div>
+
+        <!-- FILTRO -->
         <div id="filterDropdown"
             class="z-10 hidden px-3 pt-1 bg-white rounded-lg shadow w-80 dark:bg-gray-700 right-0">
             <div class="flex items-center justify-between pt-2">
@@ -219,12 +235,12 @@
             </div>
             <div id="accordion-flush" data-accordion="collapse" data-active-classes="text-black dark:text-white"
                 data-inactive-classes="text-gray-500 dark:text-gray-400">
-                <!-- Roles -->
+                <!-- categorias -->
                 <h2 id="roles-heading">
                     <button type="button"
                         class="flex items-center justify-between w-full py-2 px-1.5 text-sm font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700"
                         data-accordion-target="#roles-body" aria-expanded="true" aria-controls="roles-body">
-                        <span>Puesto</span>
+                        <span>Categorias</span>
                         <svg aria-hidden="true" data-accordion-icon="" class="w-5 h-5 rotate-180 shrink-0"
                             fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -235,11 +251,11 @@
                 <div id="roles-body" class="hidden" aria-labelledby="roles-heading">
                     <div class="py-2 font-light border-b border-gray-200 dark:border-gray-600">
                         <ul class="space-y-2">
-                            @foreach ($roles as $rol)
+                            @foreach ($categories as $category)
                                 <li class="flex items-center">
-                                    <button type="button" wire:click="$set('filter', '{{ $rol['nombre'] }}')"
-                                        class="w-full flex items-center p-2 rounded-lg {{ $rol['nombre'] == $filter ? 'bg-gray-100 dark:bg-gray-700 text-gray-900  dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800' : 'text-gray-900  dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                                        <span class="ml-3">{{ $rol['nombre'] }}</span>
+                                    <button type="button" wire:click="$set('filter', '{{ $category['nombre'] }}')"
+                                        class="w-full flex items-center p-2 rounded-lg {{ $category['nombre'] == $filter ? 'bg-gray-100 dark:bg-gray-700 text-gray-900  dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800' : 'text-gray-900  dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                                        <span class="ml-3">{{ $category['nombre'] }}</span>
                                     </button>
                                 </li>
                             @endforeach
@@ -254,3 +270,4 @@
         </div>
     </div>
 </section>
+</div>
