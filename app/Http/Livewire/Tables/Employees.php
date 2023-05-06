@@ -32,7 +32,7 @@ class Employees extends Component
     {
         if ($value) {
             $this->filterEmployees = array_filter($this->employees, function ($employee) use ($value) {
-                return str_contains(strtolower($employee['nombre']), strtolower($value));
+                return str_contains(strtolower($employee['nombre'] .' '. $employee['apellidos']), strtolower($value));
             });
         } else {
             $this->filterEmployees = $this->employees;

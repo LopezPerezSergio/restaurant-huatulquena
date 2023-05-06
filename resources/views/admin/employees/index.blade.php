@@ -14,7 +14,7 @@
     </x-slot:title>
 
     {{-- Codificacion componente  --}}
-    @livewire('tables.employees', ['roles' => $roles, 'employees' => $employees]) {{-- Lamo el componente de livewire y le paso los roles a la propiedad roles del componente --}}
+    @livewire('tables.employees', ['roles' => $roles, 'employees' => $employees]) {{-- Llamo el componente de livewire y le paso los roles a la propiedad roles del componente --}}
 
     {{-- codificacion normal --}}
     <x-modal.create>

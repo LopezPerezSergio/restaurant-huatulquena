@@ -25,7 +25,7 @@ class ProductController extends Controller
 
         $url = config('app.api') . '/product';
         $response = Http::withToken($user['token'])->get($url);
-        $products = $response->collect('data');
+        $products = $response->json('data');
 
         //return view('livewire.tables.products');
         return view('admin.products.index', compact('categories', 'products'));
