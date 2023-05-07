@@ -7,9 +7,10 @@ use Livewire\Component;
 class Dashboard extends Component
 {
     public $employees;
-    //public $roles;
+
     public function getEmployeeData()
     {
+        $this->employees = collect($this->employees);
     $roles=$this->employees->pluck('rolName');
     $roleCounts = $roles->countBy();
     $this->employees = [
@@ -19,6 +20,7 @@ class Dashboard extends Component
     }
     public function render()
     {
+        $this->getEmployeeData();
         return view('livewire.dashboard');
     }
 }
