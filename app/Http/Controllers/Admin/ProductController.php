@@ -113,6 +113,19 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        if (!session()->get('user')) {
+            return redirect()->route('auth.login');
+        }
+
+        $user = session()->get('user');
+        $url = config('app.api') . '/product/'. $id;
+        
+        $response = Http::withToken($user['token'])->delete($url);
+
+        $response = $response['data'];
+        
+       // session()->flash('alert-product', $response);
+
+        return redirect()->route('products.index');
     }
 }
