@@ -1,3 +1,4 @@
+@props(['filter' => null])
 <!-- Preview Drawer -->
 <div id="drawer-read-{{ $id }}-advanced" class="overflow-y-auto fixed top-0 left-0 z-50 p-4 w-full max-w-lg h-screen bg-white transition-transform -translate-x-full dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-label" aria-hidden="true">
     <div>
