@@ -13,6 +13,13 @@ class EmployeeController extends Controller
      */
     public function index()
     {
+        /* $user = session()->get('user');
+        $url = config('app.api') . '/login/valid/token/' . $user['token']; //http://localhost:8080/login/valid/token
+        $response = Http::get($url);
+
+        return $response->json('data');
+        $validate_token = $response->json('data'); */
+
         if (!session()->get('user')) {
             return redirect()->route('auth.login');
         }

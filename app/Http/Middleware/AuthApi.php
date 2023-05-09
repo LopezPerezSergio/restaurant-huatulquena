@@ -22,9 +22,9 @@ class AuthApi
             $url = config('app.api') . '/login/valid/token/' . $user['token']; //http://localhost:8080/login/valid/token
 
             $response = Http::get($url);
-            $validate_token = $response->collect('data');
+            $validate_token = $response->json('data');
 
-            if ($validate_token === 'false') {
+            if ($validate_token == false) {
                 // Destruimos el usuario de la sesion
                 session()->forget('user');
                 // Usuario no autenticado, redirigir a la página de inicio de sesión
