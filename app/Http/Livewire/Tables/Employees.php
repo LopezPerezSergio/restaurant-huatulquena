@@ -2,58 +2,70 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 
 class Employees extends Component
 {
-
+    /* variables con el contenido de la informacion */
     public $employees;
-    public $roles; /*  Propiedad que guarda los roles existentes en la base de datos ------- los datos se le pasa cuando se declara*/
+    public $roles;
 
-    public $search = ''; /* Prpiedad que esta conectada con el,input search */
-    public $filter = ''; /* Propiedad para filtros complejos -----> aun no funciona */
+    /* Variable que contendra la listade empleados para el filtrado */
+    public $filterEmployees;
+
+    /* Variables para los filtros */
+    public $search = '';
+    public $filter_rol = '';
+    public $filter_status = '';
+
+    public function mount()
+    {
+        $this->filterEmployees = $this->employees;
+    }
 
     public function render()
     {
-        /* Aqui realizo el filtrado de busqueda */
-        $this->filters();
-
-        /* Aqui le paso la coleccion de empleados y roles por default al ser un componente */
-        return view('livewire.tables.employees', ['employees' => $this->employees]);
+        return view('livewire.tables.employees');
     }
 
-    public function filters()
+    public function updatedSearch($value)
     {
-        if ($this->search) {
-            $this->employees = array_filter($this->employees, function ($employee) {
-                return str_contains(strtolower($employee['nombre']), strtolower($this->search));
+        if ($value) {
+            $this->filterEmployees = array_filter($this->employees, function ($employee) use ($value) {
+                return str_contains(strtolower($employee['nombre'] .' '. $employee['apellidos']), strtolower($value));
             });
+        } else {
+            $this->filterEmployees = $this->employees;
         }
     }
 
-    public function search()
+    public function updatedFilterRol($value)
     {
-        $this->employees = collect($this->employees);
-
-        $this->employees = $this->employees->filter(function ($employee) {
-            return str_contains(strtolower($employee['nombre']), strtolower($this->search));
-        })->toArray();
+        if ($value) {
+            $this->filterEmployees = array_filter($this->employees, function ($employee) use ($value) {
+                return str_contains(strtolower($employee['rolName']), strtolower($value));
+            });
+        } else {
+            $this->filterEmployees = $this->employees;
+        }
+        $this->reset('filter_status');
     }
 
-    public function applyFilters()
+    public function updatedFilterStatus($value)
     {
-        $this->employees = collect($this->employees);
-        /*  if ($this->filterBy && $this->filterValue) {
-            $this->employees = collect($this->employees)->filter(function ($employee) {
-                return $employee[$this->filterBy] == $this->filterValue;
-            })->toArray();
-        } */
-
-        if ($this->search) {
-            $this->employees = collect($this->employees)->filter(function ($employee) {
-                return str_contains(strtolower($employee['nombre']), strtolower($this->search));
-            })->toArray();
+        if ($value == '0' || $value == '1') {
+            $this->filterEmployees = array_filter($this->employees, function ($employee) use ($value) {
+                return $employee['status'] == $value;
+            });
+        } else {
+            $this->filterEmployees = $this->employees;
         }
+        $this->reset('filter_rol');
+    }
+
+    public function clear()
+    {
+        $this->reset(['filter_rol', 'filter_status', 'search']);
+        $this->filterEmployees = $this->employees;
     }
 }

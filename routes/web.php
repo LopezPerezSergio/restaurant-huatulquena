@@ -3,6 +3,9 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\RolController;
+use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -37,4 +40,9 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
 
     Route::resource('roles', RolController::class)->names('roles');
     Route::resource('employees', EmployeeController::class)->names('employees');
+
+    Route::resource('categories', CategoryController::class)->names('categories');
+    Route::resource('products', ProductController::class)->names('products');
+
+    Route::resource('users', UsersController::class)->names('users');
 });
