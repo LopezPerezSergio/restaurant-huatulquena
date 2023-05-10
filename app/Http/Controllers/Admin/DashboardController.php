@@ -23,7 +23,15 @@ class DashboardController extends Controller
         $response = Http::withToken($user['token'])->get($url);
         $employees = $response->json('data');
 
-        return view('admin.dashboard', compact('roles', 'employees'));
+        $url = config('app.api') . '/category';
+        $response = Http::withToken($user['token'])->get($url);
+        $categories = $response->collect('data');
+
+        $url = config('app.api') . '/product';
+        $response = Http::withToken($user['token'])->get($url);
+        $products = $response->json('data');
+
+        return view('admin.dashboard', compact('roles', 'employees', 'categories','products'));
         
     }
 }
