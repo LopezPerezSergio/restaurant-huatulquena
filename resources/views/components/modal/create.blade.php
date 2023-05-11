@@ -1,3 +1,4 @@
+@props(['enctype' => null])
 <div id="createProductModal" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] md:h-full">
     <div class="relative p-4 w-full max-w-3xl h-full md:h-auto">
@@ -19,7 +20,7 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <form action="{{ $url }}" method="POST">
+            <form action="{{ $url }}" method="POST" {{ $enctype }}>
                 @csrf
                 
                 {{ $slot }}
