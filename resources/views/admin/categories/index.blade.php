@@ -104,7 +104,7 @@
                                 data-drawer-target="drawer-read-category-{{ $category['id'] }}-advanced"
                                 data-drawer-show="drawer-read-category-{{ $category['id'] }}-advanced"
                                 aria-controls="drawer-read-category-{{ $category['id'] }}-advanced"
-                                class="block max-w-sm p-2 h-56 bg-green-500 hover:bg-green-400 border border-gray-200 rounded-lg shadow dark:border-gray-700">
+                                class="block w-full p-2 h-56 bg-green-500 hover:bg-green-400 border border-gray-200 rounded-lg shadow dark:border-gray-700">
                                 <h5 class="text-sm  tracking-tight text-white">
                                     Presiona aqui para visualizar la lista de {{ $category['nombre'] }}
                                 </h5>
