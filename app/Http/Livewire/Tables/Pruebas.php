@@ -11,7 +11,7 @@ class Pruebas extends Component
     public $categories; //categorias con los productos
     public $employees; // lista de los usuarios (meseros, admin, cajeros)
 
-    public $step = 2;
+    public $step = 0; // cambiar los valores entre 0 y 3 de forma manual
 
     public $table = '';
     public $employee_id = '';
