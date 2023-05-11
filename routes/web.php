@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\TableController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\RolController;
 use App\Http\Controllers\Admin\UsersController;
@@ -45,4 +46,6 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
     Route::resource('products', ProductController::class)->names('products');
 
     Route::resource('users', UsersController::class)->names('users');
+
+    Route::resource('tables', TableController::class)->names('tables');
 });

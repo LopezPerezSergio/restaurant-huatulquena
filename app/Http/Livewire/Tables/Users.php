@@ -32,7 +32,7 @@ class Users extends Component
     {
         if ($value) {
             $this->filterUsers = array_filter($this->users, function ($users) use ($value) {
-                return str_contains(strtolower($users['name'] ), strtolower($value));
+                return str_contains(strtolower($users['name'] .' '. $users['cel']), strtolower($value));
             });
         } else {
             $this->filterUsers = $this->users;
