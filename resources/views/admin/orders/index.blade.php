@@ -7,7 +7,7 @@
         Toma de orden
     </x-slot:title>
 
-    {{-- Codificacion componente  --}}
+    {{-- Codificacion componente  mandar mesas al compooenente--}}
     @livewire('tables.pruebas', ['categories' => $categories, 'employees' => $employees, 'user' => $user])
 
 </x-app>

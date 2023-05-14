@@ -11,7 +11,8 @@ class Pruebas extends Component
     /* variables con el contenido de la informacion */
     public $categories; //categorias con los productos
     public $employees; // lista de los usuarios (meseros, admin, cajeros)
-    public $user; // Usuairio autenticado (tipo de rol Usuario Venta)
+    public $user; // Usuario autenticado (tipo de rol Usuario Venta)
+    //dcalara prpiedad tables
 
     /* Variable encargada de mostrar la vista correspondiente de acuerdo a la fase en la que se encuentra */
     public $step = 0; // cambiar los valores entre 0 y 3 de forma manual
@@ -24,10 +25,10 @@ class Pruebas extends Component
     public $codigo_acceso = ''; // Guarda el codigo de Acceso
 
     public $stock = 1;
+
     public $options = [
         'size' => null,
         'category' => null,
-
     ];
 
     public function render()
@@ -37,7 +38,6 @@ class Pruebas extends Component
 
     public function updatedTable()
     {
-
         $this->step ++;
     }
 

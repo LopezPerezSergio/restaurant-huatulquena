@@ -273,7 +273,7 @@
                                 </button>
                             </div>
 
-                            <div class="grid grid-cols-3 gap-4 sm:grid-cols-3">
+                            <div class="grid grid-cols-3 gap-4">
                                 <div class="p-4">
                                     <h3
                                         class="mb-4 text-2xl font-bold leading-none tracking-tight text-gray-900 dark:text-white">
@@ -387,6 +387,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-span-2 p-4">
                                     <h3
                                         class="mb-4 text-2xl font-bold leading-none tracking-tight text-gray-900 dark:text-white">
@@ -541,6 +542,7 @@
 
                     <div class="overflow-x-auto">
                         <div class="grid grid-cols-4 gap-4 p-4">
+                            {{-- Crear foreach de mesas --}}
                             @for ($i = 1; $i <= 4; $i++)
                                 <div class="max-w-sm rounded-lg shadow bg-green-600">
                                     <div class="w-full max-w-sm p-2">
