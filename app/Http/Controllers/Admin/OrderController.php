@@ -36,7 +36,7 @@ class OrderController extends Controller
             }
         }
 
-        return view('admin.orders.index', compact('categories', 'employees'));
+        return view('admin.orders.index', compact('categories', 'employees', 'user'));
     }
 
     /**
