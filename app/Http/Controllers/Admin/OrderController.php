@@ -27,8 +27,7 @@ class OrderController extends Controller
         $response = Http::withToken($user['token'])->get($url);
         $roles = $response->collect('data');
 
-        
-        //return $roles;
+        // Solo los usarios de admin mesero y cajero <-------------- Pendiente
         foreach ($roles as $rol) {
             if ($rol['nombre'] == 'Mesero') {
                 $employees = $rol['empleados'];
@@ -36,7 +35,10 @@ class OrderController extends Controller
             }
         }
 
-        return view('admin.orders.index', compact('categories', 'employees'));
+        // recuperar mesas;
+
+        // pasar mesas
+        return view('admin.orders.index', compact('categories', 'employees', 'user'));
     }
 
     /**

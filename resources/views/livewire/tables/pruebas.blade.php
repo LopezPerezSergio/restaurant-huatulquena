@@ -220,24 +220,60 @@
 
                                         <button
                                             class="flex w-full flex-1 items-center justify-center rounded-md border mt-4 py-3 px-8 text-base font-medium dark:text-white @if ($codigo_acceso) border-transparent text-gray-900 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 @else border-b text-gray-400 @endif"
-                                            @if ($codigo_acceso == '') disabled @endif
+                                            @if (!$codigo_acceso) disabled @endif
                                             wire:click='validatedEmployee' wire:target='validatedEmployee'>
                                             Empezar
                                         </button>
                                     </div>
-
-
                                 </div>
                             </div>
                         </fieldset>
                     @elseif ($step == 2)
                         <fieldset>
                             <legend class="sr-only">Empleados que pueden realizar las ordenes</legend>
-                            <h1
-                                class="p-2 mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-white">
-                                Empieza a crear tu orden ahora
-                            </h1>
-                            <div class="grid grid-cols-3 gap-4 sm:grid-cols-3">
+
+                            <div class="flex items-center space-x-4">
+                                <h1
+                                    class="p-2 mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-white">
+                                    Empieza a crear tu orden ahora
+                                </h1>
+                                <button type="button"
+                                    class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5"
+                                        viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path
+                                            d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                                        <path fill-rule="evenodd"
+                                            d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Continuar con la orden
+                                </button>
+                                <button type="button"  wire:click="clear"
+                                    class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5"
+                                        viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path
+                                            d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                                        <path fill-rule="evenodd"
+                                            d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Limpiar Tabla
+                                </button>
+                                <button type="button"
+                                    class="flex items-center text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5"
+                                        viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Cancelar
+                                </button>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-4">
                                 <div class="p-4">
                                     <h3
                                         class="mb-4 text-2xl font-bold leading-none tracking-tight text-gray-900 dark:text-white">
@@ -257,7 +293,7 @@
                                                     <button id="{{ $category['nombre'] }}-tab"
                                                         data-tabs-target="#{{ $category['nombre'] }}" type="button"
                                                         role="tab" aria-controls="stats"
-                                                        aria-selected="@if ($loop->first) true @else false @endif"
+                                                        aria-selected="@if ($step == 2 && $loop->first) true @else false @endif"
                                                         class="inline-block w-full p-3 @if ($loop->first) rounded-tl-lg @endif @if ($loop->last) rounded-tr-lg @endif  bg-gray-50 hover:bg-gray-100 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600">{{ $category['nombre'] }}</button>
                                                 </li>
                                             @endforeach
@@ -305,7 +341,9 @@
                                                                             class="inline-flex items-center text-end font-semibold text-gray-800 dark:text-white">
                                                                             ${{ $product['precio'] }}
                                                                         </div>
-                                                                        <button wire:click="addItem('{{ $product['id'] }}', '{{ $product['nombre'] }}','{{ $product['precio'] }}','{{ $product['tamanio'] }}','{{ $product['categoriaName'] }}')" type="button"
+                                                                        <button
+                                                                            wire:click="addItem('{{ $product['id'] }}', '{{ $product['nombre'] }}','{{ $product['precio'] }}','{{ $product['tamanio'] }}','{{ $product['categoriaName'] }}')"
+                                                                            type="button"
                                                                             class="focus:ring-4 focus:outline-none font-medium rounded-lg text-sm p-2 m-2 text-center inline-flex items-center @if ($stock > 0) text-white focus:ring-blue-300  bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 @else border border-b dark:text-white @endif">
                                                                             <svg class="w-5 h-5" fill="currentColor"
                                                                                 viewBox="0 0 24 24"
@@ -349,6 +387,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-span-2 p-4">
                                     <h3
                                         class="mb-4 text-2xl font-bold leading-none tracking-tight text-gray-900 dark:text-white">
@@ -411,9 +450,10 @@
                                                         <td
                                                             class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                             {{ $product->options->category }}
-                                                        </td>size
+                                                        </td>
                                                         <td>
-                                                            <button type="submit"
+                                                            <button wire:click="removeItem('{{ $product->rowId }}')"
+                                                                type="button"
                                                                 class="flex items-center text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                     class="h-4 w-4 mr-2 -ml-0.5" viewbox="0 0 20 20"
@@ -443,7 +483,8 @@
                                                                     </p>
                                                                     <p
                                                                         class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                                                        Selecione productos para agregarlos a la orden
+                                                                        Selecione productos para agregarlos a la
+                                                                        orden
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -501,6 +542,7 @@
 
                     <div class="overflow-x-auto">
                         <div class="grid grid-cols-4 gap-4 p-4">
+                            {{-- Crear foreach de mesas --}}
                             @for ($i = 1; $i <= 4; $i++)
                                 <div class="max-w-sm rounded-lg shadow bg-green-600">
                                     <div class="w-full max-w-sm p-2">

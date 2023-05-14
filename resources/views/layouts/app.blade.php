@@ -34,7 +34,7 @@
         {{ $navbar }}
 
         <main>
-            <div class="min-h-screen p-4 md:ml-64">
+            <div class="min-h-screen p-4 ">
                 <div class="px-4 py-2 border-2 border-gray-200 border-b rounded-lg dark:border-gray-700 mt-16">
 
                     {{-- 
