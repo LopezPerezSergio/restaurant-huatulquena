@@ -48,9 +48,5 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
 
     Route::resource('users', UsersController::class)->names('users');
 
-<<<<<<< HEAD
-    Route::resource('tables', TableController::class)->names('tables');
-=======
     Route::resource('orders', OrderController::class)->names('orders');
->>>>>>> Sergio
 });
