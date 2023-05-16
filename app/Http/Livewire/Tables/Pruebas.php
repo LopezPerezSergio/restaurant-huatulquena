@@ -12,10 +12,11 @@ class Pruebas extends Component
     public $categories; //categorias con los productos
     public $employees; // lista de los usuarios (meseros, admin, cajeros)
     public $user; // Usuario autenticado (tipo de rol Usuario Venta)
+    public $tables;
     //dcalara prpiedad tables
 
     /* Variable encargada de mostrar la vista correspondiente de acuerdo a la fase en la que se encuentra */
-    public $step = 0; // cambiar los valores entre 0 y 3 de forma manual
+    public $step = 2; // cambiar los valores entre 0 y 3 de forma manual
 
     /* Varibale de interaccion con los datos del componente */
     /* ----------------------- Fase 0 -----------------------*/
@@ -63,6 +64,22 @@ class Pruebas extends Component
         Cart::add( ['id' => $id,
                     'name' => $name,
                     'qty' => 1,
+                    'price' => $price,
+                    'options' => $this->options]
+                );
+    }
+
+    public function decItem($id, $name, $price, $tamanio, $category, $product)
+    {
+        $this->options['size'] = $tamanio;
+        $this->options['category'] = $category;
+
+        if(Cart['qty'] == 0){
+            Cart::remove($product);
+        }
+        Cart::add( ['id' => $id,
+                    'name' => $name,
+                    'qty' => -1,
                     'price' => $price,
                     'options' => $this->options]
                 );

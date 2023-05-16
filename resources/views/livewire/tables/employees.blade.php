@@ -93,8 +93,8 @@
                                     <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">$
                                         {{ $employee['sueldo'] }}
                                     </td>
-                                    <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">$
-                                        {{ $employee['sueldo'] }}
+                                    <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ $employee['porcentaje'] }} %
                                     </td>
                                     <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <span

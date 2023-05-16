@@ -62,6 +62,7 @@ class EmployeeController extends Controller
             'telefono' => $request->telefono,
             'status' => $request->has('status') ? 1 : 0,
             'sueldo' => $request->sueldo,
+            'porcentaje' => $request->porcentaje,
             'codigoAcceso' => $request->codigoAcceso,
             'rol' => $rol /* { id => 1, nombre => 'nombre} */
         ]);
@@ -98,6 +99,7 @@ class EmployeeController extends Controller
             'telefono' => $request->telefono,
             'status' => $request->has('status') ? 1 : 0,
             'sueldo' => $request->sueldo,
+            'porcentaje' => $request->porcentaje,
             'codigoAcceso' => $request->codigoAcceso,
             'rol' => $rol
         ]);
