@@ -26,6 +26,7 @@ class Pruebas extends Component
     public $codigo_acceso = ''; // Guarda el codigo de Acceso
 
     public $stock = 1;
+    public $pro;
 
     public $options = [
         'size' => null,
@@ -39,7 +40,7 @@ class Pruebas extends Component
 
     public function updatedTable()
     {
-        $this->step ++;
+        $this->step++;
     }
 
     public function validatedEmployee()
@@ -52,7 +53,7 @@ class Pruebas extends Component
         $response->json('mensage');
 
         if ($response) {
-            $this->step ++;
+            $this->step++;
         }
     }
 
@@ -61,33 +62,46 @@ class Pruebas extends Component
         $this->options['size'] = $tamanio;
         $this->options['category'] = $category;
 
-        Cart::add( ['id' => $id,
-                    'name' => $name,
-                    'qty' => 1,
-                    'price' => $price,
-                    'options' => $this->options]
-                );
+        Cart::add(
+            [
+                'id' => $id,
+                'name' => $name,
+                'qty' => 1,
+                'price' => $price,
+                'options' => $this->options
+            ]
+        );
     }
 
-    public function decItem($id, $name, $price, $tamanio, $category, $product)
+    public function decItem($id, $name, $price, $tamanio, $category)
     {
         $this->options['size'] = $tamanio;
         $this->options['category'] = $category;
 
-        if(Cart['qty'] == 0){
-            Cart::remove($product);
-        }
-        Cart::add( ['id' => $id,
-                    'name' => $name,
-                    'qty' => -1,
-                    'price' => $price,
-                    'options' => $this->options]
+        $product = Cart::search(function ($cartItem, $rowId) use ($id) {
+            return $cartItem->id === $id;
+        })->first();
+
+        if ($product) {
+            if ($product->qty == 1) {
+                Cart::remove($product->rowId);
+            } else {
+                Cart::add(
+                    [
+                        'id' => $id,
+                        'name' => $name,
+                        'qty' => -1,
+                        'price' => $price,
+                        'options' => $this->options
+                    ]
                 );
+            }
+        }
     }
 
-    public function removeItem($product)
+    public function removeItem($rowId)
     {
-        Cart::remove($product);
+        Cart::remove($rowId);
     }
 
     public function clear()
