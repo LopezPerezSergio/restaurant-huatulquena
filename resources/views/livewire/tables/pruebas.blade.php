@@ -517,7 +517,6 @@
                     @elseif ($step == 3)
                     @endif
                 </div>
-                {{ $pro }}
             </div>
         </section>
     @else
