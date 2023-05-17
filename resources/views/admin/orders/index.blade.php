@@ -8,6 +8,6 @@
     </x-slot:title>
 
     {{-- Codificacion componente  mandar mesas al compooenente--}}
-    @livewire('tables.pruebas', ['categories' => $categories, 'employees' => $employees, 'user' => $user, 'tables' => $tables])
+    @livewire('tables.pruebas', ['categories' => $categories, 'employees' => $employees, 'user' => $user, 'tables' => $tables , 'products' =>$products])
 
 </x-app>

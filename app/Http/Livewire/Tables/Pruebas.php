@@ -13,6 +13,7 @@ class Pruebas extends Component
     public $employees; // lista de los usuarios (meseros, admin, cajeros)
     public $user; // Usuario autenticado (tipo de rol Usuario Venta)
     public $tables;
+    public $products;
     //dcalara prpiedad tables
 
     /* Variable encargada de mostrar la vista correspondiente de acuerdo a la fase en la que se encuentra */
@@ -33,9 +34,29 @@ class Pruebas extends Component
         'category' => null,
     ];
 
+    // Variables para el buscador
+    public $search = '';
+    public $filterProducts;
+
     public function render()
     {
         return view('livewire.tables.pruebas');
+    }
+
+    public function mount()
+    {
+        $this->filterProducts = $this->products;
+    }
+
+    public function updatedSearch($value)
+    {
+        if ($value) {
+            $this->filterProducts = array_filter($this->products, function ($products) use ($value) {
+                return str_contains(strtolower($products['nombre'] ), strtolower($value));
+            });
+        } else {
+            $this->filterProducts = $this->products;
+        }
     }
 
     public function updatedTable()
@@ -107,5 +128,9 @@ class Pruebas extends Component
     public function clear()
     {
         Cart::destroy();
+        $this->reset(['search']);
+        $this->filterProducts = $this->products;
     }
+
+
 }
