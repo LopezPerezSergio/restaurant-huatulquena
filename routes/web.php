@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\Admin\TicketController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,4 +46,10 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
     Route::resource('products', ProductController::class)->names('products');
 
     Route::resource('users', UsersController::class)->names('users');
+
+    Route::resource('pdf', TicketController::class)->names('pdf');
+    //Route::get('pdf/imprimir', [TicketController::class, 'pdf'])->name('pdf.imprimir');
+    Route::get('imprimir', [TicketController::class, 'pdf'])->name('pdf.imprimir');
+    Route::get('pruebaPdf', [TicketController::class, 'generateTicket'])->name('pruebaPdf');
+
 });
