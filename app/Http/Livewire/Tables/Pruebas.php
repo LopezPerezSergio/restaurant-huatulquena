@@ -12,7 +12,8 @@ class Pruebas extends Component
     public $categories; //categorias con los productos
     public $employees; // lista de los usuarios (meseros, admin, cajeros)
     public $user; // Usuario autenticado (tipo de rol Usuario Venta)
-    //dcalara prpiedad tables
+    public $tables;
+    public $products;
 
     /* Variable encargada de mostrar la vista correspondiente de acuerdo a la fase en la que se encuentra */
     public $step = 2; // cambiar los valores entre 0 y 3 de forma manual
@@ -26,8 +27,13 @@ class Pruebas extends Component
     public $codigo_acceso = ''; // Guarda el codigo de Acceso
 
     /* ----------------------- Fase 2 -----------------------*/
+    /* Toda tarea se lleva a acbo con el Cart */
+    public $pro;
 
-    
+    // Variables para el buscador
+    public $search = '';
+    public $filterProducts;
+
     /* ----------------------- Fase 3 -----------------------*/
 
     public $stock = 1; // Variable para pruebas
@@ -38,9 +44,25 @@ class Pruebas extends Component
         'description' => null
     ];
 
+    public function mount()
+    {
+        $this->filterProducts = $this->products;
+    }
+
     public function render()
     {
         return view('livewire.tables.pruebas');
+    }
+
+    public function updatedSearch($value)
+    {
+        if ($value) {
+            $this->filterProducts = array_filter($this->products, function ($products) use ($value) {
+                return str_contains(strtolower($products['nombre'] ), strtolower($value));
+            });
+        } else {
+            $this->filterProducts = $this->products;
+        }
     }
 
     public function updatedTable()
@@ -78,6 +100,33 @@ class Pruebas extends Component
                 );
     }
 
+    /* Metodo para eliminar contenido a la orden */
+    public function decItem($id, $name, $price, $tamanio, $category)
+    {
+        $this->options['size'] = $tamanio;
+        $this->options['category'] = $category;
+
+        $product = Cart::search(function ($cartItem, $rowId) use ($id) {
+            return $cartItem->id === $id;
+        })->first();
+
+        if ($product) {
+            if ($product->qty == 1) {
+                Cart::remove($product->rowId);
+            } else {
+                Cart::add(
+                    [
+                        'id' => $id,
+                        'name' => $name,
+                        'qty' => -1,
+                        'price' => $price,
+                        'options' => $this->options
+                    ]
+                );
+            }
+        }
+    }
+
     /* Metodo para agregar contenido a la orden */
     public function updateItem($rowId, $options, $description)
     {
@@ -95,12 +144,15 @@ class Pruebas extends Component
     /* Metodo para limpiar la lista de productos */
     public function clear()
     {
+        $this->reset(['options','search']);
         Cart::destroy();
+        $this->filterProducts = $this->products;
     }
 
     public function destroy()
     {
         $this->clear();
-        $this->reset(['step' ,'table', 'employee_id', 'codigo_acceso', 'options']);
+        $this->reset(['step' ,'table', 'employee_id', 'codigo_acceso', 'options','search']);
+        $this->filterProducts = $this->products;
     }
 }

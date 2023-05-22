@@ -259,8 +259,8 @@
                                 </button>
                                 <button type="button" wire:click="clear"
                                     class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                    <svg class="h-4 w-4 mr-2 -ml-0.5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                                        aria-hidden="true">
+                                    <svg class="h-4 w-4 mr-2 -ml-0.5" fill="currentColor" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                         <path clip-rule="evenodd" fill-rule="evenodd"
                                             d="M10.5 3A1.501 1.501 0 009 4.5h6A1.5 1.5 0 0013.5 3h-3zm-2.693.178A3 3 0 0110.5 1.5h3a3 3 0 012.694 1.678c.497.042.992.092 1.486.15 1.497.173 2.57 1.46 2.57 2.929V19.5a3 3 0 01-3 3H6.75a3 3 0 01-3-3V6.257c0-1.47 1.073-2.756 2.57-2.93.493-.057.989-.107 1.487-.15z">
                                         </path>
@@ -289,6 +289,27 @@
                                         </span>
                                     </h3>
 
+                                    {{-- Buscador --}}
+                                    <div class="flex items-center mb-2">
+                                        <label for="simple-search" class="sr-only">Search</label>
+                                        <div class="relative w-full">
+                                            <div
+                                                class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                <svg aria-hidden="true"
+                                                    class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                                                    fill="currentColor" viewbox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" />
+                                                </svg>
+                                            </div>
+                                            <input wire:model='search' type="text" id="simple-search"
+                                                placeholder="Buscar producto..." required=""
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                        </div>
+                                    </div>
+                                    {{-- Fin Buscador --}}
+
                                     <div
                                         class="w-full bg-gray-50 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                                         <ul class="overflow-y-auto text-sm font-medium text-center text-gray-500 divide-x divide-gray-200  sm:flex dark:divide-gray-600 dark:text-gray-400"
@@ -299,7 +320,7 @@
                                                     <button id="{{ $category['nombre'] }}-tab"
                                                         data-tabs-target="#{{ $category['nombre'] }}" type="button"
                                                         role="tab" aria-controls="stats"
-                                                        aria-selected="@if ($loop->first) true @else false @endif"
+                                                        aria-selected="@if ($step == 2 && $loop->first) true @else false @endif"
                                                         class="inline-block w-full p-3 @if ($loop->first) rounded-tl-lg @endif @if ($loop->last) rounded-tr-lg @endif  bg-gray-50 hover:bg-gray-100 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600">{{ $category['nombre'] }}</button>
                                                 </li>
                                             @endforeach
@@ -314,56 +335,78 @@
                                                     <div class="flow-root">
                                                         <ul role="list"
                                                             class="divide-y divide-gray-200 dark:divide-gray-700">
-                                                            @forelse ($category['productos'] as $product)
-                                                                <li class="py-1">
-                                                                    <div class="flex items-center space-x-4">
-                                                                        <div class="flex-shrink-0">
-                                                                            <img class="w-9 h-9 rounded-full"
-                                                                                src="{{ Storage::url($product['url_img']) }}"
-                                                                                alt="Neil image">
+                                                            @forelse ($filterProducts as $product)
+                                                                @if ($product['categoriaName'] == $category['nombre'])
+                                                                    <li class="py-2">
+                                                                        <div class="flex items-center space-x-4">
+                                                                            <div class="flex-shrink-0">
+                                                                                <img class="w-9 h-9 rounded-full"
+                                                                                    src="{{ Storage::url($product['url_img']) }}"
+                                                                                    alt="Neil image">
+                                                                            </div>
+                                                                            <div class="flex-1 min-w-0">
+                                                                                <p
+                                                                                    class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                                                    {{ $product['nombre'] }}
+                                                                                </p>
+                                                                                <p
+                                                                                    class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                                                                    @if ($product['tamanio'] == 'S')
+                                                                                        Chico
+                                                                                    @endif
+                                                                                    @if ($product['tamanio'] == 'M')
+                                                                                        Mediano
+                                                                                    @endif
+                                                                                    @if ($product['tamanio'] == 'L')
+                                                                                        Grande
+                                                                                    @endif
+                                                                                    @if ($product['tamanio'] == 'XL')
+                                                                                        Familiar
+                                                                                    @endif
+                                                                                </p>
+                                                                            </div>
+                                                                            <div
+                                                                                class="inline-flex items-center text-end font-semibold text-gray-800 dark:text-white">
+                                                                                ${{ $product['precio'] }}
+                                                                            </div>
+                                                                            <button
+                                                                                wire:click="addItem('{{ $product['id'] }}', '{{ $product['nombre'] }}','{{ $product['precio'] }}','{{ $product['tamanio'] }}','{{ $product['categoriaName'] }}')"
+                                                                                type="button"
+                                                                                class="focus:ring-4 focus:outline-none font-medium rounded-lg text-sm p-2 m-2 text-center inline-flex items-center @if ($stock > 0) text-white focus:ring-blue-300  bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 @else border border-b dark:text-white @endif">
+                                                                                <svg class="w-5 h-5"
+                                                                                    fill="currentColor"
+                                                                                    viewBox="0 0 24 24"
+                                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                                    aria-hidden="true">
+                                                                                    <path clip-rule="evenodd"
+                                                                                        fill-rule="evenodd"
+                                                                                        d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z">
+                                                                                    </path>
+                                                                                </svg>
+                                                                                <span class="sr-only">Increment</span>
+                                                                            </button>
+
+                                                                            <button
+                                                                                wire:click="decItem('{{ $product['id'] }}', '{{ $product['nombre'] }}','{{ $product['precio'] }}','{{ $product['tamanio'] }}','{{ $product['categoriaName'] }}')"
+                                                                                type="button"
+                                                                                class="focus:ring-4 focus:outline-none font-medium rounded-lg text-sm p-2 m-2 text-center inline-flex items-center @if ($stock > 0) text-white focus:ring-blue-300  bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 @else border border-b dark:text-white @endif">
+
+                                                                                <svg class="w-5 h-5"
+                                                                                    fill="currentColor"
+                                                                                    viewBox="0 0 24 24"
+                                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                                    aria-hidden="true">
+                                                                                    <path clip-rule="evenodd"
+                                                                                        fill-rule="evenodd"
+                                                                                        d="M5.25 12a.75.75 0 01.75-.75h12a.75.75 0 010 1.5H6a.75.75 0 01-.75-.75z">
+                                                                                    </path>
+                                                                                </svg>
+                                                                                <span class="sr-only">Decrement</span>
+                                                                            </button>
                                                                         </div>
-                                                                        <div class="flex-1 min-w-0">
-                                                                            <p
-                                                                                class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                                                {{ $product['nombre'] }}
-                                                                            </p>
-                                                                            <p
-                                                                                class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                                                                @if ($product['tamanio'] == 'S')
-                                                                                    Chico
-                                                                                @endif
-                                                                                @if ($product['tamanio'] == 'M')
-                                                                                    Mediano
-                                                                                @endif
-                                                                                @if ($product['tamanio'] == 'L')
-                                                                                    Grande
-                                                                                @endif
-                                                                                @if ($product['tamanio'] == 'XL')
-                                                                                    Familiar
-                                                                                @endif
-                                                                            </p>
-                                                                        </div>
-                                                                        <div
-                                                                            class="inline-flex items-center text-end font-semibold text-gray-800 dark:text-white">
-                                                                            ${{ $product['precio'] }}
-                                                                        </div>
-                                                                        <button
-                                                                            wire:click="addItem('{{ $product['id'] }}', '{{ $product['nombre'] }}','{{ $product['precio'] }}','{{ $product['tamanio'] }}','{{ $product['categoriaName'] }}')"
-                                                                            type="button"
-                                                                            class="focus:ring-4 focus:outline-none font-medium rounded-lg text-sm p-2 m-2 text-center inline-flex items-center @if ($stock > 0) text-white focus:ring-blue-300  bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 @else border border-b dark:text-white @endif">
-                                                                            <svg class="w-5 h-5" fill="currentColor"
-                                                                                viewBox="0 0 24 24"
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                aria-hidden="true">
-                                                                                <path clip-rule="evenodd"
-                                                                                    fill-rule="evenodd"
-                                                                                    d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z">
-                                                                                </path>
-                                                                            </svg>
-                                                                            <span class="sr-only">Increment</span>
-                                                                        </button>
-                                                                    </div>
-                                                                </li>
+                                                                    </li>
+                                                                @endif
+
                                                             @empty
                                                                 <li class="py-3 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
@@ -561,14 +604,19 @@
                     <div class="overflow-x-auto">
                         <div class="grid grid-cols-4 gap-4 p-4">
                             {{-- Crear foreach de mesas --}}
-                            @for ($i = 1; $i <= 4; $i++)
-                                <div class="max-w-sm rounded-lg shadow bg-green-600">
+                            @foreach ($tables as $table)
+                                <div
+                                    class="max-w-sm rounded-lg shadow @if ($table['status'] == '1') bg-green-500 hover:bg-green-400 @endif {{-- Disponible --}}
+                                                @if ($table['status'] == '2') bg-yellow-300 hover:bg-yellow-200 @endif {{-- Ocupado --}}
+                                                @if ($table['status'] == '0') bg-gray-500 hover:bg-gray-400 @endif    {{-- Desactivo --}}
+                                                rounded-lg shadow">
                                     <div class="w-full max-w-sm p-2">
                                         <div class="flex items-center justify-between mb-4">
                                             <h5 class=" text-xl  font-bold tracking-tight text-white ">
-                                                Mesa {{ $i }}
+                                                {{ $table['nombre'] }}
                                             </h5>
-                                            <button
+                                            <button id="{{ $table['id'] }}-dropdown-button"
+                                                data-dropdown-toggle="{{ $table['id'] }}-dropdown"
                                                 class="inline-flex items-center p-0.5 text-sm font-medium text-center text-white hover:text-gray-800 rounded-lg focus:outline-none"
                                                 type="button">
                                                 <svg class="w-8 h-6" fill="currentColor" viewBox="0 0 24 24"
@@ -581,20 +629,20 @@
                                         </div>
                                     </div>
 
-                                    <button wire:click="$set('table', 'Mesa {{ $i }}')" type="button"
-                                        class="block w-full p-2 h-56 bg-green-500 hover:bg-green-400 border border-gray-200 rounded-lg shadow dark:border-gray-700">
+                                    <button wire:click="$set('table', 'Mesa {{ $table['nombre'] }}')" type="button"
+                                        class="block w-full p-2 h-56  border border-gray-200 rounded-lg shadow dark:border-gray-700">
                                         <h5 class="text-sm  tracking-tight text-white">
                                             Presiona aqui para iniciar la orden
                                         </h5>
                                         <figure
                                             class="mt-2 relative max-w-sm transition-all duration-300 cursor-pointer filter grayscale hover:grayscale-0">
                                             <img class="rounded-lg h-28 w-28 mx-auto"
-                                                src="https://cdn-icons-png.flaticon.com/512/10076/10076088.png"
+                                                src="https://cdn-icons-png.flaticon.com/512/6724/6724239.png"
                                                 alt="rol">
                                         </figure>
                                     </button>
                                 </div>
-                            @endfor
+                            @endforeach
                         </div>
                     </div>
                 </div>
