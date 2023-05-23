@@ -99,7 +99,7 @@
         </tr>
         <tr>
             <td class="bold">Dirección:</td>
-            <td>San Salvador, El Salvador, Centro America</td>
+            <td>Santa Maria Huatulco,Oaxaca</td>
         </tr>
         <tr>
             <td colspan="2">&nbsp;</td>

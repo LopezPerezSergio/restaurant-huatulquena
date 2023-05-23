@@ -30,10 +30,34 @@ class TicketController extends Controller
         $url = config('app.api') . '/employee';
         $response = Http::withToken($user['token'])->get($url);
         $employees = $response->json('data');
+        //dd($employees);
+        $url = config('app.api') . '/category';
+        $response = Http::withToken($user['token'])->get($url);
+        $categories = $response->collect('data');
 
+        $url = config('app.api') . '/product';
+        $response = Http::withToken($user['token'])->get($url);
+        $products = $response->json('data');
+        //dd($products);
+        $url = config('app.api') . '/order';
+        $response = Http::withToken($user['token'])->get($url);
+        $orden = $response->json('data');
+        //dd($orden);
+
+        $url = config('app.api') . '/order/product';
+        $response = Http::withToken($user['token'])->get($url);
+        $pedido = $response->json('data');
+        //dd($pedido);
+
+        // $url = config('app.api') . '/order/1';
+        // $response = Http::withToken($user['token'])->get($url);
+        // $cosas = $response->json('data');
+        // dd($cosas);
         //return view('admin.employees.index', compact('roles', 'employees'));
         
-        return view('ticket');
+        return view('ticket', compact('roles','employees','categories','products','orden','pedido'));
+       // return view('prueba', compact('roles','employees','categories','products','orden','pedido'));
+    
     }
     public function generateTicket()
     {
