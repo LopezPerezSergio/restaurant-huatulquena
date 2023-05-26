@@ -1,108 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Ticket</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            font-size: 6px;
+            /* Tamaño de letra ajustado */
         }
-        
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
-        
-        th, td {
-            padding: 8px;
+
+        th,
+        td {
+            padding: 1px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            /*  border-bottom: 1px solid #ddd;*/
+            /*quitar linea o poner lineas en salto*/
         }
-        
+
         .center {
             text-align: center;
         }
-        
+
         .bold {
             font-weight: bold;
         }
-        
+
         .code128 {
             width: 70px;
             height: 20px;
             text-align: center;
             border: 1px solid #000;
         }
+
+        @page {
+            margin: 0;
+            padding: 0;
+            size: 50mm 80mm;
+            /* Tamaño de papel en milímetros */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
     </style>
 </head>
+
 <body>
+    @php
+    $total = 0; // Variable para almacenar el total
+    @endphp
     <table>
         <tr>
-            <td colspan="2" class="center bold">Nombre de empresa</td>
+            <td colspan="4" class="center bold">La Huatulqueña Restaurante</td>
         </tr>
         <tr>
-            <td colspan="2" class="center">RUC: 0000000000</td>
+            <td colspan="4" class="center">RUC: 0000000000</td>
         </tr>
         <tr>
-            <td colspan="2" class="center">SECTOR L</td>
+            <td colspan="4" class="center">Bahia de San Agustin, Santa María Huatulco, Oax.</td>
         </tr>
         <tr>
-            <td colspan="2" class="center">Teléfono: 00000000</td>
+            <td colspan="4" class="center">Teléfono: 00000000</td>
         </tr>
         <tr>
-            <td colspan="2" class="center">Email: correo@ejemplo.com</td>
+            <td colspan="4" class="center">Email: correo@ejemplo.com</td>
         </tr>
         <tr>
-            <td colspan="2">&nbsp;</td>
+            <td colspan="4" class="center">------------------------------------------------------</td>
         </tr>
         <tr>
-            <td colspan="2" class="center">------------------------------------------------------</td>
+            <td class="bold">Fecha y Hora:</td>
+            <td colspan="4">{{ $cosas['fechaYhora']}}</td>
         </tr>
         <tr>
-            <td colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-            <td class="bold">Fecha:</td>
-            <td>'.date("d/m/Y h:i A", strtotime("13-09-2022")).'</td>
-        </tr>
-        <tr>
-            <td class="bold">Caja Nro:</td>
+            <td class="bold">Mesa No.</td>
             <td>1</td>
         </tr>
         <tr>
-            <td class="bold">Cajero:</td>
-            <td>Carlos Alfaro</td>
+            <td class="bold">Mesero:</td>
+            <td colspan="4">Carlos Alfaro</td>
         </tr>
         <tr>
-            <td colspan="2" class="center bold">Ticket Nro: 1</td>
-        </tr>
-        <tr>
-            <td colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-            <td colspan="2" class="center">------------------------------------------------------</td>
-        </tr>
-        <tr>
-            <td colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-            <td class="bold">Cliente:</td>
-            <td>Carlos Alfaro</td>
-        </tr>
-        <tr>
-            <td class="bold">Documento:</td>
-            <td>DNI 00000000</td>
-        </tr>
-        <tr>
-            <td class="bold">Teléfono:</td>
-            <td>00000000</td>
-        </tr>
-        <tr>
-            <td class="bold">Dirección:</td>
-            <td>San Salvador, El Salvador, Centro America</td>
-        </tr>
-        <tr>
-            <td colspan="2">&nbsp;</td>
+            <td colspan="4" class="center bold">Ticket Nro: 1</td>
         </tr>
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
@@ -110,40 +98,44 @@
         <tr>
             <th>Cant.</th>
             <th>Precio</th>
-            <th>Desc.</th>
+            <th>Producto.</th>
+            <th>Descripción</th>
             <th>Total</th>
         </tr>
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
         </tr>
         <tr>
-            <td>7</td>
-            <td>$10 USD</td>
-            <td>$0.00 USD</td>
-            <td>$70.00 USD</td>
-        </tr>
+            @foreach($products as $product)
+            @foreach ($pedido as $pedi)
+            @if($product['id'] == $pedi['id_Producto'])
+
         <tr>
-            <td colspan="4">&nbsp;</td>
+            <th>
+                {{ $pedi['cantidad'] }}
+            </th>
+            <td>
+                {{ $product['precio'] }}
+            </td>
+            <td>
+                {{ $product['nombre'] }}
+            </td>
+            <td>
+                {{ $pedi['descripcion'] }}</td>
+            <td>
+
+                @php
+                $subtotal = $pedi['cantidad'] * $product['precio'];
+                $total += $subtotal;
+                @endphp
+                ${{ $subtotal }}
+            </td>
         </tr>
-        <tr>
-            <td colspan="4">Garantía de fábrica: 2 Meses</td>
+        @endif
+        @endforeach
+        @endforeach
         </tr>
-        <tr>
-            <td colspan="4">&nbsp;</td>
-        </tr>
-        <tr>
-            <td colspan="4" class="center">-------------------------------------------------------------------</td>
-        </tr>
-        <tr>
-            <td colspan="2">&nbsp;</td>
-            <td class="bold">SUBTOTAL</td>
-            <td>+ $70.00 USD</td>
-        </tr>
-        <tr>
-            <td colspan="2">&nbsp;</td>
-            <td class="bold">IVA (13%)</td>
-            <td>+ $0.00 USD</td>
-        </tr>
+
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
         </tr>
@@ -163,28 +155,16 @@
             <td>$30.00 USD</td>
         </tr>
         <tr>
-            <td colspan="2">&nbsp;</td>
-            <td class="bold">USTED AHORRA</td>
-            <td>$0.00 USD</td>
-        </tr>
-        <tr>
             <td colspan="4">&nbsp;</td>
         </tr>
         <tr>
-            <td colspan="4" class="center">*** Precios de productos incluyen impuestos. Para poder realizar un reclamo o devolución debe de presentar este ticket ***</td>
+            <td colspan="4" class="center">*** Precios de productos incluyen impuestos. Para poder realizar un reclamo o
+                devolución debe de presentar este ticket ***</td>
         </tr>
         <tr>
             <td colspan="4" class="center bold">Gracias por su compra</td>
         </tr>
-        <tr>
-            <td colspan="4">&nbsp;</td>
-        </tr>
-        <tr>
-            <td colspan="4" class="center code128">COD000001V0001</td>
-        </tr>
-        <tr>
-            <td colspan="4" class="center">COD000001V0001</td>
-        </tr>
     </table>
 </body>
+
 </html>

@@ -11,7 +11,7 @@
         }
         
         @page {
-            size: A4;
+            size: 55mm, 80mm;
             margin: 0;
         }
         
