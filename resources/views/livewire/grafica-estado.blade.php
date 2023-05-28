@@ -5,7 +5,7 @@
     </head>
 
     <div>
-        <canvas id="employeeStatusChart" width="400" height="400"></canvas>
+        <canvas id="employeeStatusChart"></canvas>
     </div>
     
     <script>
