@@ -1,49 +1,40 @@
 <?php
 
-namespace App\Http\Livewire\Tables;
+namespace App\Http\Livewire\Orders;
 
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 
-class Pruebas extends Component
+class Create extends Component
 {
-    /* variables con el contenido de la informacion */
-    public $categories; //categorias con los productos
-    public $employees; // lista de los usuarios (meseros, admin, cajeros)
-    public $user; // Usuario autenticado (tipo de rol Usuario Venta)
-    public $tables;
-    public $products;
-
     /* Variable encargada de mostrar la vista correspondiente de acuerdo a la fase en la que se encuentra */
-    public $step = 0; // cambiar los valores entre 0 y 3 de forma manual
+    public $step = 1; // cambiar los valores entre 0 y 3 de forma manual
 
-    /* Varibale de interaccion con los datos del componente */
-    /* ----------------------- Fase 0 -----------------------*/
-    public $table = ''; // Guarda el nombre de la mesa
+    /* variables con el contenido de la informacion */
+    public $employees; // lista de los usuarios (meseros, admin, cajeros)
+    public $categories;
+    public $products;
 
     /* ----------------------- Fase 1 -----------------------*/
     public $employee_id = ''; // Guarda el id del empleado seleccionado
     public $codigo_acceso = ''; // Guarda el codigo de Acceso
 
     /* ----------------------- Fase 2 -----------------------*/
-    /* Toda tarea se lleva a acbo con el Cart */
-    public $pro;
-
-    // Variables para el buscador
-    public $search = '';
-    public $filterProducts;
-
-    /* ----------------------- Fase 3 -----------------------*/
-
-    public $stock = 1; // Variable para pruebas
-
-    public $options = [
+    public $options = [ // opciones para el producto que se agragara
         'size' => null,
         'category' => null,
         'description' => null,
         'image' => null
     ];
+    public $description= ''; // Guarda la descripcion que le vamos a pasar al producto
+
+    // Variables para el buscador
+    public $search = '';
+    public $filterProducts;
+
+
+    public $stock = 1; //hay que quitarlo despues
 
     public function mount()
     {
@@ -52,8 +43,36 @@ class Pruebas extends Component
 
     public function render()
     {
-        return view('livewire.tables.pruebas');
+        return view('livewire.orders.create');
     }
+
+    /* ----------------------- Fase 1 -----------------------*/
+
+    /* Metodo para validar el codigo del empleado */
+    public function validatedEmployee()
+    {
+        if (!session()->get('user')) {
+            return redirect()->route('auth.login');
+        }
+
+        $user = session()->get('user');
+
+        $url = config('app.api') . '/employee/valid/' . $this->employee_id; // localhost:8080/employee/valid/{id}
+        $response = Http::withToken($user['token'])->post($url, [
+            'codigoAcceso' => $this->codigo_acceso,
+        ]);
+
+        $response = $response->json('mensage') == 'true' ? true : false;
+
+        if ($response) {
+            $this->step++;
+        }
+        else{
+            session()->flash('alert-order', 'Acceso Denegado, Verifique sus Datos');
+        }
+    }
+
+    /* ----------------------- Fase 2 -----------------------*/
 
     /* Metodo para la busqueda de productos */
     public function updatedSearch($value)
@@ -67,33 +86,12 @@ class Pruebas extends Component
         }
     }
 
-    /* Funcion que se ejecuta cuando hay un cambio en la propiedad table */
-    public function updatedTable()
-    {
-        $this->step++;
-    }
-
-    /* Metodo para validar el codigo del empleado */
-    public function validatedEmployee()
-    {
-        $url = config('app.api') . '/employee/valid/' . $this->employee_id; // localhost:8080/employee/valid/{id}
-        $response = Http::withToken($this->user['token'])->post($url, [
-            'codigoAcceso' => $this->codigo_acceso,
-        ]);
-
-        $response = $response->json('mensage') == 'true' ? true : false;
-
-        if ($response) {
-            $this->step++;
-        }
-    }
-
     /* Metodo para agregar contenido a la orden */
     public function addItem($id, $name, $price, $tamanio, $category, $image)
     {
         $this->options['size'] = $tamanio;
         $this->options['category'] = $category;
-        $this->options['description'] = 'Sin descripcion';
+        $this->options['description'] = '';
         $this->options['image'] = $image;
 
         Cart::add(
@@ -105,6 +103,8 @@ class Pruebas extends Component
                 'options' => $this->options
             ]
         );
+
+        $this->reset(['description']);
     }
 
     /* Metodo para eliminar contenido a la orden */
@@ -112,7 +112,7 @@ class Pruebas extends Component
     {
         $this->options['size'] = $tamanio;
         $this->options['category'] = $category;
-        $this->options['description'] = 'Sin descripcion';
+        $this->options['description'] = '';
         $this->options['image'] = $image;
 
         $product = Cart::search(function ($cartItem, $rowId) use ($id) {
@@ -134,14 +134,21 @@ class Pruebas extends Component
                 );
             }
         }
+
+        $this->reset(['description']);
     }
 
-    /* Metodo para editar contenido a la orden (descripcion) */
-    public function updateItem($rowId, $options, $description)
+    /* Metodo para editar contenido a la orden (descripcion) con fallas :c */
+    public function updateDescriptionItem($rowId, $tamanio, $category, $image)
     {
-        $options['description'] = $description;
+        $this->options['size'] = $tamanio;
+        $this->options['category'] = $category;
+        $this->options['description'] = $this->description;
+        $this->options['image'] = $image;
 
-        Cart::update($rowId, ['options' => $options]);
+        Cart::update($rowId, ['options' => $this->options]);
+
+        $this->reset(['description']);
     }
 
     /* Metodo para eliminar un producto de la lista */
@@ -172,7 +179,9 @@ class Pruebas extends Component
         $this->step++;
     }
 
-    /* Metodo que decrementara el Step */
+     /* ----------------------- Fase 2 -----------------------*/
+
+     /* Metodo que decrementara el Step */
     public function revers()
     {
         $this->step--;
@@ -181,6 +190,10 @@ class Pruebas extends Component
     /* Metodo para generar la Orden (Pedido) */
     public function cretedOrder()
     {
-        # Codificacion del roden
+        /* 
+            crear cuenta
+            crear pedido
+            crear ticket
+        */
     }
 }

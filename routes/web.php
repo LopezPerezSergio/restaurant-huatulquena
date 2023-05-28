@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\TableController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -47,5 +48,6 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
 
     Route::resource('users', UsersController::class)->names('users');
 
+    Route::resource('tables', TableController::class)->names('tables');
     Route::resource('orders', OrderController::class)->names('orders');
 });
