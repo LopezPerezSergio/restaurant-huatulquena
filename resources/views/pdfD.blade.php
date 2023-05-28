@@ -83,11 +83,26 @@
         </tr>
         <tr>
             <td class="bold">Mesa No.</td>
-            <td>1</td>
+            <td> 
+                
+                @foreach ($tables as $table)
+                @if( $table['id']== $cosas['id_Mesa'])
+                {{ $table['nombre'] }} {{--recueprar el nombre de la mesa atendida de acuerdo pedido--}}
+                @endif
+                @endforeach
+            </td>
         </tr>
         <tr>
             <td class="bold">Mesero:</td>
-            <td colspan="4">Carlos Alfaro</td>
+            <td colspan="4">
+                @foreach ($employees as $employee)
+
+                @if( $employee['id']==  $table['id'])
+                {{ $employee['nombre'] }} {{--recuperar nombre del meso que atendio esa mesa--}}
+                @endif
+                @endforeach
+            </td>
+        </td>
         </tr>
         <tr>
             <td colspan="4" class="center bold">Ticket Nro: 1</td>
@@ -127,6 +142,9 @@
                 @php
                 $subtotal = $pedi['cantidad'] * $product['precio'];
                 $total += $subtotal;
+                $montoPagado = 500; // total pagado dato de prueba 
+
+                $cambio = $montoPagado - $total;
                 @endphp
                 ${{ $subtotal }}
             </td>
@@ -142,17 +160,17 @@
         <tr>
             <td colspan="2">&nbsp;</td>
             <td class="bold">TOTAL A PAGAR</td>
-            <td>$70.00 USD</td>
+            <td> ${{ $total }} USD</td>
         </tr>
         <tr>
             <td colspan="2">&nbsp;</td>
             <td class="bold">TOTAL PAGADO</td>
-            <td>$100.00 USD</td>
+            <td>${{ $montoPagado }} MX;</td>
         </tr>
         <tr>
             <td colspan="2">&nbsp;</td>
             <td class="bold">CAMBIO</td>
-            <td>$30.00 USD</td>
+            <td>${{ $cambio }} MX</td>
         </tr>
         <tr>
             <td colspan="4">&nbsp;</td>

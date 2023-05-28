@@ -12,9 +12,6 @@ use Dompdf\Dompdf;
 
 class TicketController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         if (!session()->get('user')) {
@@ -43,7 +40,11 @@ class TicketController extends Controller
         $response = Http::withToken($user['token'])->get($url);
         $orden = $response->json('data');
         //dd($orden);
-
+        $url = config('app.api') . '/table';
+        $response = Http::withToken($user['token'])->get($url);
+        $tables = $response->json('data');
+        //dd($tables);
+        
         $url = config('app.api') . '/order/product';
         $response = Http::withToken($user['token'])->get($url);
         $pedido = $response->json('data');
@@ -74,7 +75,13 @@ class TicketController extends Controller
     $url = config('app.api') . '/employee';
     $response = Http::withToken($user['token'])->get($url);
     $employees = $response->json('data');
+    
     //dd($employees);
+    $url = config('app.api') . '/table';
+    $response = Http::withToken($user['token'])->get($url);
+    $tables = $response->json('data');
+    //dd($tables);
+
     $url = config('app.api') . '/category';
     $response = Http::withToken($user['token'])->get($url);
     $categories = $response->collect('data');
@@ -83,6 +90,7 @@ class TicketController extends Controller
     $response = Http::withToken($user['token'])->get($url);
     $products = $response->json('data');
     //dd($products);
+
     $url = config('app.api') . '/order';
     $response = Http::withToken($user['token'])->get($url);
     $orden = $response->json('data');
@@ -96,15 +104,11 @@ class TicketController extends Controller
      $url = config('app.api') . '/order/1';
     $response = Http::withToken($user['token'])->get($url);
      $cosas = $response->json('data');
-    
-    //return view('ticket', compact('roles','employees','categories','products','orden','pedido','cosas'));
-    // Crear una instancia de Dompdf
+     // Crear una instancia de Dompdf
     $dompdf = new Dompdf();
 
-    // Obtener los datos necesarios para el ticket desde tu lógica o modelo
-
     // Cargar la vista del ticket con los datos
-    $html = view('pdfD',compact('roles','employees','categories','products','orden','pedido','cosas'))->render();
+    $html = view('pdfD',compact('roles','employees','categories','products','orden','tables','pedido','cosas'))->render();
 
     // Cargar el contenido HTML en Dompdf
     $dompdf->loadHtml($html);
