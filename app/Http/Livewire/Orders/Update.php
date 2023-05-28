@@ -7,7 +7,7 @@ use Livewire\Component;
 class Update extends Component
 {
     /* Variable encargada de mostrar la vista correspondiente de acuerdo a la fase en la que se encuentra */
-    public $step = 1; // cambiar los valores entre 0 y 3 de forma manual
+    public $step = 2; // cambiar los valores entre 0 y 3 de forma manual
 
     /* ----------------------- Fase 1 -----------------------*/
     public $employee_id = ''; // Guarda el id del empleado seleccionado

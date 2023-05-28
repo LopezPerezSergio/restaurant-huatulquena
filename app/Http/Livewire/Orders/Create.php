@@ -9,7 +9,7 @@ use Livewire\Component;
 class Create extends Component
 {
     /* Variable encargada de mostrar la vista correspondiente de acuerdo a la fase en la que se encuentra */
-    public $step = 1; // cambiar los valores entre 0 y 3 de forma manual
+    public $step = 2; // cambiar los valores entre 0 y 3 de forma manual
 
     /* variables con el contenido de la informacion */
     public $employees; // lista de los usuarios (meseros, admin, cajeros)
