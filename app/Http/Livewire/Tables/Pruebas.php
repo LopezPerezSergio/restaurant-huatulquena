@@ -14,6 +14,7 @@ class Pruebas extends Component
     public $user; // Usuario autenticado (tipo de rol Usuario Venta)
     public $tables;
     public $products;
+    //dcalara prpiedad tables
 
     /* Variable encargada de mostrar la vista correspondiente de acuerdo a la fase en la que se encuentra */
     public $step = 2; // cambiar los valores entre 0 y 3 de forma manual
@@ -45,29 +46,27 @@ class Pruebas extends Component
         'image' => null
     ];
 
-    public function mount()
-    {
-        $this->filterProducts = $this->products;
-    }
-
     public function render()
     {
         return view('livewire.tables.pruebas');
     }
 
-    /* Metodo para la busqueda de productos */
+    public function mount()
+    {
+        $this->filterProducts = $this->products;
+    }
+
     public function updatedSearch($value)
     {
         if ($value) {
             $this->filterProducts = array_filter($this->products, function ($products) use ($value) {
-                return str_contains(strtolower($products['nombre']), strtolower($value));
+                return str_contains(strtolower($products['nombre'] ), strtolower($value));
             });
         } else {
             $this->filterProducts = $this->products;
         }
     }
 
-    /* Funcion que se ejecuta cuando hay un cambio en la propiedad table */
     public function updatedTable()
     {
         $this->step++;
@@ -182,5 +181,9 @@ class Pruebas extends Component
     public function cretedOrder()
     {
         # Codificacion del roden
+        $this->reset(['search']);
+        $this->filterProducts = $this->products;
     }
+
+
 }

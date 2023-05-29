@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\TableController;
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\RolController;
 use App\Http\Controllers\Admin\UsersController;
@@ -51,4 +52,6 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
 
     Route::resource('tables', TableController::class)->names('tables');
     Route::resource('orders', OrderController::class)->names('orders');
+
+    Route::resource('nominas', PaymentController::class)->names('nominas');
 });

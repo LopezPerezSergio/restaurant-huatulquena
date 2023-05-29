@@ -21,19 +21,11 @@ class OrderController extends Controller
 
         /* $url = config('app.api') . '/category';
         $response = Http::withToken($user['token'])->get($url);
-        $categories = $response->collect('data');
+        $categories = $response->json('data');
 
         $url = config('app.api') . '/rol';
         $response = Http::withToken($user['token'])->get($url);
-        $roles = $response->collect('data'); */
-
-        $url = config('app.api') . '/table';        
-        $response = Http::withToken($user['token'])->get($url);        
-        $tables = $response->json('data');
-
-        /* $url = config('app.api') . '/product';
-        $response = Http::withToken($user['token'])->get($url);
-        $products = $response->json('data'); */
+        $roles = $response->collect('data');
 
         $url = config('app.api') . '/table';        
         $response = Http::withToken($user['token'])->get($url);        
