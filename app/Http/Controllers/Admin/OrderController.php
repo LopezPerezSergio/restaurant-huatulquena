@@ -19,38 +19,38 @@ class OrderController extends Controller
 
         $user = session()->get('user');
 
-        $url = config('app.api') . '/category';
+        /* $url = config('app.api') . '/category';
         $response = Http::withToken($user['token'])->get($url);
         $categories = $response->collect('data');
 
         $url = config('app.api') . '/rol';
         $response = Http::withToken($user['token'])->get($url);
-        $roles = $response->collect('data');
+        $roles = $response->collect('data'); */
+
+        $url = config('app.api') . '/table';        
+        $response = Http::withToken($user['token'])->get($url);        
+        $tables = $response->json('data');
+
+        /* $url = config('app.api') . '/product';
+        $response = Http::withToken($user['token'])->get($url);
+        $products = $response->json('data'); */
 
         $url = config('app.api') . '/table';        
         $response = Http::withToken($user['token'])->get($url);        
         $tables = $response->collect('data');
 
         // Solo los usarios de admin mesero y cajero <-------------- Pendiente
-        foreach ($roles as $rol) {
+        /* foreach ($roles as $rol) {
             if ($rol['nombre'] == 'Mesero') {
                 $employees = $rol['empleados'];
                 break;
             }
-        }
+        } */
 
         // recuperar mesas;
 
         // pasar mesas
-        return view('admin.orders.index', compact('categories', 'employees', 'user', 'tables'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return view('admin.orders.index', compact('tables'));
     }
 
     /**
@@ -66,7 +66,41 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        //
+        if (!session()->get('user')) {
+            return redirect()->route('auth.login');
+        }
+
+        $user = session()->get('user');
+
+        //recupero informacion de la mesa seleccionada
+        $url = config('app.api') . '/table/' . $id;        
+        $response = Http::withToken($user['token'])->get($url);        
+        $table = $response->json('data');
+
+        //recupero la lista de empleados
+        $url = config('app.api') . '/rol';
+        $response = Http::withToken($user['token'])->get($url);
+        $roles = $response->json('data');
+
+        // Solo los usarios de admin mesero y cajero <-------------- Pendiente (el recorrdido sera modificado)
+        foreach ($roles as $rol) {
+            if ($rol['nombre'] == 'Mesero') {
+                $employees = $rol['empleados'];
+                break;
+            }
+        }
+
+        //recupero las catgorias
+        $url = config('app.api') . '/category';
+        $response = Http::withToken($user['token'])->get($url);
+        $categories = $response->json('data');
+
+        //recupero las catgorias
+        $url = config('app.api') . '/product';
+        $response = Http::withToken($user['token'])->get($url);
+        $products = $response->json('data');
+
+        return view('admin.orders.show', compact('table', 'employees', 'categories', 'products'));
     }
 
     /**
