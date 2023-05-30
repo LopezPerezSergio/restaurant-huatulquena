@@ -9,12 +9,13 @@ use Livewire\Component;
 class Create extends Component
 {
     /* Variable encargada de mostrar la vista correspondiente de acuerdo a la fase en la que se encuentra */
-    public $step = 2; // cambiar los valores entre 0 y 3 de forma manual
+    public $step = 1; // cambiar los valores entre 1 y 3 de forma manual
 
     /* variables con el contenido de la informacion */
     public $employees; // lista de los usuarios (meseros, admin, cajeros)
     public $categories;
     public $products;
+    public $table;
 
     /* ----------------------- Fase 1 -----------------------*/
     public $employee_id = ''; // Guarda el id del empleado seleccionado
@@ -27,7 +28,7 @@ class Create extends Component
         'description' => null,
         'image' => null
     ];
-    public $description= ''; // Guarda la descripcion que le vamos a pasar al producto
+    public $description = ''; // Guarda la descripcion que le vamos a pasar al producto
 
     // Variables para el buscador
     public $search = '';
@@ -66,8 +67,7 @@ class Create extends Component
 
         if ($response) {
             $this->step++;
-        }
-        else{
+        } else {
             session()->flash('alert-order', 'Acceso Denegado, Verifique sus Datos');
         }
     }
@@ -179,9 +179,9 @@ class Create extends Component
         $this->step++;
     }
 
-     /* ----------------------- Fase 2 -----------------------*/
+    /* ----------------------- Fase 2 -----------------------*/
 
-     /* Metodo que decrementara el Step */
+    /* Metodo que decrementara el Step */
     public function revers()
     {
         $this->step--;
@@ -193,7 +193,52 @@ class Create extends Component
         /* 
             crear cuenta
             crear pedido
+            le meto los productos a pedido (Pedido - producto)
             crear ticket
         */
+        if (!session()->get('user')) {
+            return redirect()->route('auth.login');
+        }
+
+        $user = session()->get('user');
+
+        /* Creo la cuenta */
+        $url = config('app.api') . '/cuenta'; // localhost:8080/cuenta
+        $response = Http::withToken($user['token'])->post($url, []);
+        $cuenta = $response->json('data'); // id de cuenta
+
+        /* Creo el pedido (order)*/
+        $url = config('app.api') . '/order'; // localhost:8080/order
+        $response = Http::withToken($user['token'])->post($url, [
+            'idMesa' => $this->table['id'],
+            'idCuenta' => $cuenta,
+        ]);
+        $pedido = $response->json('data');
+
+        /* Creo la relacion de los productos con sus pedidos */
+        $url = config('app.api') . '/order/product/add'; // localhost:8080/order/product/add
+        foreach (Cart::content() as $product) {
+            $response = Http::withToken($user['token'])->post($url, [
+                'cantidad' => $product->qty,
+                'descripcion' => $product->options->description,
+                'idPedido' => $pedido,
+                'idProducto' => $product->id,
+            ]);
+        }
+
+        $url = config('app.api') . '/employee/search-id/' . $this->employee_id;
+        $response = Http::withToken($user['token'])->get($url);
+        $employee = $response->json('data');
+
+        $url = config('app.api') . '/table/' . $this->table['id'];
+
+        $response = Http::withToken($user['token'])->put($url,[
+            'id' => $this->table['id'],
+            'nombre' => $this->table['nombre'],
+            'capacidad' => $this->table['capacidad'],
+            'status' => 2,
+            'empleado' => $employee            
+        ]);
+        dump($response);
     }
 }
