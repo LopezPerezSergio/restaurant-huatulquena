@@ -27,10 +27,6 @@ class OrderController extends Controller
         $response = Http::withToken($user['token'])->get($url);
         $roles = $response->collect('data');
 
-        $url = config('app.api') . '/table';        
-        $response = Http::withToken($user['token'])->get($url);        
-        $tables = $response->collect('data');
-
         // Solo los usarios de admin mesero y cajero <-------------- Pendiente
         /* foreach ($roles as $rol) {
             if ($rol['nombre'] == 'Mesero') {
@@ -40,7 +36,10 @@ class OrderController extends Controller
         } */
 
         // recuperar mesas;
-
+        $url = config('app.api') . '/table';        
+        $response = Http::withToken($user['token'])->get($url);        
+        $tables = $response->collect('data');
+                
         // pasar mesas
         return view('admin.orders.index', compact('tables'));
     }

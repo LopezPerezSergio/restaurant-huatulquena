@@ -52,6 +52,9 @@ class TableController extends Controller
             'empleado' => $employee
         ]);
 
+        /* Aqui se deb de agregar cuenta junto 
+          con mesa para que haya un mejor control */
+
         $response = $response['data'];
 
         session()->flash('alert-table', $response);
