@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\RolController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\SaleController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
@@ -53,4 +54,7 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
     Route::resource('orders', OrderController::class)->names('orders');
 
     Route::resource('nominas', PaymentController::class)->names('nominas');
+
+    Route::resource('sales', SaleController::class)->names('sales');
+
 });
