@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Tables;
 use Illuminate\Support\Facades\Http;
+use Carbon\Carbon;
 
 use Livewire\Component;
 
@@ -11,6 +12,7 @@ class Payments extends Component
     /* variables con el contenido de la informacion */
     public $payments;
     public $employees;
+    public $ventas;
 
     public $filter;
 
@@ -28,13 +30,14 @@ class Payments extends Component
     public $comision = '';
     public $totalPago = '';
 
-    public $total=0;
-    // public $totalPagoTabla ='' ;
+    public $total = 0;
+    public $currentDate;
 
 
     public function mount(){
         $this->filterPago = '';
-        $this->total=0;
+        $this->total = 0;
+        $this -> currentDate = Carbon::now()->toDateString();
     }
 
     public function render()
@@ -63,31 +66,41 @@ class Payments extends Component
     //     dump($this-> total);
  
     public function captura(){
-        if ($this->employeeSelect == '0') {
+        $this->currentDate = Carbon::now()->toDateString(); //obtengo la fecha del dia actual la cual ocupara para buscar las ventas con base a esa fecha
+        $this->reset('totalPago');
+
+        $totalAux = 0;
+
+        if ($this->employeeSelect == '0') {   //si la seleccion del empleado es 0 se restablecen las variables
             $this->reset('sueldo','comision', 'totalPago');
         }
 
-        foreach ($this->employees as $employee) {
+        foreach ($this->employees as $employee) { 
 
-            if($employee['id'] == $this->employeeSelect){
+            if($employee['nombre'] == $this->employeeSelect){
                 
                 $this->sueldo = $employee['sueldo'];
-                $this->comision = $employee['porcentaje'];
+                $this->comision = $employee['porcentaje'] / 100;
 
                 if($this->sueldo != '0'){
 
                     $this->totalPago =  $this->sueldo;
 
-                }else{
+                }elseif($this->comision != '0' ){
 
-                    $this->reset('totalPago');
+                    foreach ($this->ventas as $venta ) {
+
+                        if ($venta['fecha'] == $this->currentDate) {
+                            $totalAux = $totalAux + $venta['total'] ;
+                        }
+                    }
+                    $this->totalPago = $totalAux * $this->comision;
 
                 }
-                //  dump($this->e['nombre']);
             }
         } 
         
-    }
+    }  
 
     public function clear()
     {

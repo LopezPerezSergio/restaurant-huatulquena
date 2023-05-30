@@ -1,61 +1,56 @@
 <div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/datepicker.min.js"></script>
 
     {{-- formulario para pagos de empleados --}}
-    <div>
-        <div class="grid gap-4 mb-4 sm:grid-cols-3">
-            <div>
-                <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Empleado</label>
-                <select id="nombre" name="nombre" wire:model="employeeSelect" wire:change="captura"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="0" selected>Selecciona un Empleado</option>
-                    @foreach($employees as $employee)
-                    <option value="{{ $employee['id'] }}">{{ $employee['nombre'] }}</option>
-                    @endforeach
+    <x-modal.createPayEmployee>
+        <x-slot:url>
+            {{ route('nominas.store') }}
+        </x-slot:url>
 
-                </select>
-            </div>
+        <div>
+            <div class="grid gap-4 mb-4 sm:grid-cols-3">
+                <div>
+                    <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Empleado</label>
+                    <select id="nombre" name="nombre" wire:model="employeeSelect" wire:change="captura"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option value="0" selected>Selecciona un Empleado</option>
+                        @foreach($employees as $employee)
+                        <option value="{{ $employee['nombre'] }}">{{ $employee['nombre'] }}</option>
+                        @endforeach
 
-            <div>
-                <label for="sueldo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sueldo</label>
-                <input type="text" name="sueldo" id="sueldo"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Sueldo" disabled wire:model="sueldo">
-            </div>
-
-            <div>
-                <label for="porcentaje" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Comision
-                    ('%')</label>
-                <input type="text" name="porcentaje" id="porcentaje"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Comision" wire:model="comision" disabled>
-            </div>
-        </div>
-
-        <div class="grid gap-4 mb-4 sm:grid-cols-3">
-            <div class="sm:col-span-2"></div>
-            <div>
-                <div class="mb-2">
-                    <label for="pago" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Total de
-                        pago</label>
-                    <input type="text" name="pago" id="pago"
+                    </select>
+                </div>
+                
+                <div>
+                    <label for="descripcion" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sueldo</label>
+                    <input type="text" name="descripcion" id="descripcion"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        placeholder="Pago" wire:model="totalPago" disabled>
+                        placeholder="Sueldo"  wire:model="sueldo">
                 </div>
 
-                <div class="flex justify-end">
-                    <button type="submit"
-                        class="w-full sm:w-auto justify-center text-white inline-flex bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                        Agregar
-                    </button>
+                <div>
+                    <label for="porcentaje" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Comision
+                        ('%')</label>
+                    <input type="text" name="porcentaje" id="porcentaje"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Comision" wire:model="comision" >
+                </div>
+            </div>
+
+            <div class="grid gap-4 mb-4 sm:grid-cols-3">
+                <div class="sm:col-span-2"></div>
+                <div>
+                    <div class="mb-2">
+                        <label for="pago" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Total de
+                            pago</label>
+                        <input type="text" name="pago" id="pago"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            placeholder="Pago" wire:model="totalPago" value="{{$totalPago}}" >
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-
-
+    </x-modal.createPayEmployee>
 
     {{-- Tabla que registrara los pagos --}}
     <div class="overflow-x-auto">
@@ -68,16 +63,13 @@
                 <div class="flex justify-end">
 
                     {{-- Input que esta conectado con la propiedad Search --}}
-                    <input wire:model="search" type="date" 
+                    <input wire:model="search" type="date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Seleccione una fecha para ver pagos">
                 </div>
             </div>
         </div>
-        {{$search}}
-        {{$total}}
-        
-
+       
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                 <tr>

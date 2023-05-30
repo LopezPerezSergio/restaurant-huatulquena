@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
+
+
 class PaymentController extends Controller
 {
     /**
@@ -26,8 +28,12 @@ class PaymentController extends Controller
         $url = config('app.api') . '/paymets/';
         $response = Http::withToken($user['token'])->get($url);
         $payments = $response->json('data');
-        
-        return view('admin.payments.index', compact('employees', 'payments'));
+
+        $url = config('app.api') . '/venta/';
+        $response = Http::withToken($user['token'])->get($url);
+        $ventas = $response->json('data');
+
+        return view('admin.payments.index', compact('employees', 'payments', 'ventas'));
     }
 
     /**

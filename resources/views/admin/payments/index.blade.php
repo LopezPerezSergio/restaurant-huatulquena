@@ -16,10 +16,7 @@
         </div>
     </div>
 
-
-    
-
-    @livewire('tables.payments', ['employees' => $employees, 'payments' => $payments])
+    @livewire('tables.payments', ['employees' => $employees, 'payments' => $payments, 'ventas' => $ventas])
 
     <x-modal.createPay>
         <x-slot:modulo>
