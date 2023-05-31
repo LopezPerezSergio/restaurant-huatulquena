@@ -102,8 +102,6 @@
                     @endforeach
                 @endforeach
             </td>
-            
-        </td>
         </tr>
         <tr>
             <td colspan="4" class="center bold">Pedido </td>
