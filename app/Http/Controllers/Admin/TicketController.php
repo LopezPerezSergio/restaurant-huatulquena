@@ -19,59 +19,8 @@ class TicketController extends Controller
         }
 
         $user = session()->get('user');
-
-        $url = config('app.api') . '/rol';
-        $response = Http::withToken($user['token'])->get($url);
-        $roles = $response->json('data');
-
-        $url = config('app.api') . '/employee';
-        $response = Http::withToken($user['token'])->get($url);
-        $employees = $response->json('data');
-        dd($employees);
-        $url = config('app.api') . '/category';
-        $response = Http::withToken($user['token'])->get($url);
-        $categories = $response->collect('data');
-
-        $url = config('app.api') . '/product';
-        $response = Http::withToken($user['token'])->get($url);
-        $products = $response->json('data');
-        //dd($products);
-        $url = config('app.api') . '/order';
-        $response = Http::withToken($user['token'])->get($url);
-        $orden = $response->json('data');
-        //dd($orden);
-        $url = config('app.api') . '/table';
-        $response = Http::withToken($user['token'])->get($url);
-        $tables = $response->json('data');
-        //dd($tables);
         
-        $url = config('app.api') . '/order/product';
-        $response = Http::withToken($user['token'])->get($url);
-        $pedido = $response->json('data');
-        //dd($pedido);
-
-         $url = config('app.api') . '/order/1';
-        $response = Http::withToken($user['token'])->get($url);
-         $cosas = $response->json('data');
-        // dd($cosas);
-        $url = config('app.api') . '/order/product/pedido/1';
-        $response = Http::withToken($user['token'])->get($url);
-        $rutaP = $response->json('data');
-        //dd($rutaP);
-        
-        $url = config('app.api') . '/cuenta';
-        $response = Http::withToken($user['token'])->get($url);
-        $cuenta = $response->json('data');
-        //dd($cuenta);
-        $url = config('app.api') . '/cuenta/items/1';
-        $response = Http::withToken($user['token'])->get($url);
-        $cuenta1 = $response->json('data');
-       // dd($cuenta1);
-        
-
-        return view('ticket', compact('roles','employees','categories','products','orden','pedido'));
-       // return view('prueba', compact('roles','employees','categories','products','orden','pedido'));
-    
+        return view('ticket');
     }
     //funcon que genera el ticket por pedido
         public function generateTicket()
@@ -135,10 +84,7 @@ public function generateTicketFinal()
 
     $user = session()->get('user');
 
-    $url = config('app.api') . '/rol';
-    $response = Http::withToken($user['token'])->get($url);
-    $roles = $response->json('data');
-
+    
     $url = config('app.api') . '/employee';
     $response = Http::withToken($user['token'])->get($url);
     $employees = $response->json('data');
@@ -148,37 +94,15 @@ public function generateTicketFinal()
     $response = Http::withToken($user['token'])->get($url);
     $tables = $response->json('data');
     //dd($tables);
-
-    $url = config('app.api') . '/category';
-    $response = Http::withToken($user['token'])->get($url);
-    $categories = $response->collect('data');
-
     $url = config('app.api') . '/product';
     $response = Http::withToken($user['token'])->get($url);
     $products = $response->json('data');
     //dd($products);
 
-
     $url = config('app.api') . '/order';
     $response = Http::withToken($user['token'])->get($url);
     $orden = $response->json('data');
     //dd(orden);
-    $url = config('app.api') . '/order/product/pedido/1';
-    $response = Http::withToken($user['token'])->get($url);
-    $rutaP = $response->json('data');
-    //dd($rutaP);
-
-
-    $url = config('app.api') . '/order/product';
-    $response = Http::withToken($user['token'])->get($url);
-    $pedido = $response->json('data');
-    //dd($pedido);
-
-    $url = config('app.api') . '/order/1';
-    $response = Http::withToken($user['token'])->get($url);
-    $cosas = $response->json('data');
-
-
     $url = config('app.api') . '/cuenta';
     $response = Http::withToken($user['token'])->get($url);
     $cuenta = $response->json('data');
@@ -191,7 +115,7 @@ public function generateTicketFinal()
     $dompdf = new Dompdf();
 
     // Cargar la vista del ticket con los datos
-    $html = view('pdfD',compact('cuentafinal','cuenta','roles','rutaP','employees','categories','products','orden','tables','pedido','cosas'))->render();
+    $html = view('pdfD',compact('cuentafinal','cuenta','employees','products','orden','tables'))->render();
 
     // Cargar el contenido HTML en Dompdf
     $dompdf->loadHtml($html);

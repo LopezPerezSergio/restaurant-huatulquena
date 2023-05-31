@@ -111,11 +111,11 @@
         <tr>
             <td class="bold">Mesero:</td>
             <td colspan="4">
-                {{-- Recupera el nombre del mesero que atendió esa orden --}}
+                {{-- Recupera el nombre del mesero que atendió esa cuenta --}}
                 @foreach ($employees as $employee)
                     @foreach ($orden as $ordenIndividual)
                         @foreach ($cuenta as $cuentaUnica)
-                            @if ($cuentaUnica['id'] == 1 && $ordenIndividual['id'] == $cuentaUnica['id'] && $employee['id'] == $ordenIndividual['id_Mesa'])
+                            @if ($cuentaUnica['id'] == 1 && $ordenIndividual['id_Mesa'] == $cuentaUnica['idMesa'] && $employee['id'] == $ordenIndividual['id_Mesa'])
                                 {{ $employee['nombre'].' '.$employee['apellidos'] }}
                             @endif
                         @endforeach
@@ -124,15 +124,43 @@
             </td>
         </tr>
         
+        {{--  <tr>
+            <td class="bold">Mesero:</td>
+            <td colspan="4">  --}}
+                {{-- Recupera el nombre del mesero que atendió esa cuenta --}}
+                {{--  @foreach ($employees as $employee)
+                    @foreach ($orden as $ordenIndividual)
+                        @foreach ($cuenta as $cuentaUnica)
+                            @if ($cuentaUnica['id'] == 1 && $ordenIndividual['id_Mesa'] == $cuentaUnica['idMesa'] && $employee['id'] == $table['idEmpleado'])
+                                {{ $employee['nombre'].' '.$employee['apellidos'] }}
+                                @break 3
+                            @endif
+                        @endforeach
+                    @endforeach
+                @endforeach  --}}
+            {{--  </td>
+        </tr>
+          --}}
+
+        
+        
         <tr>
-            <td colspan="4" class="center bold">Ticket Nro: 1</td>
+            <td colspan="4" class="center bold">Pedido  
+                @foreach ($orden as $ordenIndividual) 
+                @foreach ($cuenta as $cuentaUnica)
+                @if ($cuentaUnica['id'] == 1 && $ordenIndividual['id'] == $cuentaUnica['idMesa'])
+                   Nro: {{$ordenIndividual["id"]}}                      
+                @endif
+            @endforeach
+            @endforeach</td>
+            
         </tr>
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
         </tr>
         <tr>
             <th>Cant.</th>
-            <th>Precio</th>
+            <th>Precio Uni</th>
             <th>Producto.</th>
             <th>Total</th>
         </tr>
@@ -149,7 +177,7 @@
                 {{ $pedi['cantidad'] }}
             </th>
             <td>
-                {{ $product['precio'] }}
+                {{ $pedi['precio'] }}
             </td>
             <td>
                 {{ $product['nombre'] }}

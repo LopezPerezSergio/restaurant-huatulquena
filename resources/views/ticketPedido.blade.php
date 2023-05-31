@@ -104,14 +104,14 @@
             </td>
         </tr>
         <tr>
-            <td colspan="4" class="center bold">Pedido </td>
-            <td colspan="2">
+            <td colspan="4" class="center bold">Pedido 
                 @foreach ($orden as $ordenIndividual) 
                 @if ($ordenIndividual["id"] == 1)
                    Nro: {{$ordenIndividual["id"]}}                      
                 @endif
             @endforeach
             </td>
+            
         </tr>
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
