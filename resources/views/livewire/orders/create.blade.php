@@ -130,6 +130,46 @@
                     </svg>
                 </div>
             </li>
+        @elseif ($step == 4)
+            <li
+                class="flex w-full items-center text-blue-600 dark:text-blue-500 after:content-[''] after:w-full after:h-1 after:border-b after:border-blue-100 after:border-4 after:inline-block dark:after:border-blue-800">
+                <div
+                    class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full lg:h-12 lg:w-12 dark:bg-blue-800 shrink-0">
+                    <svg aria-hidden="true" class="w-5 h-5 text-blue-600 lg:w-6 lg:h-6 dark:text-blue-300"
+                        class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+            </li>
+            <li
+                class="flex w-full items-center text-blue-600 dark:text-blue-500 after:content-[''] after:w-full after:h-1 after:border-b after:border-blue-100 after:border-4 after:inline-block dark:after:border-blue-800">
+                <div
+                    class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full lg:h-12 lg:w-12 dark:bg-blue-800 shrink-0">
+                    <svg class="w-5 h-5 text-blue-600 lg:w-6 lg:h-6 dark:text-blue-300" fill="currentColor"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path clip-rule="evenodd" fill-rule="evenodd"
+                            d="M7.502 6h7.128A3.375 3.375 0 0118 9.375v9.375a3 3 0 003-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 00-.673-.05A3 3 0 0015 1.5h-1.5a3 3 0 00-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6zM13.5 3A1.5 1.5 0 0012 4.5h4.5A1.5 1.5 0 0015 3h-1.5z">
+                        </path>
+                        <path clip-rule="evenodd" fill-rule="evenodd"
+                            d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 013 20.625V9.375zM6 12a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75H6.75a.75.75 0 01-.75-.75V12zm2.25 0a.75.75 0 01.75-.75h3.75a.75.75 0 010 1.5H9a.75.75 0 01-.75-.75zM6 15a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75H6.75a.75.75 0 01-.75-.75V15zm2.25 0a.75.75 0 01.75-.75h3.75a.75.75 0 010 1.5H9a.75.75 0 01-.75-.75zM6 18a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75H6.75a.75.75 0 01-.75-.75V18zm2.25 0a.75.75 0 01.75-.75h3.75a.75.75 0 010 1.5H9a.75.75 0 01-.75-.75z">
+                        </path>
+                    </svg>
+                </div>
+            </li>
+            <li class="flex items-center w-full">
+                <div
+                    class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full lg:h-12 lg:w-12 dark:bg-blue-700 shrink-0">
+                    <svg aria-hidden="true" class="w-5 h-5 text-blue-500 lg:w-6 lg:h-6 dark:text-blue-100"
+                        fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                        <path fill-rule="evenodd"
+                            d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+            </li>
         @endif
     </ol>
 
@@ -763,141 +803,32 @@
                     <fieldset>
                         <legend class="sr-only">Confirmacion de orden</legend>
 
-                        <div class="flex items-center space-x-4">
-                            <h1
-                                class="p-2 mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-white">
-                                ¿Confirma que su orden esta correcto?
-                            </h1>
-                            <button type="button" wire:click='cretedOrder'
-                                class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                                <svg fill="currentColor" class="h-4 w-4 mr-2 -ml-0.5" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                    <path
-                                        d="M7.493 18.75c-.425 0-.82-.236-.975-.632A7.48 7.48 0 016 15.375c0-1.75.599-3.358 1.602-4.634.151-.192.373-.309.6-.397.473-.183.89-.514 1.212-.924a9.042 9.042 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75 2.25 2.25 0 012.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H14.23c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23h-.777zM2.331 10.977a11.969 11.969 0 00-.831 4.398 12 12 0 00.52 3.507c.26.85 1.084 1.368 1.973 1.368H4.9c.445 0 .72-.498.523-.898a8.963 8.963 0 01-.924-3.977c0-1.708.476-3.305 1.302-4.666.245-.403-.028-.959-.5-.959H4.25c-.832 0-1.612.453-1.918 1.227z">
-                                    </path>
-                                </svg>
-                                Generar Orden
-                            </button>
-
-                            <button type="button" wire:click='revers'
-                                class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                <svg class="h-4 w-4 mr-2 -ml-0.5" fill="currentColor" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                    <path clip-rule="evenodd" fill-rule="evenodd"
-                                        d="M10.5 3A1.501 1.501 0 009 4.5h6A1.5 1.5 0 0013.5 3h-3zm-2.693.178A3 3 0 0110.5 1.5h3a3 3 0 012.694 1.678c.497.042.992.092 1.486.15 1.497.173 2.57 1.46 2.57 2.929V19.5a3 3 0 01-3 3H6.75a3 3 0 01-3-3V6.257c0-1.47 1.073-2.756 2.57-2.93.493-.057.989-.107 1.487-.15z">
-                                    </path>
-                                </svg>
-                                Checar Orden
-                            </button>
-
-                            <button type="button" wire:click="destroy"
-                                class="flex items-center text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5"
-                                    viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd"
-                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Cancelar Orden
-                            </button>
-                        </div>
-
-                        <div class="grid grid-cols-1 gap-4">
-                            <div class=" p-4">
-                                <h3
-                                    class="mb-4 text-2xl font-bold leading-none tracking-tight text-gray-900 dark:text-white">
-                                    <span
-                                        class="underline underline-offset-3 decoration-2 decoration-blue-400 dark:decoration-blue-600">
-                                        Productos seleccionados
-                                    </span>
-                                </h3>
-
-                                <div class="overflow-x-auto rounded-lg shadow">
-                                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                        <thead
-                                            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                            <tr>
-                                                <th scope="col" class="p-4">Nombre</th>
-                                                <th scope="col" class="p-4">Tamaño</th>
-                                                <th scope="col" class="p-4">Precio</th>
-                                                <th scope="col" class="p-4">Cantidad</th>
-                                                <th scope="col" class="p-4">Categoria</th>
-                                                <th scope="col" class="p-4">Nota</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse (Cart::content() as $product)
-                                                <tr
-                                                    class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                                    <th scope="row"
-                                                        class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        <div class="flex items-center mr-3">
-                                                            <img src="{{ Storage::url($product->options->image) }}"
-                                                                alt="iMac Front Image" class="h-10 w-auto mr-3">
-                                                            {{ $product->name }}
-                                                        </div>
-                                                    </th>
-                                                    <td class="px-4 py-3">
-                                                        <span
-                                                            class="w-full bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">
-                                                            @if ($product->options->size == 'S')
-                                                                Chico
-                                                            @endif
-                                                            @if ($product->options->size == 'M')
-                                                                Mediano
-                                                            @endif
-                                                            @if ($product->options->size == 'L')
-                                                                Grande
-                                                            @endif
-                                                            @if ($product->options->size == 'XL')
-                                                                Familiar
-                                                            @endif
-                                                        </span>
-                                                    </td>
-                                                    <td
-                                                        class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        ${{ $product->price }}
-                                                    </td>
-
-                                                    <td
-                                                        class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        {{ $product->qty }}
-                                                    </td>
-                                                    <td
-                                                        class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        {{ $product->options->category }}
-                                                    </td>
-                                                    <td
-                                                        class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        {{ $product->options->description }}
-                                                    </td>
-                                                </tr>
-                                            @empty
-                                                <tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700 ">
-                                                    <td colspan="8" class="px-6 py-4">
-                                                        <div class="flex items-center space-x-4">
-                                                            <div class="flex-shrink-0 rounded-full">
-                                                                <img class="w-8 h-8 rounded-full"
-                                                                    src="{{ Storage::url('public/images/info.png') }}"
-                                                                    alt="Neil image">
-                                                            </div>
-                                                            <div class="flex-1 min-w-0">
-                                                                <p
-                                                                    class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                                    No hay productos
-                                                                </p>
-                                                                <p
-                                                                    class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                                                    Selecione productos para agregarlos a la
-                                                                    orden
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
+                        <!-- Modal toggle -->
+                        <div class="flex justify-center m-5">
+                            <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+                                <!-- Modal content -->
+                                <div
+                                    class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
+                                    <div
+                                        class="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 p-2 flex items-center justify-center mx-auto mb-3.5">
+                                        <svg aria-hidden="true" class="w-8 h-8 text-green-500 dark:text-green-400"
+                                            fill="currentColor" viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span class="sr-only">Success</span>
+                                    </div>
+                                    <p class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
+                                        Pedido Creado Satisfactoriamente.
+                                    </p>
+                                    <a href="{{ route('ticket.pedido', $table['id']) }}" target="_blank">
+                                        <button type="button" wire:click='createdTicket'
+                                            class="py-2 px-3 text-sm font-medium text-center text-white rounded-lg bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-900">
+                                            Imprimir y continuar
+                                        </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
