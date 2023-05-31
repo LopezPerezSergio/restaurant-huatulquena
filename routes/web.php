@@ -48,8 +48,11 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
     Route::resource('users', UsersController::class)->names('users');
 
     Route::resource('pdf', TicketController::class)->names('pdf');
-    //Route::get('pdf/imprimir', [TicketController::class, 'pdf'])->name('pdf.imprimir');
+    //ruta que muestra un ejemplo de pdf 
     Route::get('imprimir', [TicketController::class, 'pdf'])->name('pdf.imprimir');
-    Route::get('pruebaPdf', [TicketController::class, 'generateTicket'])->name('pruebaPdf');
+    //ruta que muestra el ticket para el pedido inicial
+    Route::get('pdfInicial', [TicketController::class, 'generateTicket'])->name('pdfInicial');
+    //ruta que muestra el ticket para el pedido final
+    Route::get('pdfFinal', [TicketController::class, 'generateTicketFinal'])->name('pdfFinal');
 
 });

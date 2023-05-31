@@ -55,57 +55,65 @@
 </head>
 
 <body>
-    @php
-    $total = 0; // Variable para almacenar el total
-    @endphp
     <table>
         <tr>
             <td colspan="4" class="center bold">La Huatulqueña Restaurante</td>
-        </tr>
-        <tr>
-            <td colspan="4" class="center">RUC: 0000000000</td>
-        </tr>
-        <tr>
-            <td colspan="4" class="center">Bahia de San Agustin, Santa María Huatulco, Oax.</td>
-        </tr>
-        <tr>
-            <td colspan="4" class="center">Teléfono: 00000000</td>
-        </tr>
-        <tr>
-            <td colspan="4" class="center">Email: correo@ejemplo.com</td>
         </tr>
         <tr>
             <td colspan="4" class="center">------------------------------------------------------</td>
         </tr>
         <tr>
             <td class="bold">Fecha y Hora:</td>
-            <td colspan="4">{{ $cosas['fechaYhora']}}</td>
+            <td colspan="4">
+                {{--recuperar la fecha y hora del pedido con id=1 ejemplo--}}
+                
+                @foreach ($orden as $ordenIndividual) 
+                    @if ($ordenIndividual["id"] == 1)
+                       {{$ordenIndividual["fechaYhora"]}}                      
+                    @endif
+                @endforeach
+                
+            </td>
         </tr>
         <tr>
             <td class="bold">Mesa No.</td>
             <td> 
-                
+                {{--recuperar el nombre de la mesa del pedido 1 {este valor es de ejemplo, aun no se enlaza}--}}
                 @foreach ($tables as $table)
-                @if( $table['id']== $cosas['id_Mesa'])
-                {{ $table['nombre'] }} {{--recueprar el nombre de la mesa atendida de acuerdo pedido--}}
-                @endif
+                    @foreach ($orden as $ordenIndividual)          
+                        @if ($ordenIndividual['id'] == 1 && $table['id'] == $ordenIndividual['id_Mesa'])
+                            {{ $table['nombre'] }}
+                        @endif
+                    @endforeach
                 @endforeach
             </td>
+            
         </tr>
         <tr>
             <td class="bold">Mesero:</td>
             <td colspan="4">
+                {{--recupera el nombre del mesero  que atendio esa orden de acuerdo al id_mesa que esta en el id del pedido
+                    se toma de ejemplo el id=1 que se encuentra en /orden--}}
                 @foreach ($employees as $employee)
-
-                @if( $employee['id']==  $table['id'])
-                {{ $employee['nombre'] }} {{--recuperar nombre del meso que atendio esa mesa--}}
-                @endif
+                    @foreach ($orden as $ordenIndividual)
+                        @if ($ordenIndividual['id'] == 1 && $employee['id'] == $ordenIndividual['id_Mesa'])
+                            {{ $employee['nombre'].' '.$employee['apellidos'] }}
+                        @endif
+                    @endforeach
                 @endforeach
             </td>
+            
         </td>
         </tr>
         <tr>
-            <td colspan="4" class="center bold">Ticket Nro: 1</td>
+            <td colspan="4" class="center bold">Pedido </td>
+            <td colspan="2">
+                @foreach ($orden as $ordenIndividual) 
+                @if ($ordenIndividual["id"] == 1)
+                   Nro: {{$ordenIndividual["id"]}}                      
+                @endif
+            @endforeach
+            </td>
         </tr>
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
@@ -115,7 +123,6 @@
             <th>Precio</th>
             <th>Producto.</th>
             <th>Descripción</th>
-            <th>Total</th>
         </tr>
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
@@ -137,17 +144,7 @@
             </td>
             <td>
                 {{ $pedi['descripcion'] }}</td>
-            <td>
-
-                @php
-                $subtotal = $pedi['cantidad'] * $product['precio'];
-                $total += $subtotal;
-                $montoPagado = 500; // total pagado dato de prueba 
-
-                $cambio = $montoPagado - $total;
-                @endphp
-                ${{ $subtotal }}
-            </td>
+            
         </tr>
         @endif
         @endforeach
@@ -156,31 +153,6 @@
 
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
-        </tr>
-        <tr>
-            <td colspan="2">&nbsp;</td>
-            <td class="bold">TOTAL A PAGAR</td>
-            <td> ${{ $total }} USD</td>
-        </tr>
-        <tr>
-            <td colspan="2">&nbsp;</td>
-            <td class="bold">TOTAL PAGADO</td>
-            <td>${{ $montoPagado }} MX;</td>
-        </tr>
-        <tr>
-            <td colspan="2">&nbsp;</td>
-            <td class="bold">CAMBIO</td>
-            <td>${{ $cambio }} MX</td>
-        </tr>
-        <tr>
-            <td colspan="4">&nbsp;</td>
-        </tr>
-        <tr>
-            <td colspan="4" class="center">*** Precios de productos incluyen impuestos. Para poder realizar un reclamo o
-                devolución debe de presentar este ticket ***</td>
-        </tr>
-        <tr>
-            <td colspan="4" class="center bold">Gracias por su compra</td>
         </tr>
     </table>
 </body>
