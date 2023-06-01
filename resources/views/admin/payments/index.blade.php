@@ -7,6 +7,7 @@
         Pagos / Nominas
     </x-slot:title>
 
+    {{-- Boton para formulario de otros gastos --}}
     <div class="grid gap-4 mb-4 sm:grid-cols-4">
         <div class="flex justify-start">
             <button type="submit" id="createPayButton" data-modal-toggle="createPayModal"

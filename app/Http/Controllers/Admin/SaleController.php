@@ -13,7 +13,17 @@ class SaleController extends Controller
      */
     public function index()
     {
-        return view('admin.sales.index');
+        if (!session()->get('user')) {
+            return redirect()->route('auth.login');
+        }
+
+        $user = session()->get('user');
+
+        $url = config('app.api') . '/venta/';
+        $response = Http::withToken($user['token'])->get($url);
+        $ventas = $response->json('data');
+
+        return view('admin.sales.index', compact('ventas'));
     }
 
     /**
