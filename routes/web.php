@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Admin\TicketController;
+use App\Http\Controllers\Admin\SaleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,5 +55,8 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
     Route::get('pdfInicial', [TicketController::class, 'generateTicket'])->name('pdfInicial');
     //ruta que muestra el ticket para el pedido final
     Route::get('pdfFinal', [TicketController::class, 'generateTicketFinal'])->name('pdfFinal');
+    Route::resource('sales', SaleController::class)->names('sales');
+    //ruta que muestra el ticket para el pedido final
+    Route::get('reporte', [SaleController::class, 'generarReporte'])->name('reporte');
 
 });

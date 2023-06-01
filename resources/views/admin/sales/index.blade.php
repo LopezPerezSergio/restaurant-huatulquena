@@ -19,16 +19,24 @@
         </div>
         <div  class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
             <div class="flex items-center">
-                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <form action="reporte" method="GET" target="_blank">
+                    <!-- Resto de tu formulario -->
+                    <input type="date" name="fecha" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Seleccione una fecha para ver pagos">
+                    <button type="submit"class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg aria-hidden="true" class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path></svg>
+                        Generar Reporte
+                    </button> 
+                </form>
+                {{--  <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     <svg aria-hidden="true" class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path></svg>
                     Generar Reporte
-                </button>
+                </button>  --}}
             </div>
-            <div >
-                <input wire:model="search" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+            {{--  <div >
+                <input type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Seleccione una fecha para ver pagos">
 
-            </div>
+            </div>  --}}
             <button id="DropdownButtonFilters" data-dropdown-toggle="dropdown-filters" class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                 type="button">
                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-4 w-4 mr-1.5 -ml-1 text-gray-400" viewbox="0 0 20 20" fill="currentColor">
@@ -55,231 +63,26 @@
                     Fecha
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Mesero
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Mesa
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Total
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Action
+                    id Mesa
                 </th>
             </tr>
         </thead>
         <tbody>
+            @foreach($order as $orden)
+            
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    1
-                </th>
-                <td class="px-6 py-4">
-                    Silver
+                <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ $orden['id'] }}
                 </td>
-                <td class="px-6 py-4">
-                    Laptop
+                <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ $orden['fechaYhora'] }}
                 </td>
-                <td class="px-6 py-4">
-                    $2999
-                </td>
-                <td class="px-6 py-4">
-                    $2999
-                </td>
-                <td class="px-6 py-4">
-                    <div class="flex items-center space-x-4">
-                        <button type="button"
-                                                {{-- data-drawer-target="drawer-read-product-{{ $product['id'] }}-advanced"
-                                                    data-drawer-show="drawer-read-product-{{ $product['id'] }}-advanced"
-                                                    aria-controls="drawer-read-product-{{ $product['id'] }}-advanced" --}}
-                                                    class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"
-                                                        fill="currentColor" class="w-4 h-4 mr-2 -ml-0.5">
-                                                        <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
-                                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                                            d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" />
-                                                    </svg>
-                                                    Ver
-                        </button>
-                    </div>
+                <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ $orden['id_Mesa'] }}
                 </td>
             </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    2
-                </th>
-                <td class="px-6 py-4">
-                    White
-                </td>
-                <td class="px-6 py-4">
-                    Laptop PC
-                </td>
-                <td class="px-6 py-4">
-                    $1999
-                </td>
-                <td class="px-6 py-4">
-                    $2999
-                </td>
-                <td class="px-6 py-4">
-                    <div class="flex items-center space-x-4">
-                        <button type="button"
-                                                {{-- data-drawer-target="drawer-read-product-{{ $product['id'] }}-advanced"
-                                                    data-drawer-show="drawer-read-product-{{ $product['id'] }}-advanced"
-                                                    aria-controls="drawer-read-product-{{ $product['id'] }}-advanced" --}}
-                                                    class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"
-                                                        fill="currentColor" class="w-4 h-4 mr-2 -ml-0.5">
-                                                        <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
-                                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                                            d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" />
-                                                    </svg>
-                                                    Ver
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    2
-                </th>
-                <td class="px-6 py-4">
-                    Black
-                </td>
-                <td class="px-6 py-4">
-                    Accessories
-                </td>
-                <td class="px-6 py-4">
-                    $99
-                </td>
-                <td class="px-6 py-4">
-                    $2999
-                </td>
-               <td class="px-6 py-4">
-                    <div class="flex items-center space-x-4">
-                        <button type="button"
-                                                {{-- data-drawer-target="drawer-read-product-{{ $product['id'] }}-advanced"
-                                                    data-drawer-show="drawer-read-product-{{ $product['id'] }}-advanced"
-                                                    aria-controls="drawer-read-product-{{ $product['id'] }}-advanced" --}}
-                                                    class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"
-                                                        fill="currentColor" class="w-4 h-4 mr-2 -ml-0.5">
-                                                        <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
-                                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                                            d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" />
-                                                    </svg>
-                                                    Ver
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    4
-                </th>
-                <td class="px-6 py-4">
-                    Silver
-                </td>
-                <td class="px-6 py-4">
-                    Accessories
-                </td>
-                <td class="px-6 py-4">
-                    $179
-                </td>
-                <td class="px-6 py-4">
-                    $2999
-                </td>
-                <td class="px-6 py-4">
-                    <div class="flex items-center space-x-4">
-                        <button type="button"
-                                                {{-- data-drawer-target="drawer-read-product-{{ $product['id'] }}-advanced"
-                                                    data-drawer-show="drawer-read-product-{{ $product['id'] }}-advanced"
-                                                    aria-controls="drawer-read-product-{{ $product['id'] }}-advanced" --}}
-                                                    class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"
-                                                        fill="currentColor" class="w-4 h-4 mr-2 -ml-0.5">
-                                                        <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
-                                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                                            d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" />
-                                                    </svg>
-                                                    Ver
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    5
-                </th>
-                <td class="px-6 py-4">
-                    Gold
-                </td>
-                <td class="px-6 py-4">
-                    Tablet
-                </td>
-                <td class="px-6 py-4">
-                    $699
-                </td>
-                <td class="px-6 py-4">
-                    $2999
-                </td>
-                <td class="px-6 py-4">
-                    <div class="flex items-center space-x-4">
-                        <button type="button"
-                                                {{-- data-drawer-target="drawer-read-product-{{ $product['id'] }}-advanced"
-                                                    data-drawer-show="drawer-read-product-{{ $product['id'] }}-advanced"
-                                                    aria-controls="drawer-read-product-{{ $product['id'] }}-advanced" --}}
-                                                    class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"
-                                                        fill="currentColor" class="w-4 h-4 mr-2 -ml-0.5">
-                                                        <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
-                                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                                            d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" />
-                                                    </svg>
-                                                    Ver
-                        </button>
-                       
-                    </div>
-                </td>
-            </tr>
-            <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-                
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    6
-                </th>
-                <td class="px-6 py-4">
-                    Silver
-                </td>
-                <td class="px-6 py-4">
-                    PC Desktop
-                </td>
-                <td class="px-6 py-4">
-                    $3999
-                </td>
-                <td class="px-6 py-4">
-                    $2999
-                </td>
-                <td class="px-6 py-4">
-                    <div class="flex items-center space-x-4">
-                        <button type="button"
-                                                {{-- data-drawer-target="drawer-read-product-{{ $product['id'] }}-advanced"
-                                                    data-drawer-show="drawer-read-product-{{ $product['id'] }}-advanced"
-                                                    aria-controls="drawer-read-product-{{ $product['id'] }}-advanced" --}}
-                                                    class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"
-                                                        fill="currentColor" class="w-4 h-4 mr-2 -ml-0.5">
-                                                        <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
-                                                        <path fill-rule="evenodd" clip-rule="evenodd"
-                                                            d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" />
-                                                    </svg>
-                                                    Ver
-                        </button>
-                    </div>
-                </td>
-            </tr>
+           
+            @endforeach
         </tbody>
     </table>
 
