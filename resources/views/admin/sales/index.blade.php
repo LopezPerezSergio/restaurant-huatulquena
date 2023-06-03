@@ -126,7 +126,49 @@
     </x-slot:name>
 
     {{-- <x-slot:filter></x-slot:filter> --}}
-    @foreach($venta['productos'] as $producto)
+    
+        
+        <div class="relative overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Product name
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Color
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Category
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Price
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+@foreach($venta['productos'] as $producto)
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ $producto['nombre'] }}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ $producto['cantidad'] }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $producto['precio'] }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $producto['total'] }}
+                        </td>
+                    </tr>
+                     @endforeach
+                
+                </tbody>
+            </table>
+        </div>
+
+{{--
          <div
                 class="col-span-2 p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700 sm:col-span-1 dark:border-gray-600">
                 <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">
@@ -141,8 +183,8 @@
                     {{ $producto['nombre'] }}
                 </dd>
             </div>
-
-    @endforeach
+--}}
+   
 
 
 </x-modal.show>
