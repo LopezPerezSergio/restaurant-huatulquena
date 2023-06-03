@@ -23,7 +23,16 @@ class SaleController extends Controller
         $response = Http::withToken($user['token'])->get($url);
         $ventas = $response->json('data');
 
-        return view('admin.sales.index', compact('ventas'));
+        $url = config('app.api') . '/table';
+        $response = Http::withToken($user['token'])->get($url);
+        $mesas = $response->json('data');
+
+        $url = config('app.api') . '/employee';
+        $response = Http::withToken($user['token'])->get($url);
+        $empleados = $response->json('data');
+               
+
+        return view('admin.sales.index', compact('ventas', 'mesas', 'empleados'));
     }
 
     /**
