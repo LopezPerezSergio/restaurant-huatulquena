@@ -32,6 +32,7 @@ class ReporteController extends Controller
        // dd($order);
         return view('admin.sales.index', compact('order'));
     }
+    //la funcion reportehtml es para visualizar facilmente y darle estilo al reporte
     public function reportehtml(Request $request)
     {
          //obtener lla fecha seleccionada
@@ -55,6 +56,7 @@ class ReporteController extends Controller
     return view('reportePdf', compact('filteredOrders', 'fechaSeleccionada'))->render();
 
     }
+    //la funcionn que convoerte el html a un formato de pdf
     public function generarReporte(Request $request)
 {
     //obtener lla fecha seleccionada
@@ -66,15 +68,15 @@ class ReporteController extends Controller
 
     $user = session()->get('user');
 
-    $url = config('app.api') . '/order';
+    $url = config('app.api') . '/venta/';
     $response = Http::withToken($user['token'])->get($url);
     $data = $response->json('data');
-    $orders = collect($data);
+    $ventas = collect($data);
 
-    $filteredOrders = $orders->where('fechaYhora', $fechaSeleccionada);
+    $filteredVentas = $ventas->where('fecha', $fechaSeleccionada);
        // dd($filteredOrders);
      // Crear el HTML del reporte uan tabla sencilla 
-     $html = view('reportePdf', compact('filteredOrders'))->render();
+     $html = view('reportePdf', compact('filteredVentas','fechaSeleccionada'))->render();
 
      // Crear una instancia de Dompdf
      $dompdf = new Dompdf();

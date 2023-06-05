@@ -22,6 +22,43 @@ class TicketController extends Controller
         
         return view('ticket');
     }
+    //funcion para visualizar el html para facil manejo 
+    //funcon que genera el ticket por pedido
+    public function verTicket()
+    {
+        //recuperar datos 
+        if (!session()->get('user')) {
+            return redirect()->route('auth.login');
+        }
+
+        $user = session()->get('user');
+
+        $url = config('app.api') . '/employee';
+        $response = Http::withToken($user['token'])->get($url);
+        $employees = $response->json('data');
+        
+        //dd($employees);
+        $url = config('app.api') . '/table';
+        $response = Http::withToken($user['token'])->get($url);
+        $tables = $response->json('data');
+        //dd($tables);
+
+        $url = config('app.api') . '/product';
+        $response = Http::withToken($user['token'])->get($url);
+        $products = $response->json('data');
+        //dd($products);
+    
+        $url = config('app.api') . '/order';
+        $response = Http::withToken($user['token'])->get($url);
+        $orden = $response->json('data');
+        //dd(orden);
+        $url = config('app.api') . '/order/product/pedido/1';
+        $response = Http::withToken($user['token'])->get($url);
+        $rutaP = $response->json('data');
+        //dd($rutaP);
+
+        return view('ticketPedido',compact('rutaP','employees','products','orden','tables'))->render();
+    }
     //funcon que genera el ticket por pedido
         public function generateTicket()
     {

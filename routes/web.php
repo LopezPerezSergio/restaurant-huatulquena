@@ -58,8 +58,9 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
     Route::resource('sales', ReporteController::class)->names('sales');
     //ruta que muestra el ticket para el pedido final
     Route::get('reporte', [ReporteController::class, 'generarReporte'])->name('reporte');
-    //ruta que muestra el ticket para el pedido final
+    //ruta para manejar facilnebte  el reporte
     Route::get('reportehtml', [ReporteController::class, 'reportehtml'])->name('reportehtml');
-    
+    //ruta para manejar facilnebte  el reporte
+    Route::get('verTicket', [TicketController::class, 'verTicket'])->name('verTicket');
 
 });

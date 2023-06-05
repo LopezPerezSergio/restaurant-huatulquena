@@ -116,11 +116,10 @@
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
         </tr>
-        <tr>
-            <th>Cant.</th>
-            <th>Precio</th>
-            <th>Producto.</th>
-            <th>Descripción</th>
+        <tr class="center">
+            <th class="center">Cant.</th>
+            <th class="center">Precio</th>
+            <th class="center" colspan="2">Producto</th>
         </tr>
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
@@ -129,25 +128,26 @@
             @foreach($products as $product)
             @foreach ($rutaP as $pedi)
             @if($product['id'] == $pedi['id_Producto'])
-
-        <tr>
-            <th>
-                {{ $pedi['cantidad'] }}
-            </th>
-            <td>
-                {{ $product['precio'] }}
-            </td>
-            <td>
-                {{ $product['nombre'] }}
-            </td>
-            <td>
-                {{ $pedi['descripcion'] }}</td>
-            
+        
+            <tr>
+                <td class="center">
+                    {{ $pedi['cantidad'] }}
+                </td>
+                <td class="center">
+                    {{ $product['precio'] }}
+                </td>
+                /*pone la descripcion debajo del nombre dle producto*/
+                <td class="center" colspan="2">
+                    {{ $product['nombre'] }}<br>
+                    {{ $pedi['descripcion'] }}
+                </td>
+        
+            </tr>
+            @endif
+            @endforeach
+            @endforeach
         </tr>
-        @endif
-        @endforeach
-        @endforeach
-        </tr>
+        
 
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
