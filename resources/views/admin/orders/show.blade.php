@@ -10,7 +10,7 @@
     @if ($table['status'] == 1)
         @livewire('orders.create', ['employees' => $employees, 'categories' => $categories, 'products' => $products, 'table' => $table])
     @elseif ($table['status'] == 2)
-        @livewire('orders.update', ['employees' => $employees, 'categories' => $categories, 'products' => $products])
+        @livewire('orders.update', ['employees' => $employees, 'categories' => $categories, 'products' => $products, 'table' => $table, 'cuenta' => $cuenta])
     @endif
 
 

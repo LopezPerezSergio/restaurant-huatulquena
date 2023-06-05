@@ -86,12 +86,26 @@ class OrderController extends Controller
         $response = Http::withToken($user['token'])->get($url);
         $categories = $response->json('data');
 
-        //recupero las catgorias
+        //recupero los productos
         $url = config('app.api') . '/product';
         $response = Http::withToken($user['token'])->get($url);
         $products = $response->json('data');
 
-        return view('admin.orders.show', compact('table', 'employees', 'categories', 'products'));
+        //recupero la cuenta asignada a la mesa
+        $cuenta = [];
+        if($table['idCuenta']){           
+            $url = config('app.api') . '/cuenta/items/' . $table['idCuenta'];
+            
+            $response = Http::withToken($user['token'])->get($url);
+            
+            $cuenta = $response->collect('data');
+            $cuenta = $cuenta->first();
+            
+        }
+
+        // return  $table;
+
+        return view('admin.orders.show', compact('table', 'employees', 'categories', 'products', 'cuenta'));
     }
 
     /**

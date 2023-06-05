@@ -147,8 +147,8 @@ class Create extends Component
         $this->options['image'] = $image;
 
         Cart::update($rowId, ['options' => $this->options]);
-
         $this->reset(['description']);
+        
     }
 
     /* Metodo para eliminar un producto de la lista */

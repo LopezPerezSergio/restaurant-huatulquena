@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\RolController;
+use App\Http\Controllers\Admin\TableController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\SaleController;
 use App\Http\Controllers\Admin\CategoryController;

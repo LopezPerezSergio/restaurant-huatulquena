@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="overflow-x-auto">
-                    <div class="grid grid-cols-4 gap-4 p-4">
+                    <div class="grid grid-cols-5 gap-4 p-">
                         {{-- Crear foreach de mesas --}}
                         @foreach ($tables as $table)
                             <div

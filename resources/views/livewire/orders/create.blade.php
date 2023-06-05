@@ -7,7 +7,7 @@
 
     <ol class="flex items-center w-full mb-4 sm:mb-5">
         @if ($step == 1)
-            <li
+            {{-- <li
                 class="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:border-4 after:inline-block dark:after:border-gray-700">
                 <div
                     class="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full lg:h-12 lg:w-12 dark:bg-gray-700 shrink-0">
@@ -47,14 +47,14 @@
                             clip-rule="evenodd"></path>
                     </svg>
                 </div>
-            </li>
+            </li> --}}
         @elseif ($step == 2)
             <li
                 class="flex w-full items-center text-blue-600 dark:text-blue-500 after:content-[''] after:w-full after:h-1 after:border-b after:border-blue-100 after:border-4 after:inline-block dark:after:border-blue-800">
                 <div
                     class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full lg:h-12 lg:w-12 dark:bg-blue-800 shrink-0">
-                    <svg aria-hidden="true" class="w-5 h-5 text-blue-600 lg:w-6 lg:h-6 dark:text-blue-300"
-                        class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <svg aria-hidden="true" class="w-5 h-5 text-blue-600 lg:w-6 lg:h-6 dark:text-blue-300" class="w-6 h-6"
+                        fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                             d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z"
                             clip-rule="evenodd"></path>
@@ -179,10 +179,10 @@
                 @if ($step == 1)
                     <fieldset>
                         <legend class="sr-only">Empleados que pueden realizar las ordenes</legend>
-                        <h1
+                        {{-- <h1
                             class="p-2 mb-4 text-5xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-white">
                             Accede para empezar con el pedido
-                        </h1>
+                        </h1> --}}
                         <div class="grid grid-cols-3 gap-4 sm:grid-cols-3">
                             <div class="p-4">
                                 <h3
@@ -283,43 +283,44 @@
                     <fieldset>
                         <legend class="sr-only">Toma de orden</legend>
 
-                        <div class="flex items-center space-x-4">
-                            <h1
-                                class="p-2 mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-white">
-                                Empieza a crear tu orden ahora
-                            </h1>
-                            <button type="button" wire:click='continue'
-                                class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5"
-                                    viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path
-                                        d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
-                                    <path fill-rule="evenodd"
-                                        d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Continuar
-                            </button>
-                            <button type="button" wire:click="clear"
-                                class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                <svg class="h-4 w-4 mr-2 -ml-0.5" fill="currentColor" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                    <path clip-rule="evenodd" fill-rule="evenodd"
-                                        d="M10.5 3A1.501 1.501 0 009 4.5h6A1.5 1.5 0 0013.5 3h-3zm-2.693.178A3 3 0 0110.5 1.5h3a3 3 0 012.694 1.678c.497.042.992.092 1.486.15 1.497.173 2.57 1.46 2.57 2.929V19.5a3 3 0 01-3 3H6.75a3 3 0 01-3-3V6.257c0-1.47 1.073-2.756 2.57-2.93.493-.057.989-.107 1.487-.15z">
-                                    </path>
-                                </svg>
-                                Limpiar Orden
-                            </button>
-                            <button type="button" wire:click="destroy"
-                                class="flex items-center text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5"
-                                    viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd"
-                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Cancelar Orden
-                            </button>
+                        <div class="grid gap-4 mb-4 sm:grid-cols-3">
+                            <div class="sm:col-span-2"> </div>
+                            <div class="flex items-center space-x-4">
+                                
+                                <button type="button" wire:click='continue'
+                                    class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5"
+                                        viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path
+                                            d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                                        <path fill-rule="evenodd"
+                                            d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Continuar
+                                </button>
+                                <button type="button" wire:click="clear"
+                                    class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                    <svg class="h-4 w-4 mr-2 -ml-0.5" fill="currentColor" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                        <path clip-rule="evenodd" fill-rule="evenodd"
+                                            d="M10.5 3A1.501 1.501 0 009 4.5h6A1.5 1.5 0 0013.5 3h-3zm-2.693.178A3 3 0 0110.5 1.5h3a3 3 0 012.694 1.678c.497.042.992.092 1.486.15 1.497.173 2.57 1.46 2.57 2.929V19.5a3 3 0 01-3 3H6.75a3 3 0 01-3-3V6.257c0-1.47 1.073-2.756 2.57-2.93.493-.057.989-.107 1.487-.15z">
+                                        </path>
+                                    </svg>
+                                    Limpiar Orden
+                                </button>
+                                <button type="button" 
+                                    class="flex items-center text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5"
+                                        viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Cancelar Orden
+                                </button>
+                            </div>
+
                         </div>
 
                         <div class="grid grid-cols-3 gap-4">
@@ -328,7 +329,7 @@
                                     class="mb-4 text-2xl font-bold leading-none tracking-tight text-gray-900 dark:text-white">
                                     <span
                                         class="underline underline-offset-3 decoration-2 decoration-blue-400 dark:decoration-blue-600">
-                                        Lista de Productos
+                                        Productos
                                     </span>
                                 </h3>
 
@@ -476,13 +477,13 @@
                                     </div>
                                 </div>
                             </div>
-
+                            {{-- tabla de productos por categoria --}}
                             <div class="col-span-2 p-4">
                                 <h3
                                     class="mb-4 text-2xl font-bold leading-none tracking-tight text-gray-900 dark:text-white">
                                     <span
                                         class="underline underline-offset-3 decoration-2 decoration-blue-400 dark:decoration-blue-600">
-                                        Productos seleccionados para la orden
+                                        Orden
                                     </span>
                                 </h3>
 
@@ -619,7 +620,7 @@
                                             Agregar nota al producto</h3>
                                         <div class="space-y-6">
                                             <label for="chat" class="sr-only">Your note</label>
-                                            <div
+                                            {{-- <div
                                                 class="flex items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
                                                 <textarea wire:model='description' id="chat" rows="2"
                                                     class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -636,20 +637,21 @@
                                                     </svg>
                                                     <span class="sr-only">Send note</span>
                                                 </button>
-                                            </div>
-                                            {{-- 
+                                            </div> --}}
+                                            
                                                 <div>
                                                     <label for="nota"
                                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                                         Nota</label>
-                                                    <input type="" name="nota" id="nota"
+                                                    <input type="text" name="nota" id="nota"  wire:model='description'
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                                        placeholder="name@company.com" required>
+                                                        placeholder="con poco condimento" required>
                                                 </div>
-                                                <button type="submit"
+                                                <button type="button" 
+                                                    wire:click="updateDescriptionItem('{{ $product->rowId }}','{{ $product->options->tamanio }}','{{ $product->options->category }}','{{ $product->options->image }}')"
                                                     class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                                 Aceptar</button> 
-                                            --}}
+                                           
                                         </div>
                                     </div>
                                 </div>
