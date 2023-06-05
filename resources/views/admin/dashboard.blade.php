@@ -16,21 +16,22 @@
                 <div class="grid grid-cols-3 gap-4 place-items-stretch h-56 ">
 
                     <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
+                        {{--a traves del contador se muestra el producto mas vendido--}}
                         @foreach ($products as $product)
-                            @if ($product['contador'] > $maxCounter)
-                                @php
-                                    $productMV = $product;
-                                    $maxCounter = $product['contador'];
-                                @endphp
-                            @endif
+                        @if ($product['contador'] > $maxCounter)
+                        @php
+                        $productMV = $product;
+                        $maxCounter = $product['contador'];
+                        @endphp
+                        @endif
                         @endforeach
-        
+
                         @if ($productMV)
-                            @php
-                                $productMVName = $productMV['nombre'];
-                            @endphp
-                            El producto más vendido es: <br>
-                            {{ $productMVName }}
+                        @php
+                        $productMVName = $productMV['nombre'];
+                        @endphp
+                        El producto más vendido es: <br>
+                        {{ $productMVName }}
                         @endif
                     </div>
                     <div class=" object-fill ">
@@ -47,8 +48,23 @@
                 </div>
                 <div class="grid grid-cols-3 gap-4 place-items-stretch h-56 ">
                     <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-                        <p class="text-2xl text-gray-400 dark:text-gray-500">+</p>
+                        {{--recupera el total vendido en el dia actual, se compra el total d elas ventas que existen en el dia con la fecha actual--}}
+                        @php
+                        $sumaTotal = 0; 
+                        $fechaActual = date('Y-m-d');   
+                        @endphp
+                        @foreach($ventas as $venta)
+                            @if($venta['fecha'] == $fechaActual)
+                                @php
+                                $sumaTotal += $venta['total'];
+                                @endphp
+                            @endif
+                        @endforeach
+                        Total de venta del día es: <br>
+                        {{ $sumaTotal }}
                     </div>
+                    
+                    
                     <div class=" object-fill ">
                         {{-- Grafica circular de prodcutos por categoria--}}
                         @livewire('grafica-c', ['categories' => $categories, 'products' => $products]) {{-- Lamo el componente de livewire y le paso los roles a la propiedad roles del componente --}}

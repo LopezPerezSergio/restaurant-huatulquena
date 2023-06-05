@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Dompdf\Dompdf;
 
-class SaleController extends Controller
+class ReporteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,6 +31,29 @@ class SaleController extends Controller
        
        // dd($order);
         return view('admin.sales.index', compact('order'));
+    }
+    public function reportehtml(Request $request)
+    {
+         //obtener lla fecha seleccionada
+    $fechaSeleccionada = $request->input('fecha');
+    // Obtener los datos de las cuentas desde la API
+    if (!session()->get('user')) {
+        return redirect()->route('auth.login');
+    }
+
+    $user = session()->get('user');
+
+    $url = config('app.api') . '/venta/';
+    $response = Http::withToken($user['token'])->get($url);
+    $data = $response->json('data');
+    $orders = collect($data);
+    //dd($orders);
+    $filteredOrders = $orders->where('fecha', $fechaSeleccionada);
+       // dd($filteredOrders);
+     // Crear el HTML del reporte uan tabla sencilla 
+     //dd( $filteredOrders);
+    return view('reportePdf', compact('filteredOrders', 'fechaSeleccionada'))->render();
+
     }
     public function generarReporte(Request $request)
 {

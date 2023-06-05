@@ -30,8 +30,12 @@ class DashboardController extends Controller
         $url = config('app.api') . '/product';
         $response = Http::withToken($user['token'])->get($url);
         $products = $response->json('data');
-
-        return view('admin.dashboard', compact('roles', 'employees', 'categories','products'));
+        
+        $url = config('app.api') . '/venta/';
+        $response = Http::withToken($user['token'])->get($url);
+        $ventas = $response->json('data');
+        //dd($ventas);
+        return view('admin.dashboard', compact('roles', 'employees', 'categories','products','ventas'));
         
     }
 }

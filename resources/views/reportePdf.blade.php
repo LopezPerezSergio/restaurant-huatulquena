@@ -22,21 +22,25 @@
 </head>
 <body>
     <h1>Reporte de Ventas</h1>
-
+    <h2>Fecha del reporte: {{$fechaSeleccionada}}</h2>
     <table>
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Fecha</th>
-                <th>Id Mesa</th>
+                <th>MESA</th>
+                <th>MESERO</th>
+                <th>TOTAL</th>
             </tr>
         </thead>
         <tbody>
             @foreach($filteredOrders as $orden)
                 <tr>
                     <td>{{ $orden['id'] }}</td>
-                    <td>{{ $orden['fechaYhora'] }}</td>
-                    <td>{{ $orden['id_Mesa'] }}</td>
+                    <td>{{ $orden['fecha'] }}</td>
+                    <td>{{ $orden['nombreMesa'] }}</td>
+                    <td>{{ $orden['nombreMesero'] }}</td>
+                    <td>{{ $orden['total'] }}</td>
                 </tr>
             @endforeach
         </tbody>

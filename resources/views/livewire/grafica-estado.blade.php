@@ -1,7 +1,6 @@
 <div>
     <head>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        
     </head>
 
     <div>
@@ -21,7 +20,7 @@
                     datasets: [{
                         label: 'Cantidad de empleados Activos',
                         data: employeesData.data,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        backgroundColor: generateRandomColors(employeesData.labels.length),
                         borderColor: 'rgba(75, 192, 192, 1)',
                         borderWidth: 1
                     }]
@@ -45,6 +44,16 @@
                 }
             });
         });
+        
+        function generateRandomColors(length) {
+            var colors = [];
+            for (var i = 0; i < length; i++) {
+                var color = 'rgba(' + Math.floor(Math.random() * 256) + ', ' + Math.floor(Math.random() * 256) + ', ' + Math.floor(Math.random() * 256) + ', 0.2)';
+                colors.push(color);
+            }
+            return colors;
+        }
     </script>
     
 </div>
+
