@@ -1,12 +1,17 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\RolController;
+use App\Http\Controllers\Admin\TableController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\SaleController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Auth\AuthController;
+//use App\Http\Controllers\TicketController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Admin\TicketController;
 use App\Http\Controllers\Admin\ReporteController;
@@ -62,5 +67,13 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
     Route::get('reportehtml', [ReporteController::class, 'reportehtml'])->name('reportehtml');
     //ruta para manejar facilnebte  el reporte
     Route::get('verTicket', [TicketController::class, 'verTicket'])->name('verTicket');
+    Route::resource('tables', TableController::class)->names('tables');
+    Route::resource('orders', OrderController::class)->names('orders');
+
+    Route::resource('nominas', PaymentController::class)->names('nominas');
+
+    Route::resource('sales', SaleController::class)->names('salesClau');
 
 });
+
+Route::get('ticket/pedido/{table}', [TicketController::class, 'ticketPedido'])->name('ticket.pedido');

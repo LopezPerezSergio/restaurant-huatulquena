@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -48,9 +49,9 @@ class ProductController extends Controller
         $category = ['id' => $category['id'], 'nombre' =>  $category['nombre']];
 
         //Subo la imagen al servidor
-        // $url_img = $request->has('url_img') ? Storage::disk('local')->
-        //     put('public/products', $request->file('url_img')) : 
-        //         'public/images/base_image_productos.png'; // genero la Url -> public/products/nomnbre-de-producto
+        $url_img = $request->has('url_img') ? Storage::disk('local')->
+            put('public/products', $request->file('url_img')) : 
+                'public/images/base_image_productos.png'; // genero la Url -> public/products/nomnbre-de-producto
 
         // Guardamos el producto
          $url = config('app.api') . '/product';
@@ -61,7 +62,7 @@ class ProductController extends Controller
              'precio' => $request->precio,
              'status' => $request->has('status') ? 1 : 0,
              'contador' => 0,
-             'url_img' => "urlPendiente :)",
+             'url_img' => $url_img,
              'categoria' => $category
          ]);
  
@@ -71,6 +72,28 @@ class ProductController extends Controller
  
          return redirect()->route('products.index');
 
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id)
+    {
+        if (!session()->get('user')) {
+            return redirect()->route('auth.login');
+        }
+
+        $user = session()->get('user');
+
+        $url = config('app.api') . '/category';
+        $response = Http::withToken($user['token'])->get($url);
+        $categories = $response->collect('data');
+
+        $url = config('app.api') . '/product/' . $id;
+        $response = Http::withToken($user['token'])->get($url);
+        $product = $response->json('data');
+
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -89,6 +112,20 @@ class ProductController extends Controller
         $category = $response->collect('data');
         $category = ['id' => $category['id'], 'nombre' =>  $category['nombre']];
 
+        //obtengo el producto a editar;
+        $url = config('app.api') . '/product/' . $id;
+        $response = Http::withToken($user['token'])->get($url);
+        $product = $response->collect('data');
+
+        //Subo la imagen al servidor
+        if ($request->has('url_img')) {
+            Storage::delete($product['url_img']); /* Elimina el archivo actual */
+            $url_img = Storage::disk('local')->put('public/products', $request->file('url_img')); // genero la Url -> public/products/nomnbre-de-producto
+
+        } else {
+            $url_img = $product['url_img'];
+        }
+
          // Actualizamos el producto
          $url = config('app.api') . '/product/'. $id;
 
@@ -98,11 +135,12 @@ class ProductController extends Controller
              'precio' => $request->precio,
              'status' => $request->has('status') ? 1 : 0,
              'contador' => 1,
-             'url_img' => "urlPendienteActuali :)",
+             'url_img' => $url_img,
              'categoria' => $category
          ]);
          
          $response = $response['data'];
+         
          session()->flash('alert-product', $response);
  
          return redirect()->route('products.index');

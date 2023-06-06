@@ -1,7 +1,7 @@
 <x-app>
-    @if (session('alert-category'))
+    @if (session('alert-tables'))
     <x-alert.success>
-        {{ session('alert-category') }}
+        {{ session('alert-tables') }}
     </x-alert.success>
     @endif
 
@@ -10,7 +10,7 @@
     </x-slot:navbar>
 
     <x-slot:title>
-        Categorias
+        Mesas
     </x-slot:title>
 
     <!-- Start block -->
@@ -79,15 +79,18 @@
 
                 <div class="overflow-x-auto">
                     <div class="grid grid-cols-4 gap-4 p-4">
-                        @foreach ($categories as $category)
-                        <div class="max-w-sm rounded-lg shadow bg-green-600">
+                        @foreach ($tables as $table)
+                        <div class="max-w-sm rounded-lg shadow @if ($table['status'] == '1') bg-green-500 hover:bg-green-400 @endif {{-- Disponible --}}
+                                            @if ($table['status'] == '2') bg-yellow-300 hover:bg-yellow-200  @endif {{-- Ocupado --}}
+                                            @if ($table['status'] == '0') bg-gray-500 hover:bg-gray-400 @endif    {{-- Desactivo --}}
+                                            rounded-lg shadow">
                             <div class="w-full max-w-sm p-2">
                                 <div class="flex items-center justify-between mb-4">
                                     <h5 class=" text-xl  font-bold tracking-tight text-white ">
-                                        {{ $category['nombre'] }}
+                                        {{ $table['nombre'] }}
                                     </h5>
-                                    <button id="{{ $category['id'] }}-dropdown-button"
-                                        data-dropdown-toggle="{{ $category['id'] }}-dropdown"
+                                    <button id="{{ $table['id'] }}-dropdown-button"
+                                        data-dropdown-toggle="{{ $table['id'] }}-dropdown"
                                         class="inline-flex items-center p-0.5 text-sm font-medium text-center text-white hover:text-gray-800 rounded-lg focus:outline-none"
                                         type="button">
                                         <svg class="w-8 h-6" fill="currentColor" viewBox="0 0 24 24"
@@ -100,29 +103,28 @@
                                 </div>
                             </div>
 
-                            <button type="button"
-                                data-drawer-target="drawer-read-category-{{ $category['id'] }}-advanced"
-                                data-drawer-show="drawer-read-category-{{ $category['id'] }}-advanced"
-                                aria-controls="drawer-read-category-{{ $category['id'] }}-advanced"
-                                class="block w-full p-2 h-56 bg-green-500 hover:bg-green-400 border border-gray-200 rounded-lg shadow dark:border-gray-700">
+                            <button type="button" data-drawer-target="drawer-read-table-{{ $table['id'] }}-advanced"
+                                data-drawer-show="drawer-read-table-{{ $table['id'] }}-advanced"
+                                aria-controls="drawer-read-table-{{ $table['id'] }}-advanced"
+                                class="block max-w-sm p-2 h-56 border  rounded-lg shadow">
                                 <h5 class="text-sm  tracking-tight text-white">
-                                    Presiona aqui para visualizar la lista de {{ $category['nombre'] }}
+                                    Presiona aqui para visualizar la mesa de {{ $table['nombre'] }}
                                 </h5>
                                 <figure
                                     class="mt-2 relative max-w-sm transition-all duration-300 cursor-pointer filter grayscale hover:grayscale-0">
                                     <img class="rounded-lg h-20 w-20 mx-auto"
-                                        src="https://cdn-icons-png.flaticon.com/512/6724/6724239.png" alt="category">
+                                        src="https://cdn-icons-png.flaticon.com/512/6724/6724239.png" alt="table">
                                 </figure>
                             </button>
                         </div>
 
-                        <div id="{{ $category['id'] }}-dropdown"
+                        <div id="{{ $table['id'] }}-dropdown"
                             class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                             <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                aria-labelledby="{{ $category['id'] }}-dropdown-button">
+                                aria-labelledby="{{ $table['id'] }}-dropdown-button">
                                 <li>
                                     {{-- boton de modal edit --}}
-                                    <button id="edit{{ $category['id'] }}ModalButton" type="button"
+                                    <button id="edit{{ $table['id'] }}ModalButton" type="button"
                                         class=" w-full block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                         Editar
                                     </button>
@@ -139,86 +141,78 @@
 
     <x-modal.create>
         <x-slot:modulo>
-            Categoria
+            Mesas
         </x-slot:modulo>
 
         <x-slot:url>
-            {{ route('categories.store') }}
+            {{ route('tables.store') }}
         </x-slot:url>
 
         <div class="grid gap-4 mb-4 sm:grid-cols-2">
             <div>
-                <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre de la
-                    categoria</label>
+                <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
                 <input type="text" name="nombre" id="nombre"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Nombre" required="">
             </div>
+            <div>
+                <label for="capacidad"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Capacidad</label>
+                <input type="number" name="capacidad" id="capacidad"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="Numero de personas" required="">
+            </div>
+            <div class="mt-3">
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input name="status" id="status" type="checkbox" value="1" class="sr-only peer">
+                    <div
+                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                    </div>
+                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                        Estado
+                    </span>
+                </label>
+            </div>
         </div>
     </x-modal.create>
 
-    @foreach($categories as $category)
-    <x-previews.categories>
+    @foreach ($tables as $table)
+    <x-modal.edit>
+        <x-slot:url>
+            {{ route('tables.update', $table['id']) }}
+        </x-slot:url>
+
         <x-slot:id>
-            {{ $category['id'] }}
+            {{ 'tables-' . $table['id'] }}
         </x-slot:id>
 
-        <x-slot:title>
-            {{$category['nombre'] }}
-        </x-slot:title>
-
-        <x-slot:data>
-            @forelse ($category['productos'] as $product)
-            <div
-                class="col-span-2 p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700  dark:border-gray-600">
-                <dt class="mb-3 flex items-center text-gray-500 dark:text-gray-400">
-                    <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path clip-rule="evenodd" fill-rule="evenodd"
-                            d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z">
-                        </path>
-                    </svg>
-
-                    <span
-                        class="mr-3 font-semibold leading-none text-gray-900 dark:text-white">{{ $product['nombre']  }}
-                    </span>
-
-                    <span
-                        class="text-xs font-medium inline-flex items-center px-2 py-1 rounded {{ $product['status'] == '1' ? 'bg-green-100 text-green-800  dark:bg-green-200 dark:text-green-800' : 'bg-red-100 text-red-800 dark:bg-red-200 dark:text-red-800' }} ">
-                        {{ $product['status'] == '1' ? 'Activo' : 'Inactivo' }}
-                    </span>
-                </dt>
-
-                <span
-                    class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">
-                    <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path clip-rule="evenodd" fill-rule="evenodd"
-                            d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 01-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 006.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 011.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 01-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5z">
-                        </path>
-                    </svg>
-                    {{ $product['precio'] }}
+        <div>
+            <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
+            <input type="text" name="nombre" id="nombre"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="Nombre" required="" value="{{ $table['nombre'] }}">
+        </div>
+        <div>
+            <label for="capacidad"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Capacidad</label>
+            <input type="text" name="capacidad" id="capacidad"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="Product brand" required="" value="{{ $table['capacidad'] }}">
+        </div>
+        <div class="mt-3">
+            <label class="relative inline-flex items-center cursor-pointer">
+                <input name="status" id="status" type="checkbox" value="1" class="sr-only peer" @if($table['status']=='1' || $table['status']=='2' ) checked @endif @if ($table['status']=='2' )
+                    disabled @endif>
+                <div
+                    class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                </div>
+                <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    Estado (Habilitar la mesa)
                 </span>
-            </div>
-            @empty
-            <div
-                class="col-span-2 p-3 bg-gray-100 rounded-lg border border-gray-200 dark:bg-gray-700  dark:border-gray-600">
-                <dt class=" flex items-center text-gray-500 dark:text-gray-400">
-                    <span
-                        class="w-full text-xs font-medium inline-flex items-center p-2.5 rounded bg-red-100 text-red-800 dark:bg-red-200 dark:text-red-800">
-                        <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path clip-rule="evenodd" fill-rule="evenodd"
-                                d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z">
-                            </path>
-                        </svg>
-                        Aun no hay productos registrados en esta categoria
-                    </span>
-                </dt>
-            </div>
-            @endforelse
-        </x-slot:data>
-    </x-previews.categories>
+            </label>
+        </div>
+
+    </x-modal.edit>
     @endforeach
 
 </x-app>
