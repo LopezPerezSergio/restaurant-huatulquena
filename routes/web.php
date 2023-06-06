@@ -60,7 +60,7 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
     Route::get('pdfInicial', [TicketController::class, 'generateTicket'])->name('pdfInicial');
     //ruta que muestra el ticket para el pedido final
     Route::get('pdfFinal', [TicketController::class, 'generateTicketFinal'])->name('pdfFinal');
-    Route::resource('sales', ReporteController::class)->names('sales');
+    Route::resource('salesReporte', ReporteController::class)->names('salesReporte');
     //ruta que muestra el ticket para el pedido final
     Route::get('reporte', [ReporteController::class, 'generarReporte'])->name('reporte');
     //ruta para manejar facilnebte  el reporte
@@ -72,7 +72,7 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
 
     Route::resource('nominas', PaymentController::class)->names('nominas');
 
-    Route::resource('sales', SaleController::class)->names('salesClau');
+    Route::resource('sales', SaleController::class)->names('sales');
 
 });
 

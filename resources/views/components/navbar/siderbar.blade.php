@@ -234,7 +234,7 @@
                     </li>
 
                     <li>
-                        <a href="{{ route('sales.index') }}"
+                        <a href="{{ route('salesReporte.index') }}"
                             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
 
                             <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"

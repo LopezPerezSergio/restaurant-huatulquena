@@ -21,16 +21,23 @@ class ReporteController extends Controller
 
         $user = session()->get('user');
 
-        $url = config('app.api') . '/cuenta';
+
+        $url = config('app.api') . '/venta/';
         $response = Http::withToken($user['token'])->get($url);
-        $cuenta = $response->json('data');
-    //    dd($cuenta);
-        $url = config('app.api') . '/order';
-        $response = Http::withToken($user['token'])->get($url);
-        $order = $response->json('data');
+        $ventas = $response->json('data');
        
-       // dd($order);
-        return view('admin.sales.index', compact('order'));
+        $url = config('app.api') . '/table';
+        $response = Http::withToken($user['token'])->get($url);
+        $mesas = $response->json('data');
+
+        $url = config('app.api') . '/employee';
+        $response = Http::withToken($user['token'])->get($url);
+        $empleados = $response->json('data');
+
+        
+
+
+        return view('admin.sales.index', compact('ventas', 'mesas', 'empleados'));
     }
     //la funcion reportehtml es para visualizar facilmente y darle estilo al reporte
     public function reportehtml(Request $request)
