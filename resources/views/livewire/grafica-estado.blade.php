@@ -38,7 +38,8 @@
                     },
                     plugins: {
                         legend: {
-                            display: false
+                            display: true,
+                            text: 'Usuarios Activos|Inactivos"'
                         }
                     }
                 }

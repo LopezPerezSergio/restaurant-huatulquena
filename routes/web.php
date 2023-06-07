@@ -52,10 +52,8 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
     Route::resource('products', ProductController::class)->names('products');
 
     Route::resource('users', UsersController::class)->names('users');
-
+    //ruta donde estan los botones de ejemplos de ticket
     Route::resource('pdf', TicketController::class)->names('pdf');
-    //ruta que muestra un ejemplo de pdf 
-    Route::get('imprimir', [TicketController::class, 'pdf'])->name('pdf.imprimir');
     //ruta que muestra el ticket para el pedido inicial
     Route::get('pdfInicial', [TicketController::class, 'generateTicket'])->name('pdfInicial');
     //ruta que muestra el ticket para el pedido final
@@ -65,15 +63,14 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
     Route::get('reporte', [ReporteController::class, 'generarReporte'])->name('reporte');
     //ruta para manejar facilnebte  el reporte
     Route::get('reportehtml', [ReporteController::class, 'reportehtml'])->name('reportehtml');
-    //ruta para manejar facilnebte  el reporte
-    Route::get('verTicket', [TicketController::class, 'verTicket'])->name('verTicket');
+    
     Route::resource('tables', TableController::class)->names('tables');
     Route::resource('orders', OrderController::class)->names('orders');
 
     Route::resource('nominas', PaymentController::class)->names('nominas');
 
     Route::resource('sales', SaleController::class)->names('sales');
+    Route::get('ticket/pedido/{table}', [TicketController::class, 'ticketPedido'])->name('ticket.pedido');
 
 });
 
-Route::get('ticket/pedido/{table}', [TicketController::class, 'ticketPedido'])->name('ticket.pedido');

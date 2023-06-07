@@ -56,32 +56,32 @@ class ReporteController extends Controller
     $data = $response->json('data');
     $orders = collect($data);
     //dd($orders);
-    $filteredOrders = $orders->where('fecha', $fechaSeleccionada);
+    $filteredVentas = $orders->where('fecha', $fechaSeleccionada);
        // dd($filteredOrders);
      // Crear el HTML del reporte uan tabla sencilla 
      //dd( $filteredOrders);
-    return view('reportePdf', compact('filteredOrders', 'fechaSeleccionada'))->render();
+    return view('reportePdf', compact('filteredVentas', 'fechaSeleccionada'))->render();
 
     }
     //la funcionn que convoerte el html a un formato de pdf
     public function generarReporte(Request $request)
 {
-    //obtener lla fecha seleccionada
-    $fechaSeleccionada = $request->input('fecha');
-    // Obtener los datos de las cuentas desde la API
-    if (!session()->get('user')) {
-        return redirect()->route('auth.login');
-    }
-
-    $user = session()->get('user');
-
-    $url = config('app.api') . '/venta/';
-    $response = Http::withToken($user['token'])->get($url);
-    $data = $response->json('data');
-    $ventas = collect($data);
-
-    $filteredVentas = $ventas->where('fecha', $fechaSeleccionada);
-       // dd($filteredOrders);
+    
+         //obtener lla fecha seleccionada
+         $fechaSeleccionada = $request->input('fecha');
+         // Obtener los datos de las cuentas desde la API
+         if (!session()->get('user')) {
+             return redirect()->route('auth.login');
+         }
+     
+         $user = session()->get('user');
+     
+         $url = config('app.api') . '/venta/';
+         $response = Http::withToken($user['token'])->get($url);
+         $data = $response->json('data');
+         $orders = collect($data);
+         //dd($orders);
+         $filteredVentas = $orders->where('fecha', $fechaSeleccionada);
      // Crear el HTML del reporte uan tabla sencilla 
      $html = view('reportePdf', compact('filteredVentas','fechaSeleccionada'))->render();
 

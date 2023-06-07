@@ -13,7 +13,7 @@
             @endphp
 
             <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-                //primer bloque
+                {{--primer bloque--}}
                 <div class="grid grid-cols-3 gap-4 place-items-stretch h-56 ">
 
                     <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
@@ -51,7 +51,7 @@
                     </div>
 
                 </div>
-                //segundo bloque
+                {{--segundo bloque--}}
                 <div class="grid grid-cols-3 gap-4 place-items-stretch h-56 ">
                     <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
                         {{--recupera el total vendido en el dia actual, se compra el total d elas ventas que existen en

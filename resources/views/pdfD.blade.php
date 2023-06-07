@@ -24,19 +24,18 @@
             /*quitar linea o poner lineas en salto*/
         }
 
+        .titulos {
+            text-align: center;
+            margin: 15;
+            font-weight: bold;
+        }
+
         .center {
             text-align: center;
         }
 
         .bold {
             font-weight: bold;
-        }
-
-        .code128 {
-            width: 70px;
-            height: 20px;
-            text-align: center;
-            border: 1px solid #000;
         }
 
         @page {
@@ -50,13 +49,13 @@
             margin: 0;
             padding: 0;
         }
-
     </style>
 </head>
 
 <body>
     @php
     $total = 0; // Variable para almacenar el total
+    $idMesaPedido= '';
     @endphp
     <table>
         <tr>
@@ -77,92 +76,71 @@
         <tr>
             <td colspan="4" class="center">------------------------------------------------------</td>
         </tr>
-        <tr>
-            <td class="bold">Fecha y Hora:</td>
-            <td>
-                {{--recuperar la fecha y hora relacionando el id de cuenta con el id de la orden--}}
-                @foreach ($orden as $ordenIndividual) 
+        <tr class="center">
+            <td class="titulos">Fecha y Hora:</td>
+            <td colspan="4">
+                @foreach ($orden as $pedido)
+                @foreach ($tables as $mesa)
                 @foreach ($cuenta as $cuentaUnica)
-                @if ($cuentaUnica['id'] == 1 && $ordenIndividual['id'] == $cuentaUnica['id'])
-                    {{ $ordenIndividual['fechaYhora'] }}
+                @if ($mesa['id'] == $pedido['id_Mesa'] && $message == $mesa['id'] && $pedido['id'] == $cuentaUnica['id'])
+                {{ $pedido['fechaYhora'] }}
                 @endif
                 @endforeach
-            @endforeach
-            </td>
-            
-        </tr>
-        
-        <tr>
-            <td class="bold">Mesa No.</td>
-            <td> 
-                {{--recuperar el nombre de la mesa del pedido 1 {este valor es de ejemplo, aun no se enlaza}--}}
-                @foreach ($tables as $table)
-                    @foreach ($orden as $ordenIndividual) 
-                    @foreach ($cuenta as $cuentaUnica)         
-                        @if ($cuentaUnica['id'] == 1 && $ordenIndividual['id'] == $cuentaUnica['id'] && $table['id'] == $ordenIndividual['id_Mesa'])
-                            {{ $table['nombre'] }}
-                        @endif
-                    @endforeach
-                    @endforeach
+                @endforeach
                 @endforeach
             </td>
-            
         </tr>
+
         <tr>
-            <td class="bold">Mesero:</td>
+            <td class="titulos">Mesa No.</td>
+            <td>
+                @foreach ($orden as $pedido)
+                @foreach ($tables as $mesa)
+                @if ($mesa['id'] == $pedido['id_Mesa'] && $message == $mesa['id'])
+                {{$mesa['nombre']}}
+                @endif
+                @endforeach
+                @endforeach
+            </td>
+        <tr>
+            <td class="titulos">Mesero:</td>
             <td colspan="4">
                 {{-- Recupera el nombre del mesero que atendió esa cuenta --}}
                 @foreach ($employees as $employee)
-                    @foreach ($orden as $ordenIndividual)
-                        @foreach ($cuenta as $cuentaUnica)
-                            @if ($cuentaUnica['id'] == 1 && $ordenIndividual['id_Mesa'] == $cuentaUnica['idMesa'] && $employee['id'] == $ordenIndividual['id_Mesa'])
-                                {{ $employee['nombre'].' '.$employee['apellidos'] }}
-                            @endif
-                        @endforeach
-                    @endforeach
+                @foreach ($orden as $pedido)
+                @foreach ($tables as $mesa)
+                @if ($mesa['id'] == $pedido['id_Mesa'] && $message == $mesa['id'] && $employee['id'] ==
+                $pedido['id_Mesa'])
+                {{$employee['nombre']}}
+                @endif
+                @endforeach
+                @endforeach
                 @endforeach
             </td>
         </tr>
-        
-        {{--  <tr>
-            <td class="bold">Mesero:</td>
-            <td colspan="4">  --}}
-                {{-- Recupera el nombre del mesero que atendió esa cuenta --}}
-                {{--  @foreach ($employees as $employee)
-                    @foreach ($orden as $ordenIndividual)
-                        @foreach ($cuenta as $cuentaUnica)
-                            @if ($cuentaUnica['id'] == 1 && $ordenIndividual['id_Mesa'] == $cuentaUnica['idMesa'] && $employee['id'] == $table['idEmpleado'])
-                                {{ $employee['nombre'].' '.$employee['apellidos'] }}
-                                @break 3
-                            @endif
-                        @endforeach
-                    @endforeach
-                @endforeach  --}}
-            {{--  </td>
-        </tr>
-          --}}
 
-        
-        
         <tr>
-            <td colspan="4" class="center bold">Pedido  
-                @foreach ($orden as $ordenIndividual) 
+            <td colspan="4" class="center bold">Pedido
+                @foreach ($orden as $pedido)
+                @foreach ($tables as $mesa)
                 @foreach ($cuenta as $cuentaUnica)
-                @if ($cuentaUnica['id'] == 1 && $ordenIndividual['id'] == $cuentaUnica['idMesa'])
-                   Nro: {{$ordenIndividual["id"]}}                      
+                @if ($mesa['id'] == $pedido['id_Mesa'] && $message == $mesa['id'] && $pedido['id'] ==
+                $cuentaUnica['id'])
+                Nro: {{$pedido["id"]}}
                 @endif
-            @endforeach
-            @endforeach</td>
-            
+                @endforeach
+                @endforeach
+                @endforeach
+
         </tr>
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
         </tr>
-        <tr>
-            <th>Cant.</th>
-            <th>Precio Uni</th>
-            <th>Producto.</th>
-            <th>Total</th>
+        <tr class="center">
+            <th class="center">Cant.</th>
+            <th class="center">Precio Uni</th>
+            <th class="center">Producto.</th>
+            <th class="center">Total</th>
         </tr>
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
@@ -173,27 +151,27 @@
             @if($product['id'] == $pedi['idproducto'])
 
         <tr>
-            <th>
+            <th class="center">
                 {{ $pedi['cantidad'] }}
             </th>
-            <td>
+            <td class="center">
                 {{ $pedi['precio'] }}
             </td>
-            <td>
+            <td class="center">
                 {{ $product['nombre'] }}
             </td>
-            <td>
+            <td class="center">
                 {{ $pedi['total'] }}</td>
             <td>
 
                 @php
-               
+
                 $total += $pedi['total'] ;
-                $montoPagado = 2000; // total pagado dato de prueba 
+                $montoPagado = 2000; // total pagado dato de prueba
 
                 $cambio = $montoPagado - $total;
                 @endphp
-                {{--  ${{ $subtotal }}  --}}
+                {{-- ${{ $subtotal }} --}}
             </td>
         </tr>
         @endif
@@ -223,8 +201,8 @@
             <td colspan="4">&nbsp;</td>
         </tr>
         <tr>
-            <td colspan="4" class="center">*** Precios de productos incluyen impuestos. Para poder realizar un reclamo o
-                devolución debe de presentar este ticket ***</td>
+            <td colspan="4" class="center">*** Precios de productos incluyen impuestos. Para cualquier aclaración debe
+                de presentar este ticket ***</td>
         </tr>
         <tr>
             <td colspan="4" class="center bold">Gracias por su compra</td>

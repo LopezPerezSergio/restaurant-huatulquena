@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-<html>
 <head>
     <title>Reporte de Ventas</title>
     <style>
@@ -12,6 +11,13 @@
             text-align: center;
             color: white;
         }
+        
+        body {
+           /** background-image: url('{{ asset("storage/images/logoHuatulqueña.png") }}');**/
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
         table {
             border-collapse: collapse;
             width: 100%;

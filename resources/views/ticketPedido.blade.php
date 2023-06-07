@@ -28,15 +28,21 @@
             text-align: center;
         }
 
+        .descripcion {
+            text-align: right;
+            margin-left: 80%;
+            font-size: 80%;
+            font-style: italic;
+        }
+
         .bold {
             font-weight: bold;
         }
 
-        .code128 {
-            width: 70px;
-            height: 20px;
+        .titulos {
             text-align: center;
-            border: 1px solid #000;
+            margin: 15;
+            font-weight: bold;
         }
 
         @page {
@@ -62,92 +68,98 @@
         <tr>
             <td colspan="4" class="center">------------------------------------------------------</td>
         </tr>
+
         <tr>
-            <td class="bold">Fecha y Hora:</td>
-            <td colspan="4">
+            <td class="titulos">Fecha y Hora:</td>
+            <td>
                 {{--recuperar la fecha y hora del pedido con id=1 ejemplo--}}
-                
-                @foreach ($orden as $ordenIndividual) 
-                    @if ($ordenIndividual["id"] == 1)
-                       {{$ordenIndividual["fechaYhora"]}}                      
-                    @endif
+                @foreach($rutaP as $pedido)
+                @foreach ($orden as $ordenIndividual)
+                @if ($ordenIndividual["id"] == $id  )
+                {{$ordenIndividual["fechaYhora"]}}
+                @endif
                 @endforeach
-                
+                @endforeach
             </td>
         </tr>
         <tr>
-            <td class="bold">Mesa No.</td>
-            <td> 
+            <td class="titulos">Mesa:</td>
+            <td>
                 {{--recuperar el nombre de la mesa del pedido 1 {este valor es de ejemplo, aun no se enlaza}--}}
                 @foreach ($tables as $table)
-                    @foreach ($orden as $ordenIndividual)          
-                        @if ($ordenIndividual['id'] == 1 && $table['id'] == $ordenIndividual['id_Mesa'])
-                            {{ $table['nombre'] }}
-                        @endif
-                    @endforeach
+                @foreach ($orden as $ordenIndividual)
+                @if ($ordenIndividual['id'] == 2 && $table['id'] == $ordenIndividual['id_Mesa'])
+                {{ $table['nombre'] }}
+                @endif
+                @endforeach
                 @endforeach
             </td>
-            
+
         </tr>
         <tr>
-            <td class="bold">Mesero:</td>
+            <td class="titulos">Mesero:</td>
             <td colspan="4">
                 {{--recupera el nombre del mesero  que atendio esa orden de acuerdo al id_mesa que esta en el id del pedido
-                    se toma de ejemplo el id=1 que se encuentra en /orden--}}
+                        se toma de ejemplo el id=1 que se encuentra en /orden--}}
                 @foreach ($employees as $employee)
-                    @foreach ($orden as $ordenIndividual)
-                        @if ($ordenIndividual['id'] == 1 && $employee['id'] == $ordenIndividual['id_Mesa'])
-                            {{ $employee['nombre'].' '.$employee['apellidos'] }}
-                        @endif
-                    @endforeach
+                @foreach ($orden as $ordenIndividual)
+                @if ($ordenIndividual['id'] == 2 && $employee['id'] == $ordenIndividual['id_Mesa'])
+                {{ $employee['nombre'].' '.$employee['apellidos'] }}
+                @endif
+                @endforeach
                 @endforeach
             </td>
         </tr>
+
         <tr>
-            <td colspan="4" class="center bold">Pedido 
-                @foreach ($orden as $ordenIndividual) 
+            <td colspan="4" class="center bold">Pedido
+                @foreach ($orden as $ordenIndividual)
                 @if ($ordenIndividual["id"] == 1)
-                   Nro: {{$ordenIndividual["id"]}}                      
+                Nro: {{$ordenIndividual["id"]}}
                 @endif
-            @endforeach
+                @endforeach
             </td>
-            
         </tr>
+
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
         </tr>
+
         <tr class="center">
             <th class="center">Cant.</th>
             <th class="center">Precio</th>
-            <th class="center" colspan="2">Producto</th>
+            <th class="center">Producto</th>
         </tr>
+        
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
         </tr>
+
         <tr>
             @foreach($products as $product)
             @foreach ($rutaP as $pedi)
             @if($product['id'] == $pedi['id_Producto'])
-        
-            <tr>
-                <td class="center">
-                    {{ $pedi['cantidad'] }}
-                </td>
-                <td class="center">
-                    {{ $product['precio'] }}
-                </td>
-                /*pone la descripcion debajo del nombre dle producto*/
-                <td class="center" colspan="2">
-                    {{ $product['nombre'] }}<br>
-                    {{ $pedi['descripcion'] }}
-                </td>
-        
-            </tr>
-            @endif
-            @endforeach
-            @endforeach
+
+        <tr>
+            <td class="center">
+                {{ $pedi['cantidad'] }}
+            </td>
+            <td class="center">
+                {{ $product['precio'] }}
+            </td>
+            <td class="center">
+                {{ $product['nombre'] }}
+            </td>
         </tr>
-        
+        <tr>
+            <td class="descripcion" colspan="3">
+                {{ $pedi['descripcion'] }}
+            </td>
+        </tr>
+        @endif
+        @endforeach
+        @endforeach
+        </tr>
 
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
