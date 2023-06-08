@@ -70,7 +70,8 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
     Route::resource('nominas', PaymentController::class)->names('nominas');
 
     Route::resource('sales', SaleController::class)->names('sales');
-    Route::get('ticket/pedido/{table}', [TicketController::class, 'ticketPedido'])->name('ticket.pedido');
+   Route::get('ticket/pedido/{table}', [TicketController::class, 'ticketPedido'])->name('ticket.pedido');
+    //Route::get('ticket/pedido/{table}', [TicketController::class, 'tp'])->name('ticket.pedido');
 
 });
 

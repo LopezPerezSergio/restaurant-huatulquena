@@ -41,53 +41,7 @@
         <p><strong>Mesa:</strong> {{ $table }}</p>
         <p><strong>Fecha:</strong> {{ date('Y-m-d') }}</p>
         <p><strong>Empleado:</strong> {{ $employee }}</p>
-    </div>
-
-    <div class="products">
-        <div class="product">
-            <span class="product-quantity">Cantidad</span>
-            <span class="product-description">
-                <span class="product-name">Platillo</span>
-                <span>Descripcion</span>
-            </span>
-        </div>
-        <span>------------------------------------------</span>
-        @foreach (Cart::content() as $product)
-            <div class="product">
-                <span class="product-quantity">{{ $product->qty }}</span>
-                <span class="product-description">
-                    <span class="product-name">{{ $product->name }}</span>
-                    <span>{{ $product->options->description }}</span>
-                </span>
-            </div>
-        @endforeach
-    </div>
-
-    <div class="header">
-        <h1>Ticket de Pedido</h1>
-      </div>
-      
-      <table>
-        <thead>
-          <tr>
-            <th>Cantidad</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>x2</td>
-            <td>Producto 1</td>
-            <td>Descripción del producto 1...</td>
-          </tr>
-          <tr>
-            <td>x1</td>
-            <td>Producto 2</td>
-            <td>Descripción del producto 2...</td>
-          </tr>
-        </tbody>
-      </table>
+    </div>    
 </body>
 
 </html>

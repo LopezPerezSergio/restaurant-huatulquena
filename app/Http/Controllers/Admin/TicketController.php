@@ -46,18 +46,7 @@ class TicketController extends Controller
         $url = config('app.api') . '/order/product/pedido/'.$id;
         $response = Http::withToken($user['token'])->get($url);
         $rutaP = $response->json('data');
-    //     //dd($rutaP);
-    //    $pedidoAux = $rutaP['0'];
-       
-    //    $id2=$pedidoAux["id_Pedido"];
-    // //    dd($id2);
-
-    //    //obteemos el pedido
-    //    $url = config('app.api') . '/order/'.$id2;
-    //     $response = Http::withToken($user['token'])->get($url);
-    //     $response = $response->json('data');
-    //     $pedidoFecha = $response['fechaYhora'];
-    //     dd($pedidoFecha);
+    
 
 
         //dd($rutaP);
