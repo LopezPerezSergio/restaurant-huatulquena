@@ -11,7 +11,7 @@ class Update extends Component
 {
 
     /* Variable encargada de mostrar la vista correspondiente de acuerdo a la fase en la que se encuentra */
-    public $step = 1; // cambiar los valores entre 1 y 3 de forma manual
+    public $step = 2; // cambiar los valores entre 1 y 3 de forma manual
 
     /* ----------------------- Fase 1 -----------------------*/
     public $employee_id = ''; // Guarda el id del empleado seleccionado sin uso
@@ -28,6 +28,9 @@ class Update extends Component
 
 
      public $total ;
+
+     public $showModal = false;
+     public $showModalDeleteOrder = false;
 
      /* ----------------------- Fase 3 para ordenar nuevamente -----------------------*/
     public $options = [ // opciones para el producto que se agragara
@@ -116,6 +119,7 @@ class Update extends Component
     //cerra cuenta
     public function cerrarCuenta()
     {
+
         $empleadoAux;
         $nombreEmpleado = '' ;
        
@@ -183,6 +187,53 @@ class Update extends Component
 
 
 
+    }
+
+    public function openModal()
+    {
+       $this->showModal = !$this->showModal ;
+    }
+
+    public function deleteOrder($id)
+    {
+        if ($id) {
+            if (!session()->get('user')) {
+                return redirect()->route('auth.login');
+            }
+    
+            $user = session()->get('user');
+            $url = config('app.api') . '/order/'. $id;
+            
+            $response = Http::withToken($user['token'])->delete($url);
+    
+            $response = $response->json('data');
+            // dd($response);
+            $this->revers();
+        }
+
+        
+    }
+    public function deleteProductOrder($id)
+    {
+        if ($id) {           
+            if (!session()->get('user')) {
+                return redirect()->route('auth.login');
+            }
+    
+            $user = session()->get('user');
+            $url = config('app.api') . '/order/product/'. $id;
+                        
+            $response = Http::withToken($user['token'])->delete($url);
+    
+            $response = $response->json('data');
+            // dd($response);
+            $this->revers();
+        }
+    }
+
+    public function openModalDeleteOrder()
+    {
+       $this->showModalDeleteOrder = !$this->showModalDeleteOrder ;
     }
 
      /* ----------------------- STEP 3 -----------------------*/
@@ -286,6 +337,13 @@ class Update extends Component
         $this->reset(['step', 'table', 'employee_id', 'codigo_acceso', 'options', 'search']);
         $this->filterProducts = $this->products;
     }
+    public function destroy2()
+    {
+        $this->clear();
+        $this->revers();
+        // $this->reset(['step', 'table', 'employee_id', 'codigo_acceso', 'options', 'search']);
+        $this->filterProducts = $this->products;
+    }
 
      /* Metodo que aumentara el Step */
      public function continue()
@@ -354,6 +412,6 @@ class Update extends Component
         $this->clear();
         $this->reset(['step', 'table', 'employee_id', 'codigo_acceso', 'options', 'search']);
         
-        redirect()->route('orders.index');
+        $this->reset(['step']);
     }
 }

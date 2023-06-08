@@ -32,14 +32,15 @@
                                     <span
                                         class="underline underline-offset-3 decoration-2 decoration-blue-400 dark:decoration-blue-600">
                                         Ingresa tu codigo de acceso
+                                        @foreach ($employees as $e)
+                                            @if ($e['id'] == $table['idEmpleado'])
+                                                {{ $e['nombre'] }}
+                                            @endif
+                                        @endforeach
                                     </span>
                                 </h3>
                                 {{-- Division --}}
-                                <div class="flex items-center justify-between mt-4">
-                                    <span class="w-full border-b dark:border-gray-600 ">
-                                        {{ $table['idEmpleado'] }}
-                                    </span>
-                                </div>
+
 
                                 <div class="space-y-4 mt-4 md:space-y-6">
                                     <div>
@@ -49,13 +50,15 @@
 
                                     </div>
                                     <button
-                                        class="flex w-full flex-1 items-center justify-center rounded-md border mt-4 py-3 px-8 text-base font-medium dark:text-white @if ($codigo_acceso) border-transparent text-gray-900 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 @else border-b text-gray-400 @endif"
+                                        class="flex w-full flex-1 items-center justify-center rounded-md border mt-4 py-3 px-8 text-base font-medium dark:text-white 
+                                        @if ($codigo_acceso) border-transparent text-white bg-blue-600 hover:bg-blue-500 dark:bg-blue-600 dark:hover:bg-gray-700 
+                                        @else border-b text-gray-400 @endif"
                                         @if (!$codigo_acceso) disabled @endif wire:click='validatedEmployee'
                                         wire:target='validatedEmployee'>
                                         Empezar
                                     </button>
                                     <a href="{{ route('orders.index') }}" type="button"
-                                        class="flex w-full flex-1 items-center justify-center rounded-md border mt-4 py-3 px-8 text-base font-medium dark:text-white  border-transparent text-gray-900 bg-gray-100 hover:bg-yellow-400 dark:bg-gray-800 dark:hover:bg-gray-700 ">
+                                        class="flex w-full flex-1 items-center justify-center rounded-md border mt-4 py-3 px-8 text-base font-medium dark:text-white  border-transparent text-gray-900 bg-gray-100 hover:bg-red-600 hover:text-white dark:bg-gray-800 dark:hover:bg-red-800 ">
 
                                         Cancelar
                                     </a>
@@ -80,7 +83,7 @@
                                     </svg>
                                     Generar Orden
                                 </button>
-                                <button data-modal-target="staticModal" data-modal-toggle="staticModal"
+                                <button wire:click="openModal"
                                     class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                                     type="button">
                                     <svg class="h-4 w-4 mr-2 -ml-0.5" fill="currentColor" viewBox="0 0 24 24"
@@ -118,10 +121,7 @@
                                         Pedidos de la mesa
                                     </span>
                                 </h3>
-
                                 <div class="overflow-x-auto rounded-lg shadow">
-
-
                                     @forelse ($table['pedidos'] as $t)
                                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                             <thead
@@ -132,12 +132,50 @@
                                                     <th scope="col" class="p-4"></th>
                                                     <th scope="col" class="p-4"></th>
                                                     <th scope="col" class="p-4"></th>
+
+                                                    <th scope="col" class="p-4">
+                                                        @if (session()->get('user')['rol'] === 'admin' || session()->get('user')['rol'] === 'cajero')
+                                                            <button wire:click="deleteOrder({{ $t['id'] }})"
+                                                                class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                                                                type="button">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    class="h-4 w-4 mr-2 -ml-0.5" viewbox="0 0 20 20"
+                                                                    fill="currentColor" aria-hidden="true">
+                                                                    <path fill-rule="evenodd"
+                                                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                                        clip-rule="evenodd" />
+                                                                </svg>
+                                                                Cancelar Pedido
+                                                            </button>
+                                                        @else
+                                                            <button wire:click="openModalDeleteOrder"
+                                                                class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                                                                type="button">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    class="h-4 w-4 mr-2 -ml-0.5" viewbox="0 0 20 20"
+                                                                    fill="currentColor" aria-hidden="true">
+                                                                    <path fill-rule="evenodd"
+                                                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                                        clip-rule="evenodd" />
+                                                                </svg>
+                                                                Cancelar Pedido </button>
+                                                        @endif
+
+
+                                                    </th>
+
+
                                                 </tr>
                                                 <tr>
                                                     <th scope="col" class="p-4">Nombre</th>
                                                     <th scope="col" class="p-4">Precio</th>
                                                     <th scope="col" class="p-4">Cantidad</th>
                                                     <th scope="col" class="p-4">Categoria</th>
+                                                    <th scope="col" class="p-4">
+                                                        @if (session()->get('user')['rol'] === 'admin' || session()->get('user')['rol'] === 'cajero')
+                                                            Accion
+                                                        @endif
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             @foreach ($ordProd as $op)
@@ -168,6 +206,26 @@
                                                                         class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                                         {{ $pro['categoriaName'] }}
                                                                     </td>
+                                                                    @if (session()->get('user')['rol'] === 'admin' || session()->get('user')['rol'] === 'cajero')
+                                                                        <td
+                                                                            class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                                            <button wire:click="deleteProductOrder({{$op['id']}})"
+                                                                                class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                                                                                type="button">
+
+                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                    class="h-4 w-4 mr-2 -ml-0.5"
+                                                                                    viewbox="0 0 20 20"
+                                                                                    fill="currentColor"
+                                                                                    aria-hidden="true">
+                                                                                    <path fill-rule="evenodd"
+                                                                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                                                        clip-rule="evenodd" />
+                                                                                </svg>
+                                                                            </button>
+                                                                        </td>
+                                                                    @endif
+
                                                                 </tr>
 
                                                             </tbody>
@@ -212,7 +270,7 @@
                     <fieldset>
                         <legend class="sr-only">Toma de orden</legend>
 
-                        <div class="grid gap-4 mb-4 sm:grid-cols-1">
+                        {{-- <div class="grid gap-4 mb-4 sm:grid-cols-1">
 
                             <div class="flex items-center space-x-4">
 
@@ -239,6 +297,44 @@
                                     Limpiar Orden
                                 </button>
                                 <button type="button" wire:click="revers"
+                                    class="flex items-center text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5"
+                                        viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Cancelar Orden 22
+                                </button>
+                            </div>
+
+                        </div> --}}
+                        <div class="grid gap-4 mb-4 sm:grid-cols-3">
+                            <div class="sm:col-span-2"> </div>
+                            <div class="flex items-center space-x-4">
+                                <button type="button" wire:click='continue'
+                                    class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5"
+                                        viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path
+                                            d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                                        <path fill-rule="evenodd"
+                                            d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Continuar
+                                </button>
+                                <button type="button" wire:click="clear"
+                                    class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                    <svg class="h-4 w-4 mr-2 -ml-0.5" fill="currentColor" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                        <path clip-rule="evenodd" fill-rule="evenodd"
+                                            d="M10.5 3A1.501 1.501 0 009 4.5h6A1.5 1.5 0 0013.5 3h-3zm-2.693.178A3 3 0 0110.5 1.5h3a3 3 0 012.694 1.678c.497.042.992.092 1.486.15 1.497.173 2.57 1.46 2.57 2.929V19.5a3 3 0 01-3 3H6.75a3 3 0 01-3-3V6.257c0-1.47 1.073-2.756 2.57-2.93.493-.057.989-.107 1.487-.15z">
+                                        </path>
+                                    </svg>
+                                    Limpiar Orden
+                                </button>
+                                <button type="button"  wire:click="destroy2"
                                     class="flex items-center text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5"
                                         viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -308,75 +404,76 @@
                                                     <ul role="list"
                                                         class="divide-y divide-gray-200 dark:divide-gray-700">
                                                         @forelse ($filterProducts as $product)
-                                                            @if ($product['categoriaName'] == $category['nombre'])
-                                                                <li class="py-2">
-                                                                    <div class="flex items-center space-x-4">
-                                                                        <div class="flex-shrink-0">
-                                                                            <img class="w-9 h-9 rounded-full"
-                                                                                src="{{ Storage::url($product['url_img']) }}"
-                                                                                alt="Neil image">
-                                                                        </div>
-                                                                        <div class="flex-1 min-w-0">
-                                                                            <p
-                                                                                class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                                                {{ $product['nombre'] }}
-                                                                            </p>
-                                                                            <p
-                                                                                class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                                                                @if ($product['tamanio'] == 'S')
-                                                                                    Chico
-                                                                                @endif
-                                                                                @if ($product['tamanio'] == 'M')
-                                                                                    Mediano
-                                                                                @endif
-                                                                                @if ($product['tamanio'] == 'L')
-                                                                                    Grande
-                                                                                @endif
-                                                                                @if ($product['tamanio'] == 'XL')
-                                                                                    Familiar
-                                                                                @endif
-                                                                            </p>
-                                                                        </div>
-                                                                        <div
-                                                                            class="inline-flex items-center text-end font-semibold text-gray-800 dark:text-white">
-                                                                            ${{ $product['precio'] }}
-                                                                        </div>
-                                                                        <button
-                                                                            wire:click="addItem('{{ $product['id'] }}', '{{ $product['nombre'] }}','{{ $product['precio'] }}','{{ $product['tamanio'] }}','{{ $product['categoriaName'] }}','{{ $product['url_img'] }}')"
-                                                                            type="button"
-                                                                            class="focus:ring-4 focus:outline-none font-medium rounded-lg text-sm p-2 m-2 text-center inline-flex items-center @if ($stock > 0) text-white focus:ring-blue-300  bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 @else border border-b dark:text-white @endif">
-                                                                            <svg class="w-5 h-5" fill="currentColor"
-                                                                                viewBox="0 0 24 24"
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                aria-hidden="true">
-                                                                                <path clip-rule="evenodd"
-                                                                                    fill-rule="evenodd"
-                                                                                    d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z">
-                                                                                </path>
-                                                                            </svg>
-                                                                            <span class="sr-only">Increment</span>
-                                                                        </button>
+                                                            @if ($product['status'] == 1)
+                                                                @if ($product['categoriaName'] == $category['nombre'])
+                                                                    <li class="py-2">
+                                                                        <div class="flex items-center space-x-4">
+                                                                            <div class="flex-shrink-0">
+                                                                                <img class="w-9 h-9 rounded-full"
+                                                                                    src="{{ Storage::url($product['url_img']) }}"
+                                                                                    alt="Neil image">
+                                                                            </div>
+                                                                            <div class="flex-1 min-w-0">
+                                                                                <p
+                                                                                    class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                                                    {{ $product['nombre'] }}
+                                                                                </p>
+                                                                                <p
+                                                                                    class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                                                                    @if ($product['tamanio'] == 'S')
+                                                                                        Chico
+                                                                                    @endif
+                                                                                    @if ($product['tamanio'] == 'M')
+                                                                                        Mediano
+                                                                                    @endif
+                                                                                    @if ($product['tamanio'] == 'L')
+                                                                                        Grande
+                                                                                    @endif
+                                                                                    @if ($product['tamanio'] == 'XL')
+                                                                                        Familiar
+                                                                                    @endif
+                                                                                </p>
+                                                                            </div>
+                                                                            <div
+                                                                                class="inline-flex items-center text-end font-semibold text-gray-800 dark:text-white">
+                                                                                ${{ $product['precio'] }}
+                                                                            </div>
+                                                                            <button
+                                                                                wire:click="addItem('{{ $product['id'] }}', '{{ $product['nombre'] }}','{{ $product['precio'] }}','{{ $product['tamanio'] }}','{{ $product['categoriaName'] }}','{{ $product['url_img'] }}')"
+                                                                                type="button"
+                                                                                class="focus:ring-4 focus:outline-none font-medium rounded-lg text-sm p-2 m-2 text-center inline-flex items-center @if ($stock > 0) text-white focus:ring-blue-300  bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 @else border border-b dark:text-white @endif">
+                                                                                <svg class="w-5 h-5" fill="currentColor"
+                                                                                    viewBox="0 0 24 24"
+                                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                                    aria-hidden="true">
+                                                                                    <path clip-rule="evenodd"
+                                                                                        fill-rule="evenodd"
+                                                                                        d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z">
+                                                                                    </path>
+                                                                                </svg>
+                                                                                <span class="sr-only">Increment</span>
+                                                                            </button>
 
-                                                                        <button
-                                                                            wire:click="decItem('{{ $product['id'] }}', '{{ $product['nombre'] }}','{{ $product['precio'] }}','{{ $product['tamanio'] }}','{{ $product['categoriaName'] }}','{{ $product['url_img'] }}')"
-                                                                            type="button"
-                                                                            class="focus:ring-4 focus:outline-none font-medium rounded-lg text-sm p-2 m-2 text-center inline-flex items-center @if ($stock > 0) text-white focus:ring-blue-300  bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 @else border border-b dark:text-white @endif">
+                                                                            <button
+                                                                                wire:click="decItem('{{ $product['id'] }}', '{{ $product['nombre'] }}','{{ $product['precio'] }}','{{ $product['tamanio'] }}','{{ $product['categoriaName'] }}','{{ $product['url_img'] }}')"
+                                                                                type="button"
+                                                                                class="focus:ring-4 focus:outline-none font-medium rounded-lg text-sm p-2 m-2 text-center inline-flex items-center @if ($stock > 0) text-white focus:ring-blue-300  bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 @else border border-b dark:text-white @endif">
 
-                                                                            <svg class="w-5 h-5" fill="currentColor"
-                                                                                viewBox="0 0 24 24"
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                aria-hidden="true">
-                                                                                <path clip-rule="evenodd"
-                                                                                    fill-rule="evenodd"
-                                                                                    d="M5.25 12a.75.75 0 01.75-.75h12a.75.75 0 010 1.5H6a.75.75 0 01-.75-.75z">
-                                                                                </path>
-                                                                            </svg>
-                                                                            <span class="sr-only">Decrement</span>
-                                                                        </button>
-                                                                    </div>
-                                                                </li>
+                                                                                <svg class="w-5 h-5" fill="currentColor"
+                                                                                    viewBox="0 0 24 24"
+                                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                                    aria-hidden="true">
+                                                                                    <path clip-rule="evenodd"
+                                                                                        fill-rule="evenodd"
+                                                                                        d="M5.25 12a.75.75 0 01.75-.75h12a.75.75 0 010 1.5H6a.75.75 0 01-.75-.75z">
+                                                                                    </path>
+                                                                                </svg>
+                                                                                <span class="sr-only">Decrement</span>
+                                                                            </button>
+                                                                        </div>
+                                                                    </li>
+                                                                @endif
                                                             @endif
-
                                                         @empty
                                                             <li class="py-3 sm:py-4">
                                                                 <div class="flex items-center space-x-4">
@@ -770,101 +867,159 @@
         </div>
     </section>
 
+    @if ($showModalDeleteOrder)
+        <div class=" fixed top-0 left-0 w-full h-full flex items-center justify-center ">
+            <div class="relative w-full max-w-2xl max-h-full ">
+                <!-- Modal content -->
+                <div class="relative bg-blue-100 rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                            Elimnar orden
+                        </h3>
+                        <button type="button"
+                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            wire:click="openModalDeleteOrder">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </div>
 
-    <!-- Main modal -->
-    <div id="staticModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true"
-        class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative w-full max-w-2xl max-h-full">
-            <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                <!-- Modal header -->
-                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                        Cuenta de {{ $table['nombre'] }}
-                    </h3>
-                    <button type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                        data-modal-hide="staticModal">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                    </button>
-                </div>
+                    <!-- Modal body -->
+                    <div class="p-6 space-y-6">
+                        <div class="relative overflow-x-auto">
+                            <div class="space-y-4 mt-4 md:space-y-6">
+                                <div>
+                                    <input wire:model='codigo_acceso' placeholder="••••••••••••••••" type="password"
+                                        id="codigo"
+                                        class="text-md font-extrabold block w-full p-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
-                <!-- Modal body -->
-                <div class="p-6 space-y-6">
-                    <div class="relative overflow-x-auto">
-                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead
-                                class="text-xs text-gray-900 uppercase bg-gray-200 dark:bg-gray-800 dark:text-gray-200">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        Cantidad
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Nombre
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Precio Unitario
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Total
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($cuenta as $c)
-                                    <tr class="bg-white dark:bg-gray-700">
-                                        <th scope="row"
-                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $c['cantidad'] }}
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            {{ $c['nombre'] }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            $ {{ $c['precio'] }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            $ {{ $c['total'] }}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                            <tfoot>
-                                <tr class="text-gray-700 dark:text-white dark:bg-gray-700">
-                                    <td class="px-6 py-3"></td>
-                                    <th scope="row" class="px-6 py-3 text-base"></th>
-                                    <td class="px-6 py-3"></td>
-                                    <td class="px-6 py-3"></td>
-                                </tr>
-                                <tr class="font-semibold text-gray-900 dark:text-white dark:bg-gray-700">
-                                    <td class="px-6 py-3"></td>
-                                    <th scope="row" class="px-6 py-3 text-base">Total</th>
-                                    <td class="px-6 py-3"></td>
-                                    <td class="px-6 py-3">${{ $total }}</td>
-                                </tr>
-                            </tfoot>
-                        </table>
+                                </div>
+                                <button
+                                    class="flex w-full flex-1 items-center justify-center rounded-md border mt-4 py-3 px-8 text-base font-medium dark:text-white @if ($codigo_acceso) border-transparent text-white bg-blue-600 hover:bg-gray-200 dark:bg-blue-600 dark:hover:bg-gray-700 @else border-b text-gray-400 @endif"
+                                    @if (!$codigo_acceso) disabled @endif wire:click='validatedEmployee'
+                                    wire:target='validatedEmployee'>
+                                    Empezar
+                                </button>
+                                <a href="{{ route('orders.index') }}" type="button"
+                                    class="flex w-full flex-1 items-center justify-center rounded-md border mt-4 py-3 px-8 text-base font-medium dark:text-white  border-transparent text-gray-900 bg-gray-100 hover:bg-red-600 hover:text-white dark:bg-gray-800 dark:hover:bg-red-800 ">
+
+                                    Cancelar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div
+                        class="flex justify-end p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+
                     </div>
                 </div>
-                <!-- Modal footer -->
-                <div class="flex justify-end p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button type="button" wire:click='cerrarCuenta'
-                        class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-                        <svg class="h-4 w-4 mr-2 -ml-0.5" fill="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path clip-rule="evenodd" fill-rule="evenodd"
-                                d="M10.5 3A1.501 1.501 0 009 4.5h6A1.5 1.5 0 0013.5 3h-3zm-2.693.178A3 3 0 0110.5 1.5h3a3 3 0 012.694 1.678c.497.042.992.092 1.486.15 1.497.173 2.57 1.46 2.57 2.929V19.5a3 3 0 01-3 3H6.75a3 3 0 01-3-3V6.257c0-1.47 1.073-2.756 2.57-2.93.493-.057.989-.107 1.487-.15z">
-                            </path>
-                        </svg>
-                        Cerrar cuenta
-                    </button>
+            </div>
+
+        </div>
+    @endif
+
+    @if ($showModal)
+        <!-- Main modal -->
+        <div class=" fixed top-0 left-0 w-full h-full flex items-center justify-center ">
+            <div class="relative w-full max-w-2xl max-h-full ">
+                <!-- Modal content -->
+                <div class="relative bg-blue-100 rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                            Cuenta de {{ $table['nombre'] }}
+                        </h3>
+                        <button type="button"
+                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            wire:click="openModal">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="p-6 space-y-6">
+                        <div class="relative overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead
+                                    class="text-xs text-gray-900 uppercase bg-gray-200 dark:bg-gray-800 dark:text-gray-200">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            Cantidad
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Nombre
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Precio Unitario
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Total
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($cuenta as $c)
+                                        <tr class="bg-white dark:bg-gray-700">
+                                            <th scope="row"
+                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                {{ $c['cantidad'] }}
+                                            </th>
+                                            <td class="px-6 py-4">
+                                                {{ $c['nombre'] }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                $ {{ $c['precio'] }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                $ {{ $c['total'] }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                                <tfoot>
+                                    <tr class="text-gray-700 bg-white dark:text-white dark:bg-gray-700">
+                                        <td class="px-6 py-3"></td>
+                                        <th scope="row" class="px-6 py-3 text-base"></th>
+                                        <td class="px-6 py-3"></td>
+                                        <td class="px-6 py-3"></td>
+                                    </tr>
+                                    <tr class="font-semibold text-gray-900 bg-white dark:text-white dark:bg-gray-700">
+                                        <td class="px-6 py-3"></td>
+                                        <th scope="row" class="px-6 py-3 text-base">Total</th>
+                                        <td class="px-6 py-3"></td>
+                                        <td class="px-6 py-3 text-base">${{ $total }}</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div
+                        class="flex justify-end p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                        <button type="button" wire:click='cerrarCuenta'
+                            class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                            <svg class="h-4 w-4 mr-2 -ml-0.5" fill="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path clip-rule="evenodd" fill-rule="evenodd"
+                                    d="M10.5 3A1.501 1.501 0 009 4.5h6A1.5 1.5 0 0013.5 3h-3zm-2.693.178A3 3 0 0110.5 1.5h3a3 3 0 012.694 1.678c.497.042.992.092 1.486.15 1.497.173 2.57 1.46 2.57 2.929V19.5a3 3 0 01-3 3H6.75a3 3 0 01-3-3V6.257c0-1.47 1.073-2.756 2.57-2.93.493-.057.989-.107 1.487-.15z">
+                                </path>
+                            </svg>
+                            Cerrar cuenta
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-    </div>
+        </div>
+    @endif
