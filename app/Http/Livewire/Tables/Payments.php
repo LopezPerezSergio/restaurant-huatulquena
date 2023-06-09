@@ -31,13 +31,15 @@ class Payments extends Component
     public $totalPago = '';
 
     public $total = 0;
+    public $totalAux = 0;
     public $currentDate;
 
 
     public function mount(){
-        $this->filterPago = '';
-        $this->total = 0;
         $this -> currentDate = Carbon::now()->toDateString();
+        $this->filterPago = '';
+        $this->total = 0;        
+        $this->totalAux = 0;
     }
 
     public function render()
@@ -66,10 +68,10 @@ class Payments extends Component
     //     dump($this-> total);
  
     public function captura(){
-        $this->currentDate = Carbon::now()->toDateString(); //obtengo la fecha del dia actual la cual ocupara para buscar las ventas con base a esa fecha
-        $this->reset('totalPago');
-
-        $totalAux = 0;
+        // $this->currentDate = Carbon::now()->toDateString(); //obtengo la fecha del dia actual la cual ocupara para buscar las ventas con base a esa fecha
+                
+        $this->clear();
+        // $totalAux = 0;
 
         if ($this->employeeSelect == '0') {   //si la seleccion del empleado es 0 se restablecen las variables
             $this->reset('sueldo','comision', 'totalPago');
@@ -89,22 +91,27 @@ class Payments extends Component
                 }elseif($this->comision != '0' ){
 
                     foreach ($this->ventas as $venta ) {
-
                         if ($venta['fecha'] == $this->currentDate) {
-                            $totalAux = $totalAux + $venta['total'] ;
+                            if ($venta['nombreMesero']== $employee['nombre']) {
+                                $this->totalAux = $this->totalAux + $venta['total'] ;
+                            }
+                            
                         }
                     }
-                    $this->totalPago = $totalAux * $this->comision;
+                    $this->totalPago = $this->totalAux *  $this->comision; 
+                    
+                    // * $this->comision;
 
                 }
             }
+           
         } 
         
     }  
 
     public function clear()
     {
-        $this->reset('sueldo','comision', 'totalPago', 'search');
+        $this->reset('sueldo','comision', 'totalPago', 'search', 'totalAux');
         $this->filterPago = '';
     }
 }

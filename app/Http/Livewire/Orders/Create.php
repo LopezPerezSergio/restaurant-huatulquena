@@ -40,12 +40,18 @@ class Create extends Component
     public function mount()
     {
         $this->filterProducts = $this->products;
+        $this->search = '';
     }
 
     public function render()
     {
         return view('livewire.orders.create');
     }
+
+    public function refreshComponent()
+    {
+        $refresh;
+    }   
 
     /* ----------------------- Fase 1 -----------------------*/
 
@@ -63,13 +69,14 @@ class Create extends Component
             'codigoAcceso' => $this->codigo_acceso,
         ]);
 
-        $response = $response->json('mensage') == 'true' ? true : false;
+        $response = $response->json('mensage') == 'true' ? $this->step++ : session()->flash('alert-order', 'Acceso Denegado, Verifique sus Datos');
 
-        if ($response) {
-            $this->step++;
-        } else {
-            session()->flash('alert-order', 'Acceso Denegado, Verifique sus Datos');
-        }
+        // if ($response) {
+        //     $this->continue();
+        // } 
+        // else {
+        //     session()->flash('alert-order', 'Acceso Denegado, Verifique sus Datos');
+        // }
     }
 
     /* ----------------------- Fase 2 -----------------------*/

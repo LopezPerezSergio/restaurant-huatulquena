@@ -21,22 +21,47 @@ class Update extends Component
      public $employees; // lista de los usuarios (meseros, admin, cajeros)
      public $categories;
      public $products;
+     public $ordProd; ///contiene la relacion pedido-producto
 
      public $table; //guarda la mesa seleccionada
      public $cuenta; //guarda los productos pedidos en a la mesa 
 
-     public $total = 0;
 
-    /* 
-        $id_cuenta
-    */
+     public $total ;
+
+     public $showModal = false;
+     public $showModalDeleteOrder = false;
+
+     /* ----------------------- Fase 3 para ordenar nuevamente -----------------------*/
+    public $options = [ // opciones para el producto que se agragara
+        'size' => null,
+        'category' => null,
+        'description' => null,
+        'image' => null
+    ];
+    public $description = ''; // Guarda la descripcion que le vamos a pasar al producto
+
+    // Variables para el buscador
+    public $search = '';
+    public $filterProducts;
+
+
+    public $stock = 1; //hay que quitarlo despues
+
+
+    public function mount()
+    {
+        $this->filterProducts = $this->products;
+    }
+
+  
     public function render()
     {
-        $this -> getTotal();
+         $this -> getTotal();
         return view('livewire.orders.update');
     }
 
-    /* ----------------------- Fase 1 -----------------------*/
+    /* ----------------------- STEP 1 -----------------------*/
 
     /* Metodo para validar el codigo del empleado */
     public function validatedEmployee()
@@ -65,24 +90,36 @@ class Update extends Component
         } else {
             session()->flash('alert-order', 'Acceso Denegado, Verifique sus Datos');
         }
+        
     }
 
-    /* ----------------------- Fase 2 -----------------------*/
+    /* ----------------------- STEP 2 -----------------------*/
 
     // funcion para actualizar el total de la cuenta
     public function getTotal()
     {
         $this -> reset('total');
-        foreach ($this->cuenta as $c) {
-            
-            $this->total += $c['total'];
+        if (!session()->get('user')) {
+            return redirect()->route('auth.login');
+        }
+
+        $user = session()->get('user');
+        
+        $url = config('app.api') . '/cuenta';
+        $response = Http::withToken($user['token'])->get($url);
+        $totalC =  $response->json('data');
+
+        foreach ($totalC  as $c ) {
+            if ($c['id'] == $this ->table['idCuenta']) {
+                $this->total = $c['total'];
+            }
         }
     }
 
-    /* ----------------------- Fase 3 -----------------------*/
-        //cerra cuenta
+    //cerra cuenta
     public function cerrarCuenta()
     {
+
         $empleadoAux;
         $nombreEmpleado = '' ;
        
@@ -93,8 +130,6 @@ class Update extends Component
                 $nombreEmpleado = $e['nombre'];
             }
         }
-        
-        
 
         if (!session()->get('user')) {
             return redirect()->route('auth.login');
@@ -148,10 +183,167 @@ class Update extends Component
             'capacidad'=>$this->table['capacidad'] ,
             'empleado'=>$empleadoAux              
         ]);
+        redirect()->route('orders.index');
+
 
 
     }
+
+    public function openModal()
+    {
+       $this->showModal = !$this->showModal ;
+    }
+
+    public function deleteOrder($id)
+    {
+        if ($id) {
+            if (!session()->get('user')) {
+                return redirect()->route('auth.login');
+            }
     
+            $user = session()->get('user');
+            $url = config('app.api') . '/order/'. $id;
+            
+            $response = Http::withToken($user['token'])->delete($url);
+    
+            $response = $response->json('data');
+            // dd($response);
+            $this->revers();
+        }
+
+        
+    }
+    public function deleteProductOrder($id)
+    {
+        if ($id) {           
+            if (!session()->get('user')) {
+                return redirect()->route('auth.login');
+            }
+    
+            $user = session()->get('user');
+            $url = config('app.api') . '/order/product/'. $id;
+                        
+            $response = Http::withToken($user['token'])->delete($url);
+    
+            $response = $response->json('data');
+            // dd($response);
+            $this->revers();
+        }
+    }
+
+    public function openModalDeleteOrder()
+    {
+       $this->showModalDeleteOrder = !$this->showModalDeleteOrder ;
+    }
+
+     /* ----------------------- STEP 3 -----------------------*/
+    //VOLVER A TOMAR ORDEN -> STEP 2 EN CREATE
+
+    /* Metodo para la busqueda de productos */
+    public function updatedSearch($value)
+    {
+        if ($value) {
+            $this->filterProducts = array_filter($this->products, function ($products) use ($value) {
+                return str_contains(strtolower($products['nombre']), strtolower($value));
+            });
+        } else {
+            $this->filterProducts = $this->products;
+        }
+    }
+
+    /* Metodo para agregar contenido a la orden */
+    public function addItem($id, $name, $price, $tamanio, $category, $image)
+    {
+        $this->options['size'] = $tamanio;
+        $this->options['category'] = $category;
+        $this->options['description'] = '';
+        $this->options['image'] = $image;
+
+        Cart::add(
+            [
+                'id' => $id,
+                'name' => $name,
+                'qty' => 1,
+                'price' => $price,
+                'options' => $this->options
+            ]
+        );
+
+        $this->reset(['description']);
+    }
+
+    /* Metodo para eliminar contenido a la orden */
+    public function decItem($id, $name, $price, $tamanio, $category, $image)
+    {
+        $this->options['size'] = $tamanio;
+        $this->options['category'] = $category;
+        $this->options['description'] = '';
+        $this->options['image'] = $image;
+
+        $product = Cart::search(function ($cartItem, $rowId) use ($id) {
+            return $cartItem->id === $id;
+        })->first();
+
+        if ($product) {
+            if ($product->qty == 1) {
+                Cart::remove($product->rowId);
+            } else {
+                Cart::add(
+                    [
+                        'id' => $id,
+                        'name' => $name,
+                        'qty' => -1,
+                        'price' => $price,
+                        'options' => $this->options
+                    ]
+                );
+            }
+        }
+
+        $this->reset(['description']);
+    }
+
+    /* Metodo para editar contenido a la orden (descripcion) con fallas :c */
+    public function updateDescriptionItem($rowId, $tamanio, $category, $image)
+    {
+        $this->options['size'] = $tamanio;
+        $this->options['category'] = $category;
+        $this->options['description'] = $this->description;
+        $this->options['image'] = $image;
+
+        Cart::update($rowId, ['options' => $this->options]);
+        $this->reset(['description']);
+        
+    }
+
+    /* Metodo para eliminar un producto de la lista */
+    public function removeItem($product)
+    {
+        Cart::remove($product);
+    }
+
+    /* Metodo para limpiar la lista de productos */
+    public function clear()
+    {
+        $this->reset(['options', 'search']);
+        Cart::destroy();
+        $this->filterProducts = $this->products;
+    }
+
+    /* Metodo para destruir todo el proceso de la orden */
+    public function destroy()
+    {
+        $this->clear();
+        $this->reset(['step', 'table', 'employee_id', 'codigo_acceso', 'options', 'search']);
+        $this->filterProducts = $this->products;
+    }
+    public function destroy2()
+    {
+        $this->clear();
+        $this->revers();
+        // $this->reset(['step', 'table', 'employee_id', 'codigo_acceso', 'options', 'search']);
+        $this->filterProducts = $this->products;
+    }
 
      /* Metodo que aumentara el Step */
      public function continue()
@@ -165,10 +357,61 @@ class Update extends Component
         $this->step--;
     }
 
+    /* ----------------------- STEP 4 -----------------------*/
+    //GENERAR LA ORDEN
+     /* Metodo para generar la Orden (Pedido) */
+     public function cretedOrder()
+     {
+         /* 
+             consultar cuenta de mesa
+             crear pedido con idcuenta y idmesa
+             le meto los productos a pedido (Pedido - producto)
+             crear ticket
+         */
+         if (!session()->get('user')) {
+             return redirect()->route('auth.login');
+         }
+ 
+         $user = session()->get('user');
+ 
+        //  /* Creo la cuenta */
+        //  $url = config('app.api') . '/cuenta'; // localhost:8080/cuenta
+        //  $response = Http::withToken($user['token'])->post($url, []);
+        //  $cuenta = $response->json('data'); // id de cuenta
+ 
+         if ($this->table['idCuenta']) {
+             /* Creo el pedido (order)*/
+             $url = config('app.api') . '/order'; // localhost:8080/order
+             $response = Http::withToken($user['token'])->post($url, [
+                 'idMesa' => $this->table['id'],
+                 'idCuenta' => $this->table['idCuenta'],
+             ]);
+             $pedido = $response->json('data');
+ 
+             if ($pedido) {
+                 /* Creo la relacion de los productos con sus pedidos */
+                 $url = config('app.api') . '/order/product/add'; // localhost:8080/order/product/add
+                 foreach (Cart::content() as $product) {
+                     $response = Http::withToken($user['token'])->post($url, [
+                         'cantidad' => $product->qty,
+                         'descripcion' => $product->options->description,
+                         'idPedido' => $pedido,
+                         'idProducto' => $product->id,
+                     ]);
+                 }
+                $this->clear();
+                 $this->step++;
+             }
+         }
+     }
 
-
-    ///mostrar los pedidos y sus productos en la tabla que se muestra en step 2
-    //ingresar a mesa y obtener los id de Pedidos 
-    //ingresar a pp y comprara su idPedido con el idPedido de mesa 
-    //Si coinciden los ids mostrar los productos por ordemes en tablas 
+    /* ----------------------- STEP 5 -----------------------*/
+    //GENERAR EL TICKET
+    public function createdTicket()
+    {
+        $this->clear();
+        $this->reset(['step', 'table', 'employee_id', 'codigo_acceso', 'options', 'search']);
+        
+        $this->reset(['step']);
+    }
 }

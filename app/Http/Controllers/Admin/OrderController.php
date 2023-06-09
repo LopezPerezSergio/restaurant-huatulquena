@@ -75,13 +75,13 @@ class OrderController extends Controller
 
         // Solo los usarios de admin mesero y cajero <-------------- Pendiente (el recorrdido sera modificado)
         foreach ($roles as $rol) {
-            if ($rol['nombre'] == 'Mesero') {
+            if (strtoupper($rol['nombre']) == 'MESERO') {
                 $employees = $rol['empleados'];
                 break;
             }
         }
 
-        //recupero las catgorias
+        //recupero las categorias
         $url = config('app.api') . '/category';
         $response = Http::withToken($user['token'])->get($url);
         $categories = $response->json('data');
@@ -99,13 +99,17 @@ class OrderController extends Controller
             $response = Http::withToken($user['token'])->get($url);
             
             $cuenta = $response->collect('data');
-            $cuenta = $cuenta->first();
-            
+            $cuenta = $cuenta->first();            
         }
-
-        // return  $table;
-
-        return view('admin.orders.show', compact('table', 'employees', 'categories', 'products', 'cuenta'));
+       
+        //recupero los pedidos-productos
+        $url = config('app.api') . '/order/product';
+        $response = Http::withToken($user['token'])->get($url);
+        $ordProd = $response->json('data');
+       
+        $step = 1;
+        return view('admin.orders.show', compact('table', 'employees', 'categories', 'products', 
+                    'cuenta', 'ordProd', 'step'));
     }
 
     /**
@@ -129,6 +133,7 @@ class OrderController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // 
+
     }
 }
