@@ -42,14 +42,11 @@ class TicketController extends Controller
         $response = Http::withToken($user['token'])->get($url);
         $orden = $response->json('data');
         //dd($orden);
-        $id=153;
+        $id=358;
         $url = config('app.api') . '/order/product/pedido/'.$id;
         $response = Http::withToken($user['token'])->get($url);
         $rutaP = $response->json('data');
-    
 
-
-        //dd($rutaP);
         // Crear una instancia de Dompdf
         $dompdf = new Dompdf();
 
@@ -70,7 +67,7 @@ class TicketController extends Controller
     }
 
     //funcion que genera el ticket final a traves de datos de cuenta
-    public function generateTicketFinal()
+    public function generateTicketFinal($table)
     {
         if (!session()->get('user')) {
             return redirect()->route('auth.login');
@@ -78,13 +75,13 @@ class TicketController extends Controller
         
         $user = session()->get('user');
         
-        $url = config('app.api') . '/employee';
+        $url = config('app.api') . '/table/' . $table;
         $response = Http::withToken($user['token'])->get($url);
-        $employees = $response->json('data');
-
-        $url = config('app.api') . '/table';
+        $table = $response->json('data');
+        
+        $url = config('app.api') . '/employee/search-id/' . $table['idEmpleado'];
         $response = Http::withToken($user['token'])->get($url);
-        $tables = $response->json('data');
+        $employee = $response->json('data');
 
         $url = config('app.api') . '/product';
         $response = Http::withToken($user['token'])->get($url);
@@ -96,32 +93,27 @@ class TicketController extends Controller
         
         $url = config('app.api') . '/cuenta';
         $response = Http::withToken($user['token'])->get($url);
-        $cuenta = $response->json('data');
-       
-        $url = config('app.api') . '/cuenta/items/104';
+        $cuenta = $response->json('data');     
+        
+        $url = config('app.api') . '/cuenta/items/'.$table['idCuenta'];
         $response = Http::withToken($user['token'])->get($url);
         $response = $response->json();
        
         $cuentafinal = $response['data'];
+
+       //dd($cuentafinal);
+
+        $cuentafinal = $response['data'];
+       // dd($cuentafinal);
         $message = $response['mensage'];
-        
-        // Crear una instancia de Dompdf
-        $dompdf = new Dompdf();
+        $pdf = PDF::setPaper('8.5x11')->loadView('pdf.ticketFinal', compact('cuentafinal','products'),[
+             'table' => $table['nombre'],
+              'idTable' => $table['idCuenta'],
+            'employee' => $employee['nombre'] . ' ' . $employee['apellidos']
+           
+        ]);
 
-        // Cargar la vista del ticket con los datos
-        $html = view('pdfD',compact('cuentafinal','message','cuenta','employees','products','orden','tables'))->render();
-
-        // Cargar el contenido HTML en Dompdf
-        $dompdf->loadHtml($html);
-
-        // Establecer tamaño y orientación del papel
-        $dompdf->setPaper([0, 0, 56.693, 90.718], 'portrait'); // Tamaño en milímetros (50mm x 80mm)
-
-        // Renderizar el PDF
-        $dompdf->render();
-
-        // Mostrar el PDF en el navegador
-        $dompdf->stream('Ticket_Final.pdf', ['Attachment' => false]);
+        return $pdf->stream('Ticket-Pedido');
     }
 
     //ejemplo para proceso de venta
@@ -136,14 +128,24 @@ class TicketController extends Controller
         $url = config('app.api') . '/table/' . $table;
         $response = Http::withToken($user['token'])->get($url);
         $table = $response->json('data');
-
+        //dd($table);
         $url = config('app.api') . '/employee/search-id/' . $table['idEmpleado'];
         $response = Http::withToken($user['token'])->get($url);
         $employee = $response->json('data');
 
-        $pdf = PDF::setPaper('8.5x11')->loadView('pdf.ticket', [
-            'table' => $table['nombre'],
+        $url = config('app.api') . '/product';
+        $response = Http::withToken($user['token'])->get($url);
+        $products = $response->json('data');
+
+        $url = config('app.api') . '/order/product/pedido/'.$table['idCuenta'];
+        $response = Http::withToken($user['token'])->get($url);
+        $rutaP = $response->json('data');
+        //dd($rutaP);
+        $pdf = PDF::setPaper('8.5x11')->loadView('pdf.ticketParcial', compact('rutaP','products'),[
+             'table' => $table['nombre'],
+              'idTable' => $table['idCuenta'],
             'employee' => $employee['nombre'] . ' ' . $employee['apellidos']
+           
         ]);
 
         return $pdf->stream('Ticket-Pedido');

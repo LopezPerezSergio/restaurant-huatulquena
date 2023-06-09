@@ -71,7 +71,7 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
 
     Route::resource('sales', SaleController::class)->names('sales');
    Route::get('ticket/pedido/{table}', [TicketController::class, 'ticketPedido'])->name('ticket.pedido');
-    //Route::get('ticket/pedido/{table}', [TicketController::class, 'tp'])->name('ticket.pedido');
+    Route::get('ticket/pedidoFinal/{table}', [TicketController::class, 'generateTicketFinal'])->name('ticket.pedidoF');
 
 });
 

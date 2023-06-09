@@ -42,6 +42,21 @@
         <p><strong>Fecha:</strong> {{ date('Y-m-d') }}</p>
         <p><strong>Empleado:</strong> {{ $employee }}</p>
     </div>    
+   
+      @foreach($rutaP as $pedi)
+        @if($pedi['id_Pedido']== $idTable)
+          
+          {{ $pedi['cantidad'] }}
+         
+          {{ $pedi['descripcion'] }}
+         
+          {{ $pedi['id_Pedido'] }}
+         
+          {{ $pedi['id_Producto'] }}
+          
+      @endif
+      @endforeach
+   
 </body>
 
 </html>

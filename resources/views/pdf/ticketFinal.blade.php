@@ -83,7 +83,7 @@
             </td>
         </tr>
 
-        <tr>
+        {{--  <tr>
             <td class="titulos">Mesa No.</td>
             <td>
                 @foreach ($orden as $pedido)
@@ -98,7 +98,7 @@
             <td class="titulos">Mesero:</td>
             <td colspan="4">
                 {{-- Recupera el nombre del mesero que atendió esa cuenta --}}
-                @foreach ($employees as $employee)
+                {{--  @foreach ($employees as $employee)
                 @foreach ($orden as $pedido)
                 @foreach ($tables as $mesa)
                 @if ($mesa['id'] == $pedido['id_Mesa'] && $message == $mesa['id'] && $employee['id'] ==
@@ -109,9 +109,9 @@
                 @endforeach
                 @endforeach
             </td>
-        </tr>
+        </tr>  --}}
 
-        <tr>
+        {{--  <tr>
             <td colspan="4" class="center bold">Pedido
                 @foreach ($orden as $pedido)
                 @foreach ($tables as $mesa)
@@ -122,9 +122,9 @@
                 @endif
                 @endforeach
                 @endforeach
-                @endforeach
+                @endforeach  --}}
 
-        </tr>
+        {{--  </tr>  --}} 
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
         </tr>

@@ -91,13 +91,9 @@
 
         <tr>
             <td colspan="4" class="center bold">Pedido
-                @foreach ($orden as $ordenIndividual)
-                @if ($ordenIndividual["id"] == 1)
-                Nro: {{$ordenIndividual["id"]}}
-                @endif
-                @endforeach
+                Nro:{{$idTable}} 
             </td>
-        </tr>
+        </tr> 
 
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
@@ -112,32 +108,11 @@
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
         </tr>
-        <div class="products">
-            <div class="product">
-                <span class="product-quantity">Cantidad</span>
-                <span class="product-description">
-                    <span class="product-name">Platillo</span>
-                    <span>Descripcion</span>
-                </span>
-            </div>
-            <span>------------------------------------------</span>
-            @foreach (Cart::content() as $product)
-                <div class="product">
-                    <span class="product-quantity">{{ $product->qty }}</span>
-                    <span class="product-description">
-                        <span class="product-name">{{ $product->name }}</span>
-                        <span>{{ $product->options->description }}</span>
-                    </span>
-                </div>
-            @endforeach
-        </div>
-
-
 
         <tr>
             @foreach($products as $product)
             @foreach ($rutaP as $pedi)
-            @if($product['id'] == $pedi['id_Producto'])
+            @if($pedi['id_Pedido']== $idTable && $product['id'] == $pedi['id_Producto'])
 
         <tr>
             <td class="center">
