@@ -9,7 +9,7 @@ use Livewire\Component;
 class Create extends Component
 {
     /* Variable encargada de mostrar la vista correspondiente de acuerdo a la fase en la que se encuentra */
-    public $step = 4; // cambiar los valores entre 1 y 3 de forma manual
+    public $step = 1; // cambiar los valores entre 1 y 3 de forma manual
 
     /* variables con el contenido de la informacion */
     public $employees; // lista de los usuarios (meseros, admin, cajeros)
@@ -28,12 +28,15 @@ class Create extends Component
         'description' => null,
         'image' => null
     ];
+
     public $description = ''; // Guarda la descripcion que le vamos a pasar al producto
 
     // Variables para el buscador
     public $search = '';
     public $filterProducts;
 
+
+    public $activeTab;
 
     public $stock = 1; //hay que quitarlo despues
 
@@ -179,6 +182,10 @@ class Create extends Component
         $this->step++;
     }
 
+    public function changeTab($tab)
+    {
+        $this->activeTab = $tab;
+    }
     /* ----------------------- Fase 2 -----------------------*/
 
     /* Metodo que decrementara el Step */
