@@ -28,12 +28,15 @@ class Create extends Component
         'description' => null,
         'image' => null
     ];
+
     public $description = ''; // Guarda la descripcion que le vamos a pasar al producto
 
     // Variables para el buscador
     public $search = '';
     public $filterProducts;
 
+
+    public $activeTab;
 
     public $stock = 1; //hay que quitarlo despues
 
@@ -186,6 +189,10 @@ class Create extends Component
         $this->step++;
     }
 
+    public function changeTab($tab)
+    {
+        $this->activeTab = $tab;
+    }
     /* ----------------------- Fase 2 -----------------------*/
 
     /* Metodo que decrementara el Step */
