@@ -378,18 +378,17 @@
                                 </div>
                                 {{-- Fin Buscador --}}
 
-                                <div class="w-full bg-gray-50 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
-                                    wire:ignore.self>
-                                    <ul class="overflow-y-auto text-sm font-medium text-center text-gray-500 divide-x divide-gray-200  sm:flex dark:divide-gray-600 dark:text-gray-400"
-                                        id="fullWidthTab" data-tabs-toggle="#fullWidthTabContent" role="tablist">
+                                <div
+                                    class="w-full bg-gray-50 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                                    <ul
+                                        class="overflow-y-auto text-sm font-medium text-center text-gray-500 divide-x divide-gray-200  sm:flex dark:divide-gray-600 dark:text-gray-400">
 
                                         @foreach ($categories as $category)
                                             <li class="w-full">
-                                                <button id="{{ $category['nombre'] }}-tab"
-                                                    data-tabs-target="#{{ $category['nombre'] }}" type="button"
-                                                    role="tab" aria-controls="stats"
-                                                    aria-selected="@if ($step == 2 && $loop->first) true @else false @endif"
-                                                    class="inline-block w-full p-3 @if ($loop->first) rounded-tl-lg @endif @if ($loop->last) rounded-tr-lg @endif  bg-gray-50 hover:bg-gray-100 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600">{{ $category['nombre'] }}</button>
+                                                <button type="button" wire:click="changeTab({{ $category['id'] }})"
+                                                    class="inline-block w-full p-3 @if ($loop->first) rounded-tl-lg @endif @if ($loop->last) rounded-tr-lg @endif  bg-gray-50 hover:bg-gray-100 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600">
+                                                    {{ $category['nombre'] }}
+                                                </button>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -397,14 +396,12 @@
                                     <div id="fullWidthTabContent"
                                         class="border-t border-gray-200 dark:border-gray-600">
                                         @foreach ($categories as $category)
-                                            <div class="@if (!$loop->first) hidden @endif p-4 bg-gray-50 rounded-lg dark:bg-gray-800"
-                                                id="{{ $category['nombre'] }}" role="tabpanel"
-                                                aria-labelledby="{{ $category['nombre'] }}-tab">
-                                                <div class="flow-root">
-                                                    <ul role="list"
-                                                        class="divide-y divide-gray-200 dark:divide-gray-700">
-                                                        @forelse ($filterProducts as $product)
-                                                            @if ($product['status'] == 1)
+                                            @if ($activeTab == $category['id'])
+                                                <div class="p-4 bg-gray-50 rounded-lg dark:bg-gray-800">
+                                                    <div class="flow-root">
+                                                        <ul role="list"
+                                                            class="divide-y divide-gray-200 dark:divide-gray-700">
+                                                            @forelse ($filterProducts as $product)
                                                                 @if ($product['categoriaName'] == $category['nombre'])
                                                                     <li class="py-2">
                                                                         <div class="flex items-center space-x-4">
@@ -442,7 +439,8 @@
                                                                                 wire:click="addItem('{{ $product['id'] }}', '{{ $product['nombre'] }}','{{ $product['precio'] }}','{{ $product['tamanio'] }}','{{ $product['categoriaName'] }}','{{ $product['url_img'] }}')"
                                                                                 type="button"
                                                                                 class="focus:ring-4 focus:outline-none font-medium rounded-lg text-sm p-2 m-2 text-center inline-flex items-center @if ($stock > 0) text-white focus:ring-blue-300  bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 @else border border-b dark:text-white @endif">
-                                                                                <svg class="w-5 h-5" fill="currentColor"
+                                                                                <svg class="w-5 h-5"
+                                                                                    fill="currentColor"
                                                                                     viewBox="0 0 24 24"
                                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                                     aria-hidden="true">
@@ -459,7 +457,8 @@
                                                                                 type="button"
                                                                                 class="focus:ring-4 focus:outline-none font-medium rounded-lg text-sm p-2 m-2 text-center inline-flex items-center @if ($stock > 0) text-white focus:ring-blue-300  bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 @else border border-b dark:text-white @endif">
 
-                                                                                <svg class="w-5 h-5" fill="currentColor"
+                                                                                <svg class="w-5 h-5"
+                                                                                    fill="currentColor"
                                                                                     viewBox="0 0 24 24"
                                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                                     aria-hidden="true">
@@ -473,32 +472,33 @@
                                                                         </div>
                                                                     </li>
                                                                 @endif
-                                                            @endif
-                                                        @empty
-                                                            <li class="py-3 sm:py-4">
-                                                                <div class="flex items-center space-x-4">
-                                                                    <div class="flex-shrink-0">
-                                                                        <img class="w-8 h-8 rounded-full"
-                                                                            src="{{ Storage::url('public/images/info.png') }}"
-                                                                            alt="Neil image">
+
+                                                            @empty
+                                                                <li class="py-3 sm:py-4">
+                                                                    <div class="flex items-center space-x-4">
+                                                                        <div class="flex-shrink-0">
+                                                                            <img class="w-8 h-8 rounded-full"
+                                                                                src="{{ Storage::url('public/images/info.png') }}"
+                                                                                alt="Neil image">
+                                                                        </div>
+                                                                        <div class="flex-1 min-w-0">
+                                                                            <p
+                                                                                class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                                                No hay Productos para seleccionar en
+                                                                                {{ $category['nombre'] }}
+                                                                            </p>
+                                                                            <p
+                                                                                class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                                                                Agregue productos a esta categoria
+                                                                            </p>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="flex-1 min-w-0">
-                                                                        <p
-                                                                            class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                                            No hay Productos para seleccionar en
-                                                                            {{ $category['nombre'] }}
-                                                                        </p>
-                                                                        <p
-                                                                            class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                                                            Agregue productos a esta categoria
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                        @endforelse
-                                                    </ul>
+                                                                </li>
+                                                            @endforelse
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endif
                                         @endforeach
                                     </div>
                                 </div>

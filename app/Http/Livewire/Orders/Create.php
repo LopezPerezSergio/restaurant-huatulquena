@@ -34,10 +34,9 @@ class Create extends Component
     public $search = '';
     public $filterProducts;
 
-    public $id_pedidoAux;
 
     public $stock = 1; //hay que quitarlo despues
-
+    public $activeTab;
     public function mount()
     {
         $this->filterProducts = $this->products;
@@ -48,11 +47,6 @@ class Create extends Component
     {
         return view('livewire.orders.create');
     }
-
-    public function refreshComponent()
-    {
-        $refresh;
-    }   
 
     /* ----------------------- Fase 1 -----------------------*/
 
@@ -186,6 +180,13 @@ class Create extends Component
     {
         $this->step++;
     }
+
+
+    public function changeTab($tab)
+    {
+        $this->activeTab = $tab;
+    }
+    
 
     /* ----------------------- Fase 2 -----------------------*/
 

@@ -11,7 +11,7 @@ class Update extends Component
 {
 
     /* Variable encargada de mostrar la vista correspondiente de acuerdo a la fase en la que se encuentra */
-    public $step = 2; // cambiar los valores entre 1 y 3 de forma manual
+    public $step = 1; // cambiar los valores entre 1 y 3 de forma manual
 
     /* ----------------------- Fase 1 -----------------------*/
     public $employee_id = ''; // Guarda el id del empleado seleccionado sin uso
@@ -47,7 +47,7 @@ class Update extends Component
 
 
     public $stock = 1; //hay que quitarlo despues
-
+    public $activeTab;
 
     public function mount()
     {
@@ -350,6 +350,11 @@ class Update extends Component
      {
          $this->step++;
      }
+
+     public function changeTab($tab)
+    {
+        $this->activeTab = $tab;
+    }
 
      /* Metodo que decrementara el Step */
     public function revers()
