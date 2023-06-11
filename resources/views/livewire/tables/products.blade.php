@@ -61,6 +61,7 @@
                                 <th scope="col" class="p-4">Tamaño</th>
                                 <th scope="col" class="p-4">Estado</th>
                                 <th scope="col" class="p-4">Vendidos</th>
+                                <th scope="col" class="p-4">Cancelados</th>
                                 <th scope="col" class="p-4">Categoria</th>
                                 <th scope="col" class="p-4">Precio</th>
                                 <th scope="col" class="p-4">Acciones</th>
@@ -106,6 +107,9 @@
                                     </td>
                                     <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $product['contador'] }}
+                                    </td>
+                                    <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ $product['cancelados'] }}
                                     </td>
                                     <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $product['categoriaName'] }}
