@@ -111,28 +111,29 @@
 
         <tr>
             @foreach($products as $product)
-            @foreach ($rutaP as $pedi)
-            @if($pedi['id_Pedido']== $idTable && $product['id'] == $pedi['id_Producto'])
-
-        <tr>
-            <td class="center">
-                {{ $pedi['cantidad'] }}
-            </td>
-            <td class="center">
-                {{ $product['precio'] }}
-            </td>
-            <td class="center">
-                {{ $product['nombre'] }}
-            </td>
-        </tr>
-        <tr>
-            <td class="descripcion" colspan="3">
-                {{ $pedi['descripcion'] }}
-            </td>
-        </tr>
-        @endif
-        @endforeach
-        @endforeach
+            @foreach($imprimirProductos as $pedidoArray)
+            @if($pedidoArray['id_producto']== $product['id'])
+                
+          
+            <tr>
+                <td class="center">
+                    {{ $pedidoArray['cantidad'] }}
+                </td>
+                <td class="center">
+                    {{ $product['precio'] }}
+                </td>
+                <td class="center">
+                    {{ $product['nombre'] }}
+                </td>
+            </tr>
+            <tr>
+                <td class="descripcion" colspan="3">
+                    {{ $pedidoArray['descripcion'] }}
+                </td>
+            </tr>
+            @endif
+            @endforeach
+            @endforeach
         </tr>
 
         <tr>

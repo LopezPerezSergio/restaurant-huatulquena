@@ -57,7 +57,7 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
     //ruta que muestra el ticket para el pedido inicial
     Route::get('pdfInicial', [TicketController::class, 'generateTicket'])->name('pdfInicial');
     //ruta que muestra el ticket para el pedido final
-    Route::get('pdfFinal', [TicketController::class, 'generateTicketFinal'])->name('pdfFinal');
+    //  Route::get('pdfFinal', [TicketController::class, 'generateTicketFinal'])->name('pdfFinal');
     Route::resource('salesReporte', ReporteController::class)->names('salesReporte');
     //ruta que muestra el ticket para el pedido final
     Route::get('reporte', [ReporteController::class, 'generarReporte'])->name('reporte');
@@ -70,8 +70,12 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
     Route::resource('nominas', PaymentController::class)->names('nominas');
 
     Route::resource('sales', SaleController::class)->names('sales');
-   Route::get('ticket/pedido/{table}', [TicketController::class, 'ticketPedido'])->name('ticket.pedido');
-    Route::get('ticket/pedidoFinal/{table}', [TicketController::class, 'generateTicketFinal'])->name('ticket.pedidoF');
+    Route::get('ticket/pedido/{table}', [TicketController::class, 'ticketPedido'])->name('ticket.pedido');
+    // Route::get('ticket/pedidoFinal/{idAux2}', [TicketController::class, 'generateTicketFinal'])->name('ticket.pedidoF');
+//    Route::get('ticket/pedidoFinal', [TicketController::class, 'generateTicketFinal'])->name('ticket.pedidoF');
+    // Route::get('ticket/pf2/{idAux3}', [TicketController::class, 'geneTF'])->name('ticket.pedidoFinal');
+    Route::post('ticket/pf/{table}', [TicketController::class, 'final'])->name('ticket.pedido1');
+   
 
 });
 

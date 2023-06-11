@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Orders;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
+use Illuminate\Support\Facades\Redirect;
 
 
 class Update extends Component
@@ -25,7 +26,8 @@ class Update extends Component
 
      public $table; //guarda la mesa seleccionada
      public $cuenta; //guarda los productos pedidos en a la mesa 
-
+     public $idAux2='';
+     public $idAux3='';
 
      public $total ;
 
@@ -57,6 +59,7 @@ class Update extends Component
   
     public function render()
     {
+        // dd($this->cuenta);
          $this -> getTotal();
         return view('livewire.orders.update');
     }
@@ -120,7 +123,8 @@ class Update extends Component
     public function cerrarCuenta()
     {
 
-        $empleadoAux;
+        // $empleadoAux;
+        
         $nombreEmpleado = '' ;
        
         foreach ($this->employees as $e) { //obtener el nombre del empleado 
@@ -149,7 +153,13 @@ class Update extends Component
             'nombreMesa'=> $this->table['nombre']
         ]);
         $idVenta = $response['data'];
-        
+        //dd($idVenta);
+        $this->idAux2=$idVenta;
+        $this->idAux3=$idVenta;
+         //dd($this->cuenta);
+         //return Redirect::route('ticket.pedido1', ['cuenta' => $this->cuenta])->with('cuenta', $cuenta);
+
+        //return Redirect::route('ticket.pedido1', ['cuenta' => $this->cuenta['id']]);
 
         //http://localhost:8080/itemProduct/  creamos los productos en el almacenamiento auxiliar
         // body:{                    <- obtener de cuentaFinal(nombre,precio,cantidad,
@@ -183,7 +193,9 @@ class Update extends Component
             'capacidad'=>$this->table['capacidad'] ,
             'empleado'=>$empleadoAux              
         ]);
+        // return Redirect::route('ticket.pedidoFinal', ['idAux3' => $this->idAux3]);
         redirect()->route('orders.index');
+       
 
 
 
@@ -387,7 +399,7 @@ class Update extends Component
                  'idCuenta' => $this->table['idCuenta'],
              ]);
              $pedido = $response->json('data');
- 
+             //dd($pedido);
              if ($pedido) {
                  /* Creo la relacion de los productos con sus pedidos */
                  $url = config('app.api') . '/order/product/add'; // localhost:8080/order/product/add
