@@ -94,20 +94,41 @@
                                     </svg>
                                     ver cuenta
                                 </button>
-                                <form action="{{ route('ticket.pedido1', $table['id']) }}" method="POST" target="_blank">
-                                    @csrf
-                                    <button type="submit" onclick="return confirm('¿Estás seguro de cerrar la cuenta?')" wire:click='cerrarCuenta' 
-                                    class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-                                        <svg class="h-4 w-4 mr-2 -ml-0.5" fill="currentColor" viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                            <path clip-rule="evenodd" fill-rule="evenodd"
-                                                d="M10.5 3A1.501 1.501 0 009 4.5h6A1.5 1.5 0 0013.5 3h-3zm-2.693.178A3 3 0 0110.5 1.5h3a3 3 0 012.694 1.678c.497.042.992.092 1.486.15 1.497.173 2.57 1.46 2.57 2.929V19.5a3 3 0 01-3 3H6.75a3 3 0 01-3-3V6.257c0-1.47 1.073-2.756 2.57-2.93.493-.057.989-.107 1.487-.15z">
-                                            </path>
-                                        </svg>
-                                         
-                                        Cerrar cuenta
-                                    </button>
-                                </form>
+                                <!-- Botón para abrir el modal -->
+<button type="button" onclick="abrirModalConfirmacion()" class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+    <svg class="h-4 w-4 mr-2 -ml-0.5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path clip-rule="evenodd" fill-rule="evenodd" d="M10.5 3A1.501 1.501 0 009 4.5h6A1.5 1.5 0 0013.5 3h-3zm-2.693.178A3 3 0 0110.5 1.5h3a3 3 0 012.694 1.678c.497.042.992.092 1.486.15 1.497.173 2.57 1.46 2.57 2.929V19.5a3 3 0 01-3 3H6.75a3 3 0 01-3-3V6.257c0-1.47 1.073-2.756 2.57-2.93.493-.057.989-.107 1.487-.15z"></path>
+    </svg>
+    Cerrar cuenta
+</button>
+
+<!-- Modal de confirmación -->
+<div id="modalConfirmacion" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <h3 class="text-lg font-bold mb-4">Confirmación</h3>
+        <p class="text-gray-600 mb-4">¿Estás seguro de cerrar la cuenta?</p>
+        <div class="flex justify-end">
+            <button onclick="cerrarModal()" class="mr-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg">Cancelar</button>
+            <form id="formCerrarCuenta" action="{{ route('ticket.pedido1', $table['id']) }}" method="POST" target="_blank">
+                @csrf
+                <button type="submit" wire:click="cerrarCuenta" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Aceptar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function abrirModalConfirmacion() {
+        var modal = document.getElementById("modalConfirmacion");
+        modal.style.display = "flex";
+    }
+
+    function cerrarModal() {
+        var modal = document.getElementById("modalConfirmacion");
+        modal.style.display = "none";
+    }
+</script>
+
                                 {{--  <a href="{{ route('ticket.pedido1',$table['id']) }}" target="_blank">
                                 <button type="button" wire:click='cerrarCuenta'
                                     class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">

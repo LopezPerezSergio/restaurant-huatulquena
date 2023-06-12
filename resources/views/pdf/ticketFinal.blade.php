@@ -78,26 +78,28 @@
         </tr>
         <tr class="center">
             <td class="titulos">Fecha y Hora:</td>
-            <td colspan="4">
-                 {{ date('Y-m-d') }}
+            <td colspan="4" class="text-align: left">
+                {{ date('Y-m-d H:i:s') }}
             </td>
         </tr>
 
-        {{--  <tr>
+        <tr>
             <td class="titulos">Mesa No.</td>
             <td>
-                @foreach ($orden as $pedido)
+                {{$table}}
+                {{--  @foreach ($orden as $pedido)
                 @foreach ($tables as $mesa)
                 @if ($mesa['id'] == $pedido['id_Mesa'] && $message == $mesa['id'])
                 {{$mesa['nombre']}}
                 @endif
                 @endforeach
-                @endforeach
+                @endforeach  --}}
             </td>
         <tr>
             <td class="titulos">Mesero:</td>
             <td colspan="4">
-                {{-- Recupera el nombre del mesero que atendió esa cuenta --}}
+                {{--  Recupera el nombre del mesero que atendió esa cuenta --}}
+                {{$employee}}
                 {{--  @foreach ($employees as $employee)
                 @foreach ($orden as $pedido)
                 @foreach ($tables as $mesa)
@@ -107,13 +109,14 @@
                 @endif
                 @endforeach
                 @endforeach
-                @endforeach
+                @endforeach  --}}
             </td>
-        </tr>  --}}
+        </tr> 
 
-        {{--  <tr>
+        <tr>
             <td colspan="4" class="center bold">Pedido
-                @foreach ($orden as $pedido)
+                {{$idTable}}
+                {{--  @foreach ($orden as $pedido)
                 @foreach ($tables as $mesa)
                 @foreach ($cuenta as $cuentaUnica)
                 @if ($mesa['id'] == $pedido['id_Mesa'] && $message == $mesa['id'] && $pedido['id'] ==
@@ -124,7 +127,7 @@
                 @endforeach
                 @endforeach  --}}
 
-        {{--  </tr>  --}} 
+        </tr> 
         <tr>
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
         </tr>
@@ -157,12 +160,11 @@
             <td>
 
                 @php
-
                 $total += $pedi['total'] ;
-                $montoPagado = 2000; // total pagado dato de prueba
-
-                $cambio = $montoPagado - $total;
                 @endphp
+                {{--  $montoPagado = 2000; // total pagado dato de prueba
+
+                $cambio = $montoPagado - $total;  --}}
                 {{-- ${{ $subtotal }} --}}
             </td>
         </tr>
@@ -177,9 +179,9 @@
         <tr>
             <td colspan="2">&nbsp;</td>
             <td class="bold">TOTAL A PAGAR</td>
-            <td> ${{ $total }} USD</td>
+            <td> ${{ $total }}.00 MX</td>
         </tr>
-        <tr>
+        {{--  <tr>
             <td colspan="2">&nbsp;</td>
             <td class="bold">TOTAL PAGADO</td>
             <td>${{ $montoPagado }} MX;</td>
@@ -188,7 +190,7 @@
             <td colspan="2">&nbsp;</td>
             <td class="bold">CAMBIO</td>
             <td>${{ $cambio }} MX</td>
-        </tr>
+        </tr>  --}}
         <tr>
             <td colspan="4">&nbsp;</td>
         </tr>

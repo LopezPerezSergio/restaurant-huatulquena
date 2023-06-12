@@ -87,6 +87,11 @@ class TicketController extends Controller
         $url = config('app.api') . '/table/' . $table;
         $response = Http::withToken($user['token'])->get($url);
         $tableA = $response->json('data');
+
+        $url = config('app.api') . '/employee/search-id/' . $tableA['idEmpleado'];
+        $response = Http::withToken($user['token'])->get($url);
+        $employee = $response->json('data');
+
         $cuenta=Cuenta::all();
         $cuentaArray = $cuenta->toArray();
          $cfArray = Cuenta::where('id', $tableA['idCuenta'])
@@ -110,9 +115,12 @@ class TicketController extends Controller
         $response = Http::withToken($user['token'])->get($url);
         $cuentafinal = $response->json('data');
         //dd($cuentafinal);
-        $pdf = PDF::setPaper('8.5x11')->loadView('pdf.ticketFinal', compact('cuentafinal','products'));
-       
-
+        $pdf = PDF::setPaper('8.5x11')->loadView('pdf.ticketFinal', compact('cuentafinal','products'),[
+            'table' => $tableA['nombre'],
+             'idTable' => $tableA['idCuenta'],
+           'employee' => $employee['nombre'] . ' ' . $employee['apellidos']
+          
+       ]);
         return $pdf->stream('Ticket');
     }
     // public function geneTF($idAux3)
