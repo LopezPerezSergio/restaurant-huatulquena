@@ -1,6 +1,6 @@
 @props(['filter' => null])
 <!-- Preview Drawer -->
-<div id="drawer-read-{{ $id }}-advanced" class="overflow-y-auto fixed top-0 left-0 z-50 p-4 w-full max-w-lg h-screen bg-white transition-transform -translate-x-full dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-label" aria-hidden="true">
+<div id="drawer-read-{{ $id }}-advanced"  data-modal-backdrop="static" class="overflow-y-auto fixed top-0 left-0 z-50 p-4 w-full max-w-lg h-screen bg-white transition-transform -translate-x-full dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-label" aria-hidden="true">
     <div>
         <h4  class="mb-1.5 leading-none text-xl font-semibold text-gray-900 dark:text-white">{{ $name }}</h4>
         <h5 class="mb-5 text-xl font-bold text-gray-900 dark:text-white">{{ $filter }}</h5>

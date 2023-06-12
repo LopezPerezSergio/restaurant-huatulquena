@@ -289,47 +289,47 @@
                             </div>
                         </div>
                     </fieldset>
-                @elseif($step == 2)
-                    <fieldset target="step2">
+                    @elseif($step == 2)
+                    <fieldset>
                         <legend class="sr-only">Toma de orden</legend>
 
-                        <div class="grid gap-4 mb-4 sm:grid-cols-3">
-                            <div class="sm:col-span-2"> </div>
-                            <div class="flex items-center space-x-4">
-                                <button type="button" wire:click='continue'
-                                    class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5"
-                                        viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path
-                                            d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
-                                        <path fill-rule="evenodd"
-                                            d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    Continuar
-                                </button>
-                                <button type="button" wire:click="clear"
-                                    class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                    <svg class="h-4 w-4 mr-2 -ml-0.5" fill="currentColor" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                        <path clip-rule="evenodd" fill-rule="evenodd"
-                                            d="M10.5 3A1.501 1.501 0 009 4.5h6A1.5 1.5 0 0013.5 3h-3zm-2.693.178A3 3 0 0110.5 1.5h3a3 3 0 012.694 1.678c.497.042.992.092 1.486.15 1.497.173 2.57 1.46 2.57 2.929V19.5a3 3 0 01-3 3H6.75a3 3 0 01-3-3V6.257c0-1.47 1.073-2.756 2.57-2.93.493-.057.989-.107 1.487-.15z">
-                                        </path>
-                                    </svg>
-                                    Limpiar Orden
-                                </button>
-                                <button type="button" wire:click="destroy"
-                                    class="flex items-center text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5"
-                                        viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd"
-                                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    Cancelar Orden
-                                </button>
-                            </div>
-
+                        <div class="flex items-center space-x-4">
+                            <h1
+                                class="p-2 mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 dark:text-white">
+                                Empieza a crear tu orden ahora
+                            </h1>
+                            <button type="button" wire:click='continue'
+                                class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5"
+                                    viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path
+                                        d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                                    <path fill-rule="evenodd"
+                                        d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Continuar
+                            </button>
+                            <button type="button" wire:click="clear"
+                                class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                <svg class="h-4 w-4 mr-2 -ml-0.5" fill="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path clip-rule="evenodd" fill-rule="evenodd"
+                                        d="M10.5 3A1.501 1.501 0 009 4.5h6A1.5 1.5 0 0013.5 3h-3zm-2.693.178A3 3 0 0110.5 1.5h3a3 3 0 012.694 1.678c.497.042.992.092 1.486.15 1.497.173 2.57 1.46 2.57 2.929V19.5a3 3 0 01-3 3H6.75a3 3 0 01-3-3V6.257c0-1.47 1.073-2.756 2.57-2.93.493-.057.989-.107 1.487-.15z">
+                                    </path>
+                                </svg>
+                                Limpiar Orden
+                            </button>
+                            <button type="button" wire:click="destroy"
+                                class="flex items-center text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5"
+                                    viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd"
+                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                Cancelar Orden
+                            </button>
                         </div>
 
                         <div class="grid grid-cols-3 gap-4">
@@ -338,7 +338,7 @@
                                     class="mb-4 text-2xl font-bold leading-none tracking-tight text-gray-900 dark:text-white">
                                     <span
                                         class="underline underline-offset-3 decoration-2 decoration-blue-400 dark:decoration-blue-600">
-                                        Productos
+                                        Lista de Productos
                                     </span>
                                 </h3>
 
@@ -362,22 +362,17 @@
                                 </div>
                                 {{-- Fin Buscador --}}
 
-                                {{--  --}}
-
-                                {{--  --}}
-
                                 <div
                                     class="w-full bg-gray-50 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                                    <ul class="overflow-y-auto text-sm font-medium text-center text-gray-500 divide-x divide-gray-200  sm:flex dark:divide-gray-600 dark:text-gray-400"
-                                        id="fullWidthTab" data-tabs-toggle="#fullWidthTabContent" role="tablist">
+                                    <ul
+                                        class="overflow-y-auto text-sm font-medium text-center text-gray-500 divide-x divide-gray-200  sm:flex dark:divide-gray-600 dark:text-gray-400">
 
                                         @foreach ($categories as $category)
                                             <li class="w-full">
-                                                <button id="{{ $category['nombre'] }}-tab"
-                                                    data-tabs-target="#{{ $category['nombre'] }}" type="button"
-                                                    role="tab" aria-controls="stats"
-                                                    aria-selected="@if ($step == 2 && $loop->first) true @else false @endif"
-                                                    class="inline-block w-full p-3 @if ($loop->first) rounded-tl-lg @endif @if ($loop->last) rounded-tr-lg @endif  bg-gray-50 hover:bg-gray-100 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600">{{ $category['nombre'] }}</button>
+                                                <button type="button" wire:click="changeTab({{ $category['id'] }})"
+                                                    class="inline-block w-full p-3 @if ($loop->first) rounded-tl-lg @endif @if ($loop->last) rounded-tr-lg @endif  bg-gray-50 hover:bg-gray-100 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600">
+                                                    {{ $category['nombre'] }}
+                                                </button>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -385,14 +380,12 @@
                                     <div id="fullWidthTabContent"
                                         class="border-t border-gray-200 dark:border-gray-600">
                                         @foreach ($categories as $category)
-                                            <div class="@if (!$loop->first) hidden @endif p-4 bg-gray-50 rounded-lg dark:bg-gray-800"
-                                                id="{{ $category['nombre'] }}" role="tabpanel"
-                                                aria-labelledby="{{ $category['nombre'] }}-tab">
-                                                <div class="flow-root">
-                                                    <ul role="list"
-                                                        class="divide-y divide-gray-200 dark:divide-gray-700">
-                                                        @forelse ($filterProducts as $product)
-                                                            @if ($product['status'] == 1)
+                                            @if ($activeTab == $category['id'])
+                                                <div class="p-4 bg-gray-50 rounded-lg dark:bg-gray-800">
+                                                    <div class="flow-root">
+                                                        <ul role="list"
+                                                            class="divide-y divide-gray-200 dark:divide-gray-700">
+                                                            @forelse ($filterProducts as $product)
                                                                 @if ($product['categoriaName'] == $category['nombre'])
                                                                     <li class="py-2">
                                                                         <div class="flex items-center space-x-4">
@@ -463,47 +456,44 @@
                                                                         </div>
                                                                     </li>
                                                                 @endif
-                                                            @endif
 
-
-                                                        @empty
-                                                            <li class="py-3 sm:py-4">
-                                                                <div class="flex items-center space-x-4">
-                                                                    <div class="flex-shrink-0">
-                                                                        <img class="w-8 h-8 rounded-full"
-                                                                            src="{{ Storage::url('public/images/info.png') }}"
-                                                                            alt="Neil image">
+                                                            @empty
+                                                                <li class="py-3 sm:py-4">
+                                                                    <div class="flex items-center space-x-4">
+                                                                        <div class="flex-shrink-0">
+                                                                            <img class="w-8 h-8 rounded-full"
+                                                                                src="{{ Storage::url('public/images/info.png') }}"
+                                                                                alt="Neil image">
+                                                                        </div>
+                                                                        <div class="flex-1 min-w-0">
+                                                                            <p
+                                                                                class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                                                No hay Productos para seleccionar en
+                                                                                {{ $category['nombre'] }}
+                                                                            </p>
+                                                                            <p
+                                                                                class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                                                                Agregue productos a esta categoria
+                                                                            </p>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="flex-1 min-w-0">
-                                                                        <p
-                                                                            class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                                            No hay Productos para seleccionar en
-                                                                            {{ $category['nombre'] }}
-                                                                        </p>
-                                                                        <p
-                                                                            class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                                                            Agregue productos a esta categoria
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                        @endforelse
-                                                    </ul>
+                                                                </li>
+                                                            @endforelse
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endif
                                         @endforeach
                                     </div>
                                 </div>
                             </div>
 
-
-                            {{-- tabla de productos del pedido a realizarpor categoria --}}
                             <div class="col-span-2 p-4">
                                 <h3
                                     class="mb-4 text-2xl font-bold leading-none tracking-tight text-gray-900 dark:text-white">
                                     <span
                                         class="underline underline-offset-3 decoration-2 decoration-blue-400 dark:decoration-blue-600">
-                                        Orden
+                                        Productos seleccionados para la orden
                                     </span>
                                 </h3>
 
@@ -613,10 +603,7 @@
                                     </table>
                                 </div>
                             </div>
-
                         </div>
-
-
                     </fieldset>
 
                     @foreach (Cart::content() as $product)
@@ -643,7 +630,7 @@
                                             Agregar nota al producto</h3>
                                         <div class="space-y-6">
                                             <label for="chat" class="sr-only">Your note</label>
-                                            {{-- <div
+                                            <div
                                                 class="flex items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
                                                 <textarea wire:model='description' id="chat" rows="2"
                                                     class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -660,22 +647,20 @@
                                                     </svg>
                                                     <span class="sr-only">Send note</span>
                                                 </button>
-                                            </div> --}}
-
-                                            <div>
-                                                <label for="nota"
-                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                                    Nota</label>
-                                                <input type="text" name="nota" id="nota"
-                                                    wire:model='description'
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                                    placeholder="con poco condimento" required>
                                             </div>
-                                            <button type="button"
-                                                wire:click="updateDescriptionItem('{{ $product->rowId }}','{{ $product->options->tamanio }}','{{ $product->options->category }}','{{ $product->options->image }}')"
-                                                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                Aceptar</button>
-
+                                            {{-- 
+                                                <div>
+                                                    <label for="nota"
+                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                        Nota</label>
+                                                    <input type="" name="nota" id="nota"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                        placeholder="name@company.com" required>
+                                                </div>
+                                                <button type="submit"
+                                                    class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                Aceptar</button> 
+                                            --}}
                                         </div>
                                     </div>
                                 </div>
