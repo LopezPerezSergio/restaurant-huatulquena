@@ -160,8 +160,7 @@ class Update extends Component
         //     "idventa":1
         // }
         
-        $url = config('app.api') . '/itemProduct/' ;   
-            
+        $url = config('app.api') . '/itemProduct/' ;              
         foreach ($this->cuenta as $c) {             
             $response = Http::withToken($user['token'])->post($url, [
                 'nombre'=>$c['nombre'],
@@ -169,7 +168,21 @@ class Update extends Component
                 'cantidad'=>$c['cantidad'],
                 'idventa'=>$idVenta              
             ]);
+
+            foreach ($this->products as $p ) {   ///incrementamos el contador de productos vendidos en el campo de productos
+                if($c['nombre'] == $p['nombre']){
+                    $pCantidad =  $p['contador'] + $c['cantidad'];
+                    
+                    $url = config('app.api') . '/product/add/'. $p['id'] ;             
+                    $response = Http::withToken($user['token'])->put($url,[
+                        'contador'=> $pCantidad 
+                    ]);    
+                }
+            }
         }
+
+         
+
 
         //http://localhost:8080/cuenta/{id}       eliminar cuenta y por ende sus pedidos y pp
         $url = config('app.api') . '/cuenta/'. $this->table['idCuenta']  ;      
@@ -194,7 +207,7 @@ class Update extends Component
        $this->showModal = !$this->showModal ;
     }
 
-    public function deleteOrder($id)
+    public function deleteOrder($id) //eliminar orden y todos su productos. Agregar los eliminados a cancelados en cada producto
     {
         if ($id) {
             if (!session()->get('user')) {
@@ -202,32 +215,66 @@ class Update extends Component
             }
     
             $user = session()->get('user');
-            $url = config('app.api') . '/order/'. $id;
-            
-            $response = Http::withToken($user['token'])->delete($url);
     
+            foreach ($this->ordProd as $p) {
+                if ($p['id_Pedido'] == $id) {
+
+                    $url = config('app.api') . '/product/'. $p['id_Producto'];
+                    $response = Http::withToken($user['token'])->get($url);
+                    $producto = $response->json('data');
+
+                    $pCantidad =  $p['cantidad'] + $producto['cancelados']; //sumamos el valor que tiene de cancelados con el de cantidad pedida del producto cancelado
+                    
+                    $url = config('app.api') . '/product/cancel/'.$p['id_Producto'];     ///editamos la cantidad de productos cancelados                
+                    $response = Http::withToken($user['token'])->put($url,[
+                        'contador'=> $pCantidad 
+                    ]);                    
+                }
+            }
+            
+            $url = config('app.api') . '/order/'. $id;            
+            $response = Http::withToken($user['token'])->delete($url);    
             $response = $response->json('data');
-            // dd($response);
-            $this->revers();
+           
+            // $this->reset(['codigo_acceso']);
+            return redirect()->route('orders.index');
         }
 
         
     }
     public function deleteProductOrder($id)
     {
-        if ($id) {           
+        if ($id) {       
             if (!session()->get('user')) {
                 return redirect()->route('auth.login');
             }
-    
+            $user = session()->get('user');
+
+            $url = config('app.api') . '/order/product/'. $id; //me da todo el contendio de pedido producto
+                    $response = Http::withToken($user['token'])->get($url);
+                    $producto = $response->json('data');
+            
+            foreach ($this->products as $p) {
+                if ($p['id'] == $producto['id_Producto']) {
+                    
+                    $pCantidad =  $producto['cantidad'] + $p['cancelados']; //sumamos el valor que tiene de cancelados con el de cantidad pedida del producto cancelado
+                    
+                    $url = config('app.api') . '/product/cancel/'.$p['id'];     ///editamos la cantidad de productos cancelados                
+                    $response = Http::withToken($user['token'])->put($url,[
+                        'contador'=> $pCantidad 
+                    ]);  
+                     
+                }
+            }
+
             $user = session()->get('user');
             $url = config('app.api') . '/order/product/'. $id;
                         
             $response = Http::withToken($user['token'])->delete($url);
     
             $response = $response->json('data');
-            // dd($response);
-            $this->revers();
+
+            return redirect()->route('orders.index');
         }
     }
 
@@ -341,7 +388,6 @@ class Update extends Component
     {
         $this->clear();
         $this->revers();
-        // $this->reset(['step', 'table', 'employee_id', 'codigo_acceso', 'options', 'search']);
         $this->filterProducts = $this->products;
     }
 
@@ -404,10 +450,11 @@ class Update extends Component
                          'idProducto' => $product->id,
                      ]);
                  }
-                $this->clear();
                  $this->step++;
              }
          }
+        // $this->clear();
+        
      }
 
     /* ----------------------- STEP 5 -----------------------*/
@@ -415,7 +462,8 @@ class Update extends Component
     public function createdTicket()
     {
         $this->clear();
-        $this->reset(['step', 'table', 'employee_id', 'codigo_acceso', 'options', 'search']);
+        
+        $this->reset(['step',  'employee_id', 'codigo_acceso', 'options', 'search']);
         
         $this->reset(['step']);
     }

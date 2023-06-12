@@ -50,7 +50,11 @@ class AuthController extends Controller
 
                 session()->put(['user' => ['token' => $dataUser['token'], 'user' => $dataUser['user'], 'rol' => $dataUser['rol']]]);
                 //return session()->get('user');
-                return redirect()->route('dashboard');
+                if ($dataUser['rol'] == 'admin' ) {
+                    return redirect()->route('dashboard');
+                }
+                
+                return redirect()->route('orders.index');
             }
 
             return back()->withInput();
