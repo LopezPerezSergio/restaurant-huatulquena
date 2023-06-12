@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Tables;
 
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class Sales extends Component
@@ -21,10 +23,30 @@ class Sales extends Component
      public $filter_mesa = '';
      public $filter_mesero = '';
 
-    public function render()
-    {
-        return view('livewire.tables.sales');
-    }
+     public function render()
+     {
+         // Crear una colección de los resultados
+         $ventasColeccion = collect($this->ventas);
+         $paginaActual = request()->query('page', 3);
+         $elementosPorPagina = 5;
+     
+         // Crear una instancia del paginador
+         $paginador = new Paginator($ventasColeccion->forPage($paginaActual, $elementosPorPagina), $elementosPorPagina, $paginaActual);
+         $ventasPaginadas = $paginador->withPath('livewire.tables.sales');
+        // $enlacesPaginacion = $ventasP->links();
+         // Obtener los enlaces de paginación
+         $enlacesPaginacion = $paginador->links();
+        
+         // Pasar los resultados paginados, los enlaces de paginación y la página actual a la vista
+         return view('livewire.tables.sales', [
+             'ventasP' => $ventasPaginadas,
+             'enlacesPaginacion' => $enlacesPaginacion,
+             'paginaActual' => $paginaActual,
+         ]);
+     }
+     
+
+     
 
     public function mount()
     {

@@ -90,7 +90,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($filterSales as $venta)
+            @forelse($ventasP as $venta)
                 <tr
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
@@ -149,7 +149,11 @@
 
         </tbody>
     </table>
-
+    <div class="flex items-center justify-between mt-4">
+        <div class="flex-1">
+            {{ $ventasP->links() }}
+        </div>
+    </div>
 
     <!-- Dropdown menu para botones de busqueda-->
    
