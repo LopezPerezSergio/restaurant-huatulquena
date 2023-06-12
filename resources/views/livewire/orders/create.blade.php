@@ -386,7 +386,7 @@
                                                         <ul role="list"
                                                             class="divide-y divide-gray-200 dark:divide-gray-700">
                                                             @forelse ($filterProducts as $product)
-                                                                @if ($product['categoriaName'] == $category['nombre'])
+                                                                @if ($product['categoriaName'] == $category['nombre'] && $product['status']==1)
                                                                     <li class="py-2">
                                                                         <div class="flex items-center space-x-4">
                                                                             <div class="flex-shrink-0">
