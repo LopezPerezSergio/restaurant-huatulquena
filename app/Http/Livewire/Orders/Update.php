@@ -33,6 +33,8 @@ class Update extends Component
 
      public $showModal = false;
      public $showModalDeleteOrder = false;
+     public $showModalCerrarOrder= false;
+     
 
      /* ----------------------- Fase 3 para ordenar nuevamente -----------------------*/
     public $options = [ // opciones para el producto que se agragara
@@ -119,7 +121,6 @@ class Update extends Component
         }
     }
 
-    //cerra cuenta
     public function cerrarCuenta()
     {
 
@@ -218,7 +219,15 @@ class Update extends Component
     {
        $this->showModal = !$this->showModal ;
     }
-
+    //cerra cuenta
+    public function openModalCerrarOrder()
+    {
+    $this->showModalCerrarOrder = !$this->showModalCerrarOrder ;
+    }
+    public function cerrarModal()
+    {
+        $this->showModalCerrarOrder = false;
+    }
     public function deleteOrder($id) //eliminar orden y todos su productos. Agregar los eliminados a cancelados en cada producto
     {
         if ($id) {
