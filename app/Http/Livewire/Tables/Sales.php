@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Tables;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Livewire\Component;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class Sales extends Component
 {
@@ -12,8 +13,6 @@ class Sales extends Component
     public $ventas;
     public $empleados;
     public $mesas;
-
-
 
     /* Variable que contendra la lista de ventas para el filtrado */
     public $filterSales;
@@ -25,29 +24,22 @@ class Sales extends Component
 
      public function render()
      {
-        return view('livewire.tables.sales');
-        //  // Crear una colección de los resultados
-        //  $ventasColeccion = collect($this->ventas);
-        //  $paginaActual = request()->query('page', 1);
-        //  $elementosPorPagina = 1;
-     
-        //  // Crear una instancia del paginador
-        //  $paginador = new Paginator($ventasColeccion->forPage($paginaActual, $elementosPorPagina), $elementosPorPagina, $paginaActual);
-        //  $ventasPaginadas = $paginador->withPath('livewire.tables.sales');
-        // // $enlacesPaginacion = $ventasP->links();
-        //  // Obtener los enlaces de paginación
-        //  $enlacesPaginacion = $paginador->links();
+        $ventasCollection = collect($this->ventas);
+        //dd($ventasCollection);
+        // Configurar la paginación
+        $currentPage = Paginator::resolveCurrentPage('page');
+        //dd($currentPage);
+        $perPage = 5; // Cantidad de elementos por página
+        $ventasPaginadas = new LengthAwarePaginator(
+            $ventasCollection->forPage($currentPage, $perPage),
+            $ventasCollection->count(),
+            $perPage,
+            $currentPage,
+            ['path' => Paginator::resolveCurrentPath()]
+        );
         
-         // Pasar los resultados paginados, los enlaces de paginación y la página actual a la vista
-        //  return view('livewire.tables.sales', [
-        //      'ventasP' => $ventasPaginadas,
-        //      'enlacesPaginacion' => $enlacesPaginacion,
-        //      'paginaActual' => $paginaActual,
-        //  ]);
+        return view('livewire.tables.sales',['ventasP' => $ventasPaginadas]);
      }
-     
-
-     
 
     public function mount()
     {

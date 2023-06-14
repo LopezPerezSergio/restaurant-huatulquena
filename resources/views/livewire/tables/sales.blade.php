@@ -1,4 +1,7 @@
 <div>
+    @php
+    $mergedSales = $filterSales->merge($ventasP);
+@endphp
     {{-- BOTONES DE BUSQUEDA --}}
     <div
         class="flex flex-col md:flex-row items-stretch md:items-center md:space-x-3 space-y-3 md:space-y-0 justify-between mx-4 py-4">
@@ -138,7 +141,9 @@
         </tbody>
     </table>
 
-    
+    <div class="my-4">
+      hola soy un link  {{ $ventasP->links() }}
+    </div>
 
     <!-- Dropdown menu para botones de busqueda-->
     <div id="dropdown-filters"

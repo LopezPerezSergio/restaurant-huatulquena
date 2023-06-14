@@ -7,11 +7,7 @@
         Reporte de Ventas
     </x-slot:title>
 
-    
-
     @livewire('tables.sales', ['ventas' => $ventas, 'mesas'=>$mesas, 'empleados'=>$empleados]) {{-- Pase de datos para liveware --}}
-
-
 
     @foreach ($ventas as $venta)
         <x-modal.show>
@@ -68,9 +64,5 @@
 
         </x-modal.show>
     @endforeach
-
-
-
-    
 
 </x-app>
