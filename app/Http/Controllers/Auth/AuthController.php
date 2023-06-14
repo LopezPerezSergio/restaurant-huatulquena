@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
+
 
 class AuthController extends Controller
 {
@@ -63,5 +65,17 @@ class AuthController extends Controller
 
             return back()->withInput();
         }
+    }
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/')->with('status', 'Sesión cerrada exitosamente');
+    }
+    public function Desconectarse(Request $request) {
+
+        Session::invalidate();
+        Session::regenerateToken();
+    
+        return response()->json(['logout' => true]);
     }
 }

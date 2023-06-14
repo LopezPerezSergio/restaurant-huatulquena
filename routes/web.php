@@ -11,8 +11,6 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Auth\AuthController;
-//use App\Http\Controllers\TicketController;
-use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\Admin\TicketController;
 use App\Http\Controllers\Admin\ReporteController;
 use Illuminate\Support\Facades\Route;
@@ -22,20 +20,26 @@ use Illuminate\Support\Facades\Route;
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
+| La ruta principal sera el login se elimino la ruta welcome 
 | routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
 |
 */
 
 /* Ruta de la pagina welcome */
 
-Route::get('/', WelcomeController::class);
+// Route::get('/', WelcomeController::class);
+Route::get('/', function () {
+    return view('auth.index');
+});
 
 /* Rutas de logueo */
 Route::prefix('auth')->group(function () {
     Route::get('login', [AuthController::class, 'login'])->name('auth.login')/* ->middleware('Prevent.authenticated') */;
     Route::post('authenticate', [AuthController::class, 'authenticate'])->name('auth.authenticate');
+    Route::post('logout', [AuthController::class, 'Desconectarse'])->name('logout');
+    
+    
+
 });
 
 
@@ -52,14 +56,9 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
     Route::resource('products', ProductController::class)->names('products');
 
     Route::resource('users', UsersController::class)->names('users');
-    //ruta donde estan los botones de ejemplos de ticket
-    Route::resource('pdf', TicketController::class)->names('pdf');
-    //ruta que muestra el ticket para el pedido inicial
-    Route::get('pdfInicial', [TicketController::class, 'generateTicket'])->name('pdfInicial');
-    //ruta que muestra el ticket para el pedido final
-    //  Route::get('pdfFinal', [TicketController::class, 'generateTicketFinal'])->name('pdfFinal');
+
     Route::resource('salesReporte', ReporteController::class)->names('salesReporte');
-    //ruta que muestra el ticket para el pedido final
+    //ruta que muestra el reporte de ventas
     Route::get('reporte', [ReporteController::class, 'generarReporte'])->name('reporte');
     //ruta para manejar facilnebte  el reporte
     Route::get('reportehtml', [ReporteController::class, 'reportehtml'])->name('reportehtml');
@@ -69,12 +68,11 @@ Route::middleware('AuthApi')->prefix('admin')->group(function () {
 
     Route::resource('nominas', PaymentController::class)->names('nominas');
 
-    Route::resource('sales', SaleController::class)->names('sales');
+    // Route::resource('sales', SaleController::class)->names('sales');
+    //Rutas para los tickets
     Route::get('ticket/pedido/{table}', [TicketController::class, 'ticketPedido'])->name('ticket.pedido');
-    // Route::get('ticket/pedidoFinal/{idAux2}', [TicketController::class, 'generateTicketFinal'])->name('ticket.pedidoF');
-//    Route::get('ticket/pedidoFinal', [TicketController::class, 'generateTicketFinal'])->name('ticket.pedidoF');
-    // Route::get('ticket/pf2/{idAux3}', [TicketController::class, 'geneTF'])->name('ticket.pedidoFinal');
-    Route::post('ticket/pf/{table}', [TicketController::class, 'final'])->name('ticket.pedido1');
+    Route::post('ticket/pf/{table}', [TicketController::class, 'final'])->name('ticket.pedido1'); 
+
    
 
 });

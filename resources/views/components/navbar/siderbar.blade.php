@@ -72,12 +72,48 @@
                                         role="menuitem">Dashboard</a>
                                 </li>
                                 <li>
-                                    <a href="#"
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    role="menuitem">
+                                        @csrf
+                                        <button type="submit">Cerrar sesión</button>
+                                    </form>
+                                    
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            document.getElementById('logout-form').addEventListener('submit', function(e) {
+                                                e.preventDefault();
+                                    
+                                                fetch(this.action, {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                                    }
+                                                })
+                                                .then(function(response) {
+                                                    return response.json();
+                                                })
+                                                .then(function(data) {
+                                                    if (data.logout) {
+                                                        window.location.replace('/');
+                                                    }
+                                                })
+                                                .catch(function(error) {
+                                                    console.error(error);
+                                                });
+                                            });
+                                        });
+                                    </script>
+                                    
+                                    {{--  <a href="#"
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        role="menuitem">Sign out</a>
-                                </li>
+                                        role="menuitem">Sign out</a>  --}}
+                                        
+                                
+                                    </li>
                             </ul>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
             </div>

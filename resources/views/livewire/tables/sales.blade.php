@@ -1,7 +1,7 @@
 <div>
-    @php
+    {{--  @php
     $mergedSales = $filterSales->merge($ventasP);
-@endphp
+@endphp  --}}
     {{-- BOTONES DE BUSQUEDA --}}
     <div
         class="flex flex-col md:flex-row items-stretch md:items-center md:space-x-3 space-y-3 md:space-y-0 justify-between mx-4 py-4">
