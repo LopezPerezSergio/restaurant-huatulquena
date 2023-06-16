@@ -8,17 +8,9 @@ use Illuminate\Support\Facades\Http;
 
 class EmployeeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
-        /* $user = session()->get('user');
-        $url = config('app.api') . '/login/valid/token/' . $user['token']; //http://localhost:8080/login/valid/token
-        $response = Http::get($url);
-
-        return $response->json('data');
-        $validate_token = $response->json('data'); */
 
         if (!session()->get('user')) {
             return redirect()->route('auth.login');
@@ -38,9 +30,6 @@ class EmployeeController extends Controller
         
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         if (!session()->get('user')) {

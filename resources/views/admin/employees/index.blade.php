@@ -21,82 +21,93 @@
         <x-slot:modulo>
             Empleado
         </x-slot:modulo>
-
+    
         <x-slot:url>
             {{ route('employees.store') }}
         </x-slot:url>
-
-        <div class="grid gap-4 mb-4 sm:grid-cols-2">
-            <div>
-                <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre
-                    (s)</label>
-                <input type="text" name="nombre" id="nombre"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Nombre" required="">
-            </div>
-            <div>
-                <label for="apellidos"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Apellidos</label>
-                <input type="text" name="apellidos" id="apellidos"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Apellidos" required="">
-            </div>
-            <div>
-                <label for="telefono"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefono</label>
-                <input type="tel" name="telefono" id="telefono"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Telefono" required="" pattern="[0-9]{10}">
-            </div>
-            <div>
-                <label for="codigoAcceso" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Codigo de
-                    Acceso</label>
-                <input type="text" name="codigoAcceso" id="codigoAcceso"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Codigo de Acceso" required="">
-            </div>
-            <div>
-                <label for="rol" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecciona un
-                    rol</label>
-                <select id="rol" name="rol"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                    <option selected>Selecciona un rol</option>
-                    @foreach ($roles as $rol)
-                        <option value="{{ $rol['id'] }}">{{ $rol['nombre'] }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="grid gap-4 md:gap-6 sm:grid-cols-2">
+    
+            <div class="grid gap-4 mb-4 sm:grid-cols-2">
                 <div>
-                    <label for="sueldo"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sueldo/Dia</label>
-                    <input type="number" name="sueldo" id="sueldo"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        placeholder="$299" required="">
+                    <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre (s)</label>
+                    <input type="text" name="nombre" id="nombre" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="ej. Luis Alfredo" required="" pattern="^[A-ZÁÉÍÓÚÑ][A-Za-zÁÉÍÓÚáéíóúñ\s]+$">
+                    @error('nombre')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div>
-                    <label for="porcentaje"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Comision</label>
-                    <input type="number" name="porcentaje" id="porcentaje"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        placeholder="$299" required="">
+                    <label for="apellidos" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Apellidos</label>
+                    <input type="text" name="apellidos" id="apellidos" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="ej. Ayala Lopez" required="" pattern="^[A-ZÁÉÍÓÚ][A-ZÁÉÍÓÚáéíóúa-z ,]+$" >
+                    @error('apellidos')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div>
+                    <label for="telefono" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefono</label>
+                    <input type="tel" name="telefono" id="telefono" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="ej. 9517854215" required="" pattern="[0-9]{10}">
+                    @error('telefono')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div>
+                    <label for="codigoAcceso" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Codigo de Acceso</label>
+                    <input type="text" name="codigoAcceso" id="codigoAcceso" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="ej. 1234" required="" pattern="[0-9]{4}">
+                    @error('codigoAcceso')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div>
+                    <label for="rol" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecciona un
+                        rol</label>
+                    <select id="rol" name="rol"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                        <option selected>Selecciona un rol</option>
+                        @foreach ($roles as $rol)
+                            <option value="{{ $rol['id'] }}">{{ $rol['nombre'] }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="sueldo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sueldo</label>
+                    <input type="text" name="sueldo" id="sueldo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="ej. 200 o 200.00" required="" pattern="^(?!-)([0-9]{1,4}(\.[0-9]{2})?)$">
+                    @error('sueldo')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+                
+                <div>
+                    <label for="porcentaje" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Porcentaje</label>
+                    <input type="text" name="porcentaje" id="porcentaje" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="ej. 1 al 15" pattern="^(0[0-9]|1[0-5])$">
+                    @error('porcentaje')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div>
+                    <label class="my-3 relative inline-flex items-center cursor-pointer">
+                        <input name="status" id="status" type="checkbox" value="1" class="sr-only peer ">
+                        <div
+                            class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                        </div>
+                        <span class="ml-4 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            Estado (Activo - Inactivo)
+                        </span>
+                    </label>
                 </div>
             </div>
-
-            <div>
-                <label class="my-3 relative inline-flex items-center cursor-pointer">
-                    <input name="status" id="status" type="checkbox" value="1" class="sr-only peer ">
-                    <div
-                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-                    </div>
-                    <span class="ml-4 text-sm font-medium text-gray-900 dark:text-gray-300">
-                        Estado (Activo - Inactivo)
-                    </span>
-                </label>
-            </div>
-        </div>
+            <script>
+                const sueldoInput = document.getElementById('sueldo');
+                const porcentajeInput = document.getElementById('porcentaje');
+        
+                sueldoInput.addEventListener('input', () => {
+                    if (sueldoInput.value) {
+                        porcentajeInput.disabled = true;
+                        porcentajeInput.value = '';
+                    } else {
+                        porcentajeInput.disabled = false;
+                    }
+                });
+            </script>
     </x-modal.create>
-
+    
     @foreach ($employees as $employee)
         <x-modal.edit>
             <x-slot:url>
