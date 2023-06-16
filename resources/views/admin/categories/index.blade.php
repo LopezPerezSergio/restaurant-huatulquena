@@ -139,7 +139,7 @@
 
     <x-modal.create>
         <x-slot:modulo>
-            Categoria
+            Categoría
         </x-slot:modulo>
 
         <x-slot:url>

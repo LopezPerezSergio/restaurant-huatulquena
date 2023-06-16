@@ -24,6 +24,7 @@ class SaleController extends Controller
         $url = config('app.api') . '/venta/';
         $response = Http::withToken($user['token'])->get($url);
         $ventas = $response->json('data');
+        //dd(hola);
         //dd($ventas);        //dd($ventas);
         $url = config('app.api') . '/table';
         $response = Http::withToken($user['token'])->get($url);
