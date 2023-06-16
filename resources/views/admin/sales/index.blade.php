@@ -8,6 +8,10 @@
     </x-slot:title>
 
     @livewire('tables.sales', ['ventas' => $ventas, 'mesas'=>$mesas, 'empleados'=>$empleados]) {{-- Pase de datos para liveware --}}
+    <div class="my-4">
+        {{ $paginacion->links() }}
+    </div>
+
 
     @foreach ($ventas as $venta)
         <x-modal.show>
