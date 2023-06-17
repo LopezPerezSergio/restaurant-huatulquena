@@ -1,8 +1,4 @@
 <div>
-    {{--  @php
-    $mergedSales = $filterSales->merge($ventasP);
-@endphp  --}}
-    {{-- BOTONES DE BUSQUEDA --}}
     <div
         class="flex flex-col md:flex-row items-stretch md:items-center md:space-x-3 space-y-3 md:space-y-0 justify-between mx-4 py-4">
         <div class="w-full md:w-1/2">
@@ -22,21 +18,51 @@
         <div
             class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
             <div class="flex items-center">
-                <form action="reporte" method="GET" target="_blank" class="flex">
-                    <input type="date" name="fecha" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Seleccione una fecha para ver pagos">
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <p>Selecciona una fecha:</p>
+                <form action="reporte" method="GET" target="_blank" class="flex" onsubmit="return validarFormulario()">
+                    <div>   
+                        <input id="datePickerId" type="date" name="fecha" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                      </div>
+                    <div class="m-2"></div> 
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 whitespace-nowrap">
                         <svg aria-hidden="true" class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path></svg>
+                          <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
+                        </svg>
                         Generar Reporte
-                    </button> 
+                      </button>
                 </form>
             </div>
-            {{--  <div>
-                <input wire:model="search" type="date"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Seleccione una fecha para ver pagos">
-
-            </div>  --}}
+            {{--  Para que no se puedan seleccionar fechas futuras a la actual  --}}
+            <script>
+                datePickerId.max = new Date().toISOString().split("T")[0]; 
+            </script>
+            {{--  validar antes de enviar el form a la ruta reporte  --}}
+            <script>
+                function validarFormulario() {
+                    var fechaSeleccionada = document.getElementById('datePickerId').value;
+                    var arrayVentas = <?php echo json_encode($ventas); ?>; // Asigna los datos de ventas desde PHP
+            
+                    var filteredVentas = [];
+                    var flag = false;
+            
+                    for (var i = 0; i < arrayVentas.length; i++) {
+                        if (fechaSeleccionada && fechaSeleccionada === arrayVentas[i]['fecha']) {
+                            filteredVentas.push(arrayVentas[i]);
+                            flag = true;
+                        }
+                    }
+            
+                    if (flag) {
+                        return true; // Si flag es true, se enviará el formulario
+                    } else {
+                        // Realiza alguna acción si la fecha no cumple con la validación
+                        alert('La fecha seleccionada no coincide con ninguna venta.');
+                        return false; // Si flag es false, el formulario no se enviará
+                    }
+                }
+            </script>
+            
+            
             <button id="DropdownButtonFilters" data-dropdown-toggle="dropdown-filters"
                 class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                 type="button">
@@ -141,9 +167,7 @@
         </tbody>
     </table>
 
-    <div class="my-4">
-      hola soy un link  {{ $ventasP->links() }}
-    </div>
+    
 
     <!-- Dropdown menu para botones de busqueda-->
     <div id="dropdown-filters"
@@ -218,3 +242,6 @@
         </div>
     </div>
 </div>
+{{--  <div class="my-4">
+    hola soy un link  {{ $ventasP->links() }}
+  </div>  --}}

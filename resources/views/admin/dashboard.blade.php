@@ -21,7 +21,7 @@
 
     
     <x-slot:title>
-        Estadisticas
+        Estadísticas
     </x-slot:title>
 
 
