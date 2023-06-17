@@ -107,7 +107,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($filterSales as $venta)
+            @forelse($sales as $venta)
                 <tr
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
@@ -167,7 +167,10 @@
         </tbody>
     </table>
 
-    
+<div class="pagination pagination-container">
+  {{ $sales->links() }}
+</div>
+      
 
     <!-- Dropdown menu para botones de busqueda-->
     <div id="dropdown-filters"
@@ -242,6 +245,3 @@
         </div>
     </div>
 </div>
-{{--  <div class="my-4">
-    hola soy un link  {{ $ventasP->links() }}
-  </div>  --}}
