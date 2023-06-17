@@ -9,7 +9,7 @@
 
     @livewire('tables.sales', ['ventas' => $ventas, 'mesas'=>$mesas, 'empleados'=>$empleados]) {{-- Pase de datos para liveware --}}
     {{--  <div class="my-4">
-        {{ $paginacion->links() }}
+        {{ $ventasPaginadas->links() }}
     </div>  --}}
 
 
