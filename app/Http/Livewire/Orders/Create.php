@@ -29,6 +29,12 @@ class Create extends Component
         'image' => null
     ];
     public $description = ''; // Guarda la descripcion que le vamos a pasar al producto
+    public $showModalDesc = false;
+    public $productId= '';
+    public $productTam= '';
+    public $productCat= '';
+    public $productImg= '';
+    public $productDesc= '';
 
     // Variables para el buscador
     public $search = '';
@@ -149,7 +155,26 @@ class Create extends Component
         $this->options['image'] = $image;
 
         Cart::update($rowId, ['options' => $this->options]);
-        $this->reset(['description']);
+        $this->reset(['description', 'showModalDesc']);
+
+    }
+
+    // Metodo para cerrar y visualzar el modal de descripcion
+    public function openModalDescripcion()
+    {
+        $this->showModalDesc = !$this->showModalDesc;
+              
+    }
+
+    public function seleccionDesc($rowId, $tamanio, $category, $image)
+    {
+        $this->productId = $rowId;
+        $this->productTam = $tamanio;
+        $this->productCat = $category;
+        $this->productImg = $image;
+        $this->productDesc = '';
+
+        $this->showModalDesc = !$this->showModalDesc;
         
     }
 
@@ -186,7 +211,7 @@ class Create extends Component
     {
         $this->activeTab = $tab;
     }
-    
+
 
     /* ----------------------- Fase 2 -----------------------*/
 
@@ -265,7 +290,7 @@ class Create extends Component
     {
         $this->clear();
         $this->reset(['step', 'table', 'employee_id', 'codigo_acceso', 'options', 'search']);
-        
+
         redirect()->route('orders.index');
     }
 }

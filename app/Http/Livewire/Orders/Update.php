@@ -44,6 +44,12 @@ class Update extends Component
         'image' => null
     ];
     public $description = ''; // Guarda la descripcion que le vamos a pasar al producto
+    public $showModalDesc = false;
+    public $productId= '';
+    public $productTam= '';
+    public $productCat= '';
+    public $productImg= '';
+    public $productDesc= '';
 
     // Variables para el buscador
     public $search = '';
@@ -222,7 +228,7 @@ class Update extends Component
     //cerra cuenta
     public function openModalCerrarOrder()
     {
-    $this->showModalCerrarOrder = !$this->showModalCerrarOrder ;
+        $this->showModalCerrarOrder = !$this->showModalCerrarOrder ;
     }
     public function cerrarModal()
     {
@@ -380,9 +386,28 @@ class Update extends Component
         $this->options['image'] = $image;
 
         Cart::update($rowId, ['options' => $this->options]);
-        $this->reset(['description']);
+        $this->reset(['description', 'showModalDesc']);
         
     }
+
+     // Metodo para cerrar y visualzar el modal de descripcion
+     public function openModalDescripcion()
+     {
+         $this->showModalDesc = !$this->showModalDesc;
+               
+     }
+ 
+     public function seleccionDesc($rowId, $tamanio, $category, $image)
+     {
+         $this->productId = $rowId;
+         $this->productTam = $tamanio;
+         $this->productCat = $category;
+         $this->productImg = $image;
+         $this->productDesc = '';
+ 
+         $this->showModalDesc = !$this->showModalDesc;
+         
+     }
 
     /* Metodo para eliminar un producto de la lista */
     public function removeItem($product)
@@ -486,6 +511,6 @@ class Update extends Component
         
         $this->reset(['step',  'employee_id', 'codigo_acceso', 'options', 'search']);
         
-        $this->reset(['step']);
+        redirect()->route('orders.index');
     }
 }
