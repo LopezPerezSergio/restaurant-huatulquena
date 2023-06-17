@@ -12,7 +12,7 @@ class Update extends Component
 {
 
     /* Variable encargada de mostrar la vista correspondiente de acuerdo a la fase en la que se encuentra */
-    public $step = 1; // cambiar los valores entre 1 y 3 de forma manual
+    public $step = 2; // cambiar los valores entre 1 y 3 de forma manual
 
     /* ----------------------- Fase 1 -----------------------*/
     public $employee_id = ''; // Guarda el id del empleado seleccionado sin uso
@@ -44,6 +44,12 @@ class Update extends Component
         'image' => null
     ];
     public $description = ''; // Guarda la descripcion que le vamos a pasar al producto
+    public $showModalDesc = false;
+    public $productId= '';
+    public $productTam= '';
+    public $productCat= '';
+    public $productImg= '';
+    public $productDesc= '';
 
     // Variables para el buscador
     public $search = '';
@@ -154,14 +160,7 @@ class Update extends Component
             'nombreMesa'=> $this->table['nombre']
         ]);
         $idVenta = $response['data'];
-        //dd($idVenta);
-        $this->idAux2=$idVenta;
-        $this->idAux3=$idVenta;
-         //dd($this->cuenta);
-         //return Redirect::route('ticket.pedido1', ['cuenta' => $this->cuenta])->with('cuenta', $cuenta);
-
-        //return Redirect::route('ticket.pedido1', ['cuenta' => $this->cuenta['id']]);
-
+        
         //http://localhost:8080/itemProduct/  creamos los productos en el almacenamiento auxiliar
         // body:{                    <- obtener de cuentaFinal(nombre,precio,cantidad,
         //                               mesa->idEmpleado, mesa->nombre)
@@ -170,16 +169,16 @@ class Update extends Component
         //     "cantidad":1,
         //     "idventa":1
         // }
-        
-        $url = config('app.api') . '/itemProduct/' ;              
+        //  dd($this->cuenta);
+        $url2 = config('app.api') . '/itemProduct/' ;              
         foreach ($this->cuenta as $c) {             
-            $response = Http::withToken($user['token'])->post($url, [
+            $response = Http::withToken($user['token'])->post($url2, [
                 'nombre'=>$c['nombre'],
                 'precio'=>$c['precio'],
                 'cantidad'=>$c['cantidad'],
                 'idventa'=>$idVenta              
             ]);
-
+           
             foreach ($this->products as $p ) {   ///incrementamos el contador de productos vendidos en el campo de productos
                 if($c['nombre'] == $p['nombre']){
                     $pCantidad =  $p['contador'] + $c['cantidad'];
@@ -190,11 +189,8 @@ class Update extends Component
                     ]);    
                 }
             }
-        }
-
-         
-
-
+        }  
+        
         //http://localhost:8080/cuenta/{id}       eliminar cuenta y por ende sus pedidos y pp
         $url = config('app.api') . '/cuenta/'. $this->table['idCuenta']  ;      
         $response = Http::withToken($user['token'])->delete($url);
@@ -222,7 +218,7 @@ class Update extends Component
     //cerra cuenta
     public function openModalCerrarOrder()
     {
-    $this->showModalCerrarOrder = !$this->showModalCerrarOrder ;
+        $this->showModalCerrarOrder = !$this->showModalCerrarOrder ;
     }
     public function cerrarModal()
     {
@@ -380,9 +376,28 @@ class Update extends Component
         $this->options['image'] = $image;
 
         Cart::update($rowId, ['options' => $this->options]);
-        $this->reset(['description']);
+        $this->reset(['description', 'showModalDesc']);
         
     }
+
+     // Metodo para cerrar y visualzar el modal de descripcion
+     public function openModalDescripcion()
+     {
+         $this->showModalDesc = !$this->showModalDesc;
+               
+     }
+ 
+     public function seleccionDesc($rowId, $tamanio, $category, $image)
+     {
+         $this->productId = $rowId;
+         $this->productTam = $tamanio;
+         $this->productCat = $category;
+         $this->productImg = $image;
+         $this->productDesc = '';
+ 
+         $this->showModalDesc = !$this->showModalDesc;
+         
+     }
 
     /* Metodo para eliminar un producto de la lista */
     public function removeItem($product)
@@ -486,6 +501,6 @@ class Update extends Component
         
         $this->reset(['step',  'employee_id', 'codigo_acceso', 'options', 'search']);
         
-        $this->reset(['step']);
+        redirect()->route('orders.index');
     }
 }
