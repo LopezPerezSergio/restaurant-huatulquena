@@ -13,6 +13,8 @@ class Sales extends Component
     public $ventas;
     public $empleados;
     public $mesas;
+    public $payments;
+    public $fechaActual;
 
     /* Variable que contendra la lista de ventas para el filtrado */
     public $filterSales;
@@ -21,14 +23,22 @@ class Sales extends Component
     //  public $search = ''; //nombre
      public $filter_mesa = '';
      public $filter_mesero = '';
-
+     public function mount()
+     {
+         $this->fechaActual = date('Y-m-d');
+         $this->filterSales = $this->ventas;
+     }
+ 
+    
      public function render()
-     {       
+     {  
+        // dd($this->ventas);
+        $this->fechaActual = date('Y-m-d');
         // Apply filters to the $ventas array
         $filteredSales = $this->filterSales();
 
         // Paginate the filtered results
-        $perPage = 2;
+        $perPage = 1;
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
         $currentItems = array_slice($filteredSales, ($currentPage - 1) * $perPage, $perPage);
         $sales = new LengthAwarePaginator($currentItems, count($filteredSales), $perPage, $currentPage);

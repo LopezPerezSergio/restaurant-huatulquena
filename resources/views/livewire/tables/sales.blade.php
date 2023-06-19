@@ -3,7 +3,7 @@
         class="flex flex-col md:flex-row items-stretch md:items-center md:space-x-3 space-y-3 md:space-y-0 justify-between mx-4 py-4">
         <div class="w-full md:w-1/2">
             <div class="flex items-center">
-                <button type="button"
+                <button type="button" id="modalToggleButton" data-modal-target="modalContent" data-modal-toggle="modalContent" 
                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     <svg aria-hidden="true" class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
@@ -15,6 +15,126 @@
                 </button>
             </div>
         </div>
+        <div id="modalContent"  tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative w-full max-w-2xl max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                            Terms of Service
+                        </h3>
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="modalContent">
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    
+                    <div id="contenidoModal" class="relative overflow-x-auto">
+                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        Ingresos
+                                        <th>
+                                        <?php
+                                        
+                                        $totalVentas = 0;
+                                        foreach($ventas as $venta){
+                                            if($venta['fecha']==$fechaActual)
+                                            $totalVentas += $venta["total"];
+                                        }
+                                        echo "$" . $totalVentas;
+                                        ?>
+                                    </th>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    
+                                    <th scope="col" class="px-6 py-3 rounded-l-lg">
+                                        CONCEPTO
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        DESCRIPCION
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        CATEGORIA
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 rounded-r-lg">
+                                        MONTO
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($payments as $pagos)
+                                @if($pagos['fecha']==$fechaActual)
+                                <tr class="bg-white dark:bg-gray-800">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{$pagos['nombre']}}
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        {{$pagos['descripcion']}}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        ${{$pagos['pago']}}
+                                    </td>
+                                </tr>
+                                @endif
+                                @endforeach          
+                            </tbody>
+                            <tfoot>
+                                <tr class="font-semibold text-gray-900 dark:text-white">
+                                    <th scope="row" class="px-6 py-3 text-base">Total de Pagos</th>
+                                    <td class="px-6 py-3">
+                                        <?php
+                                        $totalPagos = 0;
+                                        foreach($payments as $pagos){
+                                        if($pagos['fecha']==$fechaActual){
+                                        
+                                            $totalPagos += $pagos['pago'];
+                                        }
+                                    }
+                                        echo "$" . $totalPagos;
+                                        ?>
+                                    </td>
+                                </tr>
+                                <tr class="font-semibold text-gray-900 dark:text-white">
+                                <th scope="row" class="px-6 py-3 text-base">Total del dia</th>
+                                    <td class="px-6 py-3">
+                                        <?php
+                                        $totalDia = $totalVentas - $totalPagos;
+                                        echo "$" . $totalDia;
+                                        ?>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                        <form id="pdfForm" action="{{ route('reporteCaja') }}" method="GET" target="_blank" class="flex">
+                            <button id="acceptButton" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                ACEPTAR
+                            </button>
+                        </form>
+                        
+                        <button data-modal-hide="modalContent" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Decline</button>
+                    </div>   
+                    <script>
+                        const acceptButton = document.getElementById('acceptButton');
+                        const pdfForm = document.getElementById('pdfForm');
+                    
+                        acceptButton.addEventListener('click', () => {
+                            pdfForm.submit();
+                        });
+                    </script>                 
+                </div>
+            </div>
+        </div>
+
+
         <div
             class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
             <div class="flex items-center">
@@ -128,7 +248,7 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex items-center space-x-4">
-                            <button type="button" data-drawer-target="drawer-read-venta-{{ $venta['id'] }}-advanced"
+                            <button id="ver-button" type="button" data-drawer-target="drawer-read-venta-{{ $venta['id'] }}-advanced"
                                 data-drawer-show="drawer-read-venta-{{ $venta['id'] }}-advanced"
                                 aria-controls="drawer-read-venta-{{ $venta['id'] }}-advanced"
                                 class="py-2 px-3 flex items-center text-sm font-medium text-center text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
@@ -167,11 +287,10 @@
         </tbody>
     </table>
 
-<div class="pagination pagination-container">
-  {{ $sales->links() }}
-</div>
-      
-
+    <div id="paginacion">
+        {{ $sales->links() }}
+    </div>
+ 
     <!-- Dropdown menu para botones de busqueda-->
     <div id="dropdown-filters"
         class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">

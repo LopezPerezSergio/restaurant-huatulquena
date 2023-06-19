@@ -7,7 +7,7 @@
         Reporte de Ventas
     </x-slot:title>
 
-    @livewire('tables.sales', ['ventas' => $ventas, 'mesas'=>$mesas, 'empleados'=>$empleados]) {{-- Pase de datos para liveware --}}
+    @livewire('tables.sales', ['payments'=>$payments,'ventas' => $ventas, 'mesas'=>$mesas, 'empleados'=>$empleados]) {{-- Pase de datos para liveware --}}
     {{--  <div class="my-4">
         {{ $ventasPaginadas->links() }}
     </div>  --}}
