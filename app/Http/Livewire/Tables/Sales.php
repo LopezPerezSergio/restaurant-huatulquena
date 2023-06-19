@@ -23,27 +23,21 @@ class Sales extends Component
     //  public $search = ''; //nombre
      public $filter_mesa = '';
      public $filter_mesero = '';
-     public function mount()
-     {
-         $this->fechaActual = date('Y-m-d');
-         $this->filterSales = $this->ventas;
-     }
- 
     
      public function render()
      {  
-        // dd($this->ventas);
+       
         $this->fechaActual = date('Y-m-d');
         // Apply filters to the $ventas array
         $filteredSales = $this->filterSales();
 
-        // Paginate the filtered results
-        $perPage = 1;
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        $currentItems = array_slice($filteredSales, ($currentPage - 1) * $perPage, $perPage);
-        $sales = new LengthAwarePaginator($currentItems, count($filteredSales), $perPage, $currentPage);
-
-        return view('livewire.tables.sales', compact('sales'));
+        // // Paginate the filtered results
+        // $perPage = 2;
+        // $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        // $currentItems = array_slice($filteredSales, ($currentPage - 1) * $perPage, $perPage);
+        // $sales = new LengthAwarePaginator($currentItems, count($filteredSales), $perPage, $currentPage);
+        return view('livewire.tables.sales', compact('filteredSales'));
+        // return view('livewire.tables.sales', compact('sales'));
      }
      public function filterSales()
      {

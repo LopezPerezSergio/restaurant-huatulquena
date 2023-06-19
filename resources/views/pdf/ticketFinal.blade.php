@@ -56,6 +56,7 @@
     @php
     $total = 0; // Variable para almacenar el total
     $idMesaPedido= '';
+    $totalProductos=0;
     @endphp
     <table>
         <tr>
@@ -87,45 +88,19 @@
             <td class="titulos">Mesa No.</td>
             <td>
                 {{$table}}
-                {{--  @foreach ($orden as $pedido)
-                @foreach ($tables as $mesa)
-                @if ($mesa['id'] == $pedido['id_Mesa'] && $message == $mesa['id'])
-                {{$mesa['nombre']}}
-                @endif
-                @endforeach
-                @endforeach  --}}
             </td>
         <tr>
             <td class="titulos">Mesero:</td>
             <td colspan="4">
                 {{--  Recupera el nombre del mesero que atendió esa cuenta --}}
                 {{$employee}}
-                {{--  @foreach ($employees as $employee)
-                @foreach ($orden as $pedido)
-                @foreach ($tables as $mesa)
-                @if ($mesa['id'] == $pedido['id_Mesa'] && $message == $mesa['id'] && $employee['id'] ==
-                $pedido['id_Mesa'])
-                {{$employee['nombre']}}
-                @endif
-                @endforeach
-                @endforeach
-                @endforeach  --}}
             </td>
         </tr> 
 
         <tr>
             <td colspan="4" class="center bold">Pedido
                 {{$idTable}}
-                {{--  @foreach ($orden as $pedido)
-                @foreach ($tables as $mesa)
-                @foreach ($cuenta as $cuentaUnica)
-                @if ($mesa['id'] == $pedido['id_Mesa'] && $message == $mesa['id'] && $pedido['id'] ==
-                $cuentaUnica['id'])
-                Nro: {{$pedido["id"]}}
-                @endif
-                @endforeach
-                @endforeach
-                @endforeach  --}}
+            </td>
 
         </tr> 
         <tr>
@@ -158,14 +133,10 @@
             <td class="center">
                 {{ $pedi['total'] }}</td>
             <td>
-
                 @php
                 $total += $pedi['total'] ;
+                $totalProductos += $pedi['cantidad'] ;
                 @endphp
-                {{--  $montoPagado = 2000; // total pagado dato de prueba
-
-                $cambio = $montoPagado - $total;  --}}
-                {{-- ${{ $subtotal }} --}}
             </td>
         </tr>
         @endif
@@ -177,20 +148,13 @@
             <td colspan="4" class="center">-------------------------------------------------------------------</td>
         </tr>
         <tr>
-            <td colspan="2">&nbsp;</td>
-            <td class="bold">TOTAL A PAGAR</td>
+            <td  class=" text-align: center margin: 15 font-size: 10px ">
+                Cant. prod.: {{$totalProductos}}
+            </td>
+            <td colspan="1">&nbsp;</td>
+            <td colspan="1"  class="bold">TOTAL A PAGAR</td>
             <td> ${{ $total }}.00 MX</td>
         </tr>
-        {{--  <tr>
-            <td colspan="2">&nbsp;</td>
-            <td class="bold">TOTAL PAGADO</td>
-            <td>${{ $montoPagado }} MX;</td>
-        </tr>
-        <tr>
-            <td colspan="2">&nbsp;</td>
-            <td class="bold">CAMBIO</td>
-            <td>${{ $cambio }} MX</td>
-        </tr>  --}}
         <tr>
             <td colspan="4">&nbsp;</td>
         </tr>
