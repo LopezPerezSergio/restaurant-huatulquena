@@ -20,7 +20,7 @@ class TicketController extends Controller
     // funcion que genera el ticket final
     public function final($table)
     {
-        
+        // dd($table);
         if (!session()->get('user')) {
             return redirect()->route('auth.login');
         }
@@ -29,19 +29,11 @@ class TicketController extends Controller
         $url = config('app.api') . '/table/' . $table;
         $response = Http::withToken($user['token'])->get($url);
         $tableA = $response->json('data');
-
+       
         $url = config('app.api') . '/employee/search-id/' . $tableA['idEmpleado'];
         $response = Http::withToken($user['token'])->get($url);
         $employee = $response->json('data');
-
-        $cuenta=Cuenta::all();
-        $cuentaArray = $cuenta->toArray();
-         $cfArray = Cuenta::where('id', $tableA['idCuenta'])
-         ->get()
-         ->toArray();  
-         //dd($cfArray);
-        $id = $cuentaArray[0]['id'];
-        //dd($id);
+        
         $url = config('app.api') . '/product';
         $response = Http::withToken($user['token'])->get($url);
         $products = $response->json('data');
@@ -50,13 +42,10 @@ class TicketController extends Controller
         $response = Http::withToken($user['token'])->get($url);
         $orden = $response->json('data');
         
-        $url = config('app.api') . '/cuenta';
-        $response = Http::withToken($user['token'])->get($url);
-        $cuenta = $response->json('data');     
-        $url = config('app.api') . '/cuenta/items/'.$id;
+         $url = config('app.api') . '/cuenta/items/'.$tableA['idCuenta'];
         $response = Http::withToken($user['token'])->get($url);
         $cuentafinal = $response->json('data');
-        //dd($cuentafinal);
+        
         $pdf = PDF::setPaper('8.5x11')->loadView('pdf.ticketFinal', compact('cuentafinal','products'),[
             'table' => $tableA['nombre'],
              'idTable' => $tableA['idCuenta'],

@@ -36,16 +36,16 @@ Route::get('/', function () {
 Route::prefix('auth')->group(function () {
     Route::get('login', [AuthController::class, 'login'])->name('auth.login')/* ->middleware('Prevent.authenticated') */;
     Route::post('authenticate', [AuthController::class, 'authenticate'])->name('auth.authenticate');
-    Route::post('logout', [AuthController::class, 'Desconectarse'])->name('logout');
+    Route::post('logout', [AuthController::class, 'Desconectarse'])->name('logout');    
     
-    
+
 
 });
 
 
 
 /* Rutas del administrador */
-Route::middleware('AuthApi')->prefix('admin')->group(function () {
+Route::middleware('AuthApi')->prefix('restaurant')->group(function () {
     // Esta ruta solo puede ser accedida por usuarios autenticados
     Route::get('dashboard', DashboardController::class)->name('dashboard');
 

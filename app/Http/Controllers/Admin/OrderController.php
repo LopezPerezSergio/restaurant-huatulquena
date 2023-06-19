@@ -39,9 +39,18 @@ class OrderController extends Controller
         $url = config('app.api') . '/table';        
         $response = Http::withToken($user['token'])->get($url);        
         $tables = $response->collect('data');
+
+        //recupero los productos
+        $url = config('app.api') . '/product';
+        $response = Http::withToken($user['token'])->get($url);
+        $products = $response->json('data');
+
+        //recupero los empleados
+        $url = config('app.api') . '/employee';
+        $response = Http::withToken($user['token'])->get($url);
+        $employees = $response->json('data');
                 
-        // pasar mesas
-        return view('admin.orders.index', compact('tables'));
+        return view('admin.orders.index', compact('tables', 'products', 'employees'));
     }
 
     /**
