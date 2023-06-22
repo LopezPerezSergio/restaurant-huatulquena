@@ -62,7 +62,7 @@
                                 <th scope="col" class="p-4">Estado</th>
                                 <th scope="col" class="p-4">Vendidos</th>
                                 <th scope="col" class="p-4">Cancelados</th>
-                                <th scope="col" class="p-4">Categoria</th>
+                                <th scope="col" class="p-4">Categoría</th>
                                 <th scope="col" class="p-4">Precio</th>
                                 <th scope="col" class="p-4">Acciones</th>
                             </tr>
@@ -200,7 +200,7 @@
             <li>
                 <button id="DropdownButtonCategories" data-dropdown-toggle="dropdown-filters-categories"
                     data-dropdown-placement="right-start" type="button"
-                    class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Categoria<svg
+                    class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Categoría<svg
                         aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"

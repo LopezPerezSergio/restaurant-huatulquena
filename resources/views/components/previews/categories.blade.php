@@ -5,7 +5,7 @@
     <div class="mb-4">
         <h4 class="mb-1 text-3xl font-extrabold text-gray-900 dark:text-white">
             <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-800 from-sky-700">
-                Productos que pertenecen a la categoria:
+                Productos que pertenecen a la categoría:
         </h4>
         <h4 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white">
             <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-800 from-sky-700">

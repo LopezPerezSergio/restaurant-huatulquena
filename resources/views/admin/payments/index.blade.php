@@ -4,7 +4,7 @@
     </x-slot:navbar>
 
     <x-slot:title>
-        Pagos / Nominas
+        Pagos / Nóminas
     </x-slot:title>
 
     {{-- Boton para formulario de otros gastos --}}

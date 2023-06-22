@@ -13,7 +13,7 @@
     @if (session()->get('user')['rol'] === 'user')
 
         <x-slot:title>
-            Seleccion de mesa
+            Selección de mesa
         </x-slot:title>
 
         <section class="bg-gray-50 dark:bg-gray-900 antialiased">
@@ -154,7 +154,7 @@
         </x-modal.create> --}}
     @else
         <x-slot:title>
-            Gestiòn de mesas
+            Gestión de mesas
         </x-slot:title>
 
         {{-- Codificacion componente  --}}

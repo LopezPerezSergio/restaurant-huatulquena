@@ -57,10 +57,10 @@
                                         CONCEPTO
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        DESCRIPCION
+                                        DESCRIPCIÓN
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        CATEGORIA
+                                        CATEGORÍA
                                     </th>
                                     <th scope="col" class="px-6 py-3 rounded-r-lg">
                                         MONTO

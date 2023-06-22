@@ -63,9 +63,17 @@ class RolController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        if (!session()->get('user')) {
-            return redirect()->route('auth.login');
-        }
+      
+        $url = config('app.api') . '/rol/'.$id;
+
+        $response = Http::put($url, [
+            'nombre' => $request->nombre,
+        ]);
+
+        $response = $response['data'];
+        session()->flash('alert-rol', $response);
+        
+        return redirect()->route('rol.index');
     }
 
     /**

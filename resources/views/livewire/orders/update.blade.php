@@ -171,7 +171,7 @@
                                                     <th scope="col" class="p-4">Nombre</th>
                                                     <th scope="col" class="p-4">Precio</th>
                                                     <th scope="col" class="p-4">Cantidad</th>
-                                                    <th scope="col" class="p-4">Categoria</th>
+                                                    <th scope="col" class="p-4">Categoría</th>
                                                     <th scope="col" class="p-4">
                                                         @if (session()->get('user')['rol'] === 'admin' || session()->get('user')['rol'] === 'cajero')
                                                             Accion
@@ -491,7 +491,7 @@
                                                                             </p>
                                                                             <p
                                                                                 class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                                                                Agregue productos a esta categoria
+                                                                                Agregue productos a esta categoría
                                                                             </p>
                                                                         </div>
                                                                     </div>
