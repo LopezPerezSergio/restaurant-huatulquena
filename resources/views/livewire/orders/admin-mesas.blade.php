@@ -391,7 +391,7 @@
                         </div>
                     </div>
                     <!-- Modal footer -->
-                    <div
+                    {{-- <div
                         class="flex justify-end p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                         <button type="button" wire:click='openModalCerrarOrder'
                             class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
@@ -404,7 +404,7 @@
                             Cerrar cuenta
                         </button>
 
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 

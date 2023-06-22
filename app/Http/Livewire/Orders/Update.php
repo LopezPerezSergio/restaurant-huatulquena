@@ -26,8 +26,7 @@ class Update extends Component
 
      public $table; //guarda la mesa seleccionada
      public $cuenta; //guarda los productos pedidos en a la mesa 
-     public $idAux2='';
-     public $idAux3='';
+     public $idVenta;
 
      public $total ;
 
@@ -159,7 +158,7 @@ class Update extends Component
             'nombreMesero'=>$nombreEmpleado,
             'nombreMesa'=> $this->table['nombre']
         ]);
-        $idVenta = $response['data'];
+        $this->idVenta = $response['data'];
         
         //http://localhost:8080/itemProduct/  creamos los productos en el almacenamiento auxiliar
         // body:{                    <- obtener de cuentaFinal(nombre,precio,cantidad,
@@ -170,13 +169,13 @@ class Update extends Component
         //     "idventa":1
         // }
         //  dd($this->cuenta);
-        $url2 = config('app.api') . '/itemProduct/' ;              
+        $url2 = config('app.api') . '/itemProduct/' ;  //ruta para agregar productos para ventas            
         foreach ($this->cuenta as $c) {             
             $response = Http::withToken($user['token'])->post($url2, [
                 'nombre'=>$c['nombre'],
                 'precio'=>$c['precio'],
                 'cantidad'=>$c['cantidad'],
-                'idventa'=>$idVenta              
+                'idventa'=>$this->idVenta  ,    
             ]);
            
             foreach ($this->products as $p ) {   ///incrementamos el contador de productos vendidos en el campo de productos
@@ -191,9 +190,9 @@ class Update extends Component
             }
         }  
         
-        //http://localhost:8080/cuenta/{id}       eliminar cuenta y por ende sus pedidos y pp
-        $url = config('app.api') . '/cuenta/'. $this->table['idCuenta']  ;      
-        $response = Http::withToken($user['token'])->delete($url);
+        // //http://localhost:8080/cuenta/{id}       eliminar cuenta y por ende sus pedidos y pp
+        // $url = config('app.api') . '/cuenta/'. $this->table['idCuenta']  ;      
+        // $response = Http::withToken($user['token'])->delete($url);
 
         //cambiamos el estado de la mesa a disponible 
         $url = config('app.api') . '/table/' .  $this->table['id'] ;   

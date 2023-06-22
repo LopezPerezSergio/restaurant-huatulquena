@@ -71,13 +71,6 @@ Route::middleware('AuthApi')->prefix('restaurant')->group(function () {
     // Route::resource('sales', SaleController::class)->names('sales');
     //Rutas para los tickets
     Route::get('ticket/pedido/{table}', [TicketController::class, 'ticketPedido'])->name('ticket.pedido');
-    Route::post('ticket/pf/{table}', [TicketController::class, 'final'])->name('ticket.pedido1'); 
-
-    
-
-
-
-   
-
+    Route::post('ticket/pdf/{table}', [TicketController::class, 'final'])->name('ticket.pedido1');
 });
 
