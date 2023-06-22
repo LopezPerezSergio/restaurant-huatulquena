@@ -65,10 +65,12 @@ class RolController extends Controller
     {
       
         $url = config('app.api') . '/rol/'.$id;
-
+        
+        // dd($request);
         $response = Http::put($url, [
             'nombre' => $request->nombre,
         ]);
+        // dd($response);
 
         $response = $response['data'];
         session()->flash('alert-rol', $response);

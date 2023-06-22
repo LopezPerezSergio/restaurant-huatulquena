@@ -76,18 +76,19 @@
                             </div>
 
                             <div id="{{ $rol['id'] }}-dropdown"
-                                class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-                                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                    aria-labelledby="{{ $rol['id'] }}-dropdown-button">
-                                    <li>
-                                        {{-- boton de modal edit --}}
-                                        <button id="edit{{ $rol['id'] }}ModalButton" type="button"
-                                            class=" w-full block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                            Editar
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
+                                        class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                                        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
+                                            aria-labelledby="{{ $rol['id'] }}-dropdown-button">
+                                            <li>
+                                                {{-- boton de modal edit --}}
+                                                <button id="edit{{ $rol['id'] }}ModalButton"
+                                                    data-modal-toggle="edit{{ $rol['id'] }}Modal" type="button"
+                                                    class=" w-full block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                    Editar
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
                         @endforeach
                     </div>
                 </div>
@@ -179,5 +180,39 @@
                 @endforelse
             </x-slot:data>
         </x-previews.roles>
+
+        <x-modal-edit>
+            <x-slot name="modal">
+                {{ $rol['id'] }}
+            </x-slot>
+            <x-slot name="url">
+                {{ route('roles.update', $rol['id']) }}
+            </x-slot>
+            <x-slot name="title">
+                Editar Rol
+            </x-slot>
+            <div>
+                <label for="nombre"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
+                <input type="text" name="nombre" id="nombre"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="Nombre" required="" value="{{ $rol['nombre'] }}">
+            </div>
+            <div></div>
+            {{-- componente que tiene el modal de confirmacion para la edicion de datos (aqui esta el boton de tipo SUBMIT) --}}
+            <x-modal-confirmation>
+                <x-slot name="id">
+                    {{ $rol['id'] }}
+                </x-slot>
+
+                <x-slot name="button">
+                    Editar rol
+                </x-slot>
+
+                <x-slot name="message_confirmation_modal">
+                    ¿Confirma que desea actualizar los datos de {{ $rol['nombre'] }}?
+                </x-slot>
+            </x-modal-confirmation>
+        </x-modal-edit>
     @endforeach
 </x-app>
