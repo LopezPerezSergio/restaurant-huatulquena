@@ -61,7 +61,8 @@ class ProductController extends Controller
              'tamanio' => $request->tamanio,
              'precio' => $request->precio,
              'status' => $request->has('status') ? 1 : 0,
-             'contador' => 0,
+             'contador' =>$request->contador,
+             'cancelados'=>$request->cancelados,
              'url_img' => $url_img,
              'categoria' => $category
          ]);
@@ -134,7 +135,8 @@ class ProductController extends Controller
              'tamanio' => $request->tamanio,
              'precio' => $request->precio,
              'status' => $request->has('status') ? 1 : 0,
-             'contador' => 1,
+             'contador' =>$request->contador,
+             'cancelados'=>$request->cancelados,
              'url_img' => $url_img,
              'categoria' => $category
          ]);

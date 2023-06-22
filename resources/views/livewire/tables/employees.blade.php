@@ -58,10 +58,10 @@
                                 <th scope="col" class="p-4">Empleado</th>
                                 <th scope="col" class="p-4">Telefono</th>
                                 <th scope="col" class="p-4">Puesto</th>
-                                {{-- <th scope="col" class="p-4">Sueldo/Dia</th>
-                                <th scope="col" class="p-4">Comision</th> --}}
+                                <th scope="col" class="p-4">Sueldo/Dia</th>
+                                <th scope="col" class="p-4">Comision</th>
                                 <th scope="col" class="p-4">Estado</th>
-                                {{-- <th scope="col" class="p-4">Codigo de Acceso</th> --}}
+                                <th scope="col" class="p-4">Codigo de Acceso</th>
                                 <th scope="col" class="p-4">Acciones</th>
                             </tr>
                         </thead>
@@ -90,21 +90,21 @@
                                     <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $employee['rolName'] }}
                                     </td>
-                                    {{-- <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">$
+                                    <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">$
                                         {{ $employee['sueldo'] }}
                                     </td>
                                     <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $employee['porcentaje'] }} %
-                                    </td> --}}
+                                    </td>
                                     <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <span
                                             class="w-full text-xs font-medium inline-flex items-center px-2 py-1 rounded {{ $employee['status'] == '1' ? 'bg-green-100 text-green-800  dark:bg-green-200 dark:text-green-800' : 'bg-red-100 text-red-800 dark:bg-red-200 dark:text-red-800' }} ">
                                             {{ $employee['status'] == '1' ? 'Activo' : 'Inactivo' }}
                                         </span>
                                     </td>
-                                    {{-- <td class="px-4 py-3">
+                                    <td class="px-4 py-3">
                                         {{ $employee['codigoAcceso'] }}
-                                    </td> --}}
+                                    </td>
                                     <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <div class="flex items-center space-x-4">
                                             <button type="button"
@@ -122,7 +122,7 @@
                                                 </svg>
                                                 Editar
                                             </button>
-                                            <button type="button"
+                                            {{-- <button type="button"
                                                 data-drawer-target="drawer-read-employee-{{ $employee['id'] }}-advanced"
                                                 data-drawer-show="drawer-read-employee-{{ $employee['id'] }}-advanced"
                                                 aria-controls="drawer-read-employee-{{ $employee['id'] }}-advanced"
@@ -134,7 +134,7 @@
                                                         d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" />
                                                 </svg>
                                                 Visualizar
-                                            </button>
+                                            </button> --}}
                                         </div>
                                     </td>
                                 </tr>

@@ -47,6 +47,20 @@
                     placeholder="$999" required="" value="{{ $product['precio'] }}">
             </div>
             <div>
+                <label for="contador"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Vendidos</label>
+                <input type="text" name="contador" id="contador"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="$999" required="" value="{{ $product['contador'] }}" readonly>
+            </div>
+            <div>
+                <label for="cancelados"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cancelados</label>
+                <input type="text" name="cancelados" id="cancelados"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="$999" required="" value="{{ $product['cancelados'] }}" readonly>
+            </div>
+            <div>
                 <label for="categoria" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Categoría</label>
                 <select id="categoria" name="categoria"
