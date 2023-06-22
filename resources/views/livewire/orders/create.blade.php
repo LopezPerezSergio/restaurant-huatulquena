@@ -1,6 +1,7 @@
 <div>
     @php
     $cartIsEmpty = Cart::content()->isEmpty();
+    $buttonClass = $cartIsEmpty ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300';
     @endphp 
     @if (session('alert-order'))
         <x-alert.danger>
@@ -302,7 +303,7 @@
                                 Empieza a crear tu orden ahora
                             </h1>
                             <button type="button" wire:click="continue"
-                                class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                class="py-2 px-3 flex items-center text-sm font-medium text-center text-white rounded-lg {{ $buttonClass }}"
                                 @if ($cartIsEmpty) disabled @endif>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 -ml-0.5" viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                     <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
@@ -750,39 +751,66 @@
                         </div>
                     </fieldset>
                 @elseif ($step == 4)
-                    <fieldset>
-                        <legend class="sr-only">Confirmacion de orden</legend>
+                <fieldset>
+                    <legend class="sr-only">Confirmacion de orden</legend>
 
-                        <!-- Modal toggle -->
-                        <div class="flex justify-center m-5">
-                            <div class="relative p-4 w-full max-w-md h-full md:h-auto">
-                                <!-- Modal content -->
+                    <!-- Modal toggle -->
+                    <div class="flex justify-center m-5">
+                        <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+                            <!-- Modal content -->
+                            <div
+                                class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                                 <div
-                                    class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
-                                    <div
-                                        class="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 p-2 flex items-center justify-center mx-auto mb-3.5">
-                                        <svg aria-hidden="true" class="w-8 h-8 text-green-500 dark:text-green-400"
-                                            fill="currentColor" viewBox="0 0 20 20"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd"
-                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                clip-rule="evenodd"></path>
-                                        </svg>
-                                        <span class="sr-only">Success</span>
-                                    </div>
-                                    <p class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
-                                        Pedido Creado Satisfactoriamente.
-                                    </p>
-                                    <a href="{{ route('ticket.pedido', $table['id']) }}" target="_blank">
-                                        <button type="button" wire:click='createdTicket'
-                                            class="py-2 px-3 text-sm font-medium text-center text-white rounded-lg bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-900">
-                                            Imprimir y continuar
-                                        </button>
-                                    </a>
+                                    class="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 p-2 flex items-center justify-center mx-auto mb-3.5">
+                                    <svg aria-hidden="true" class="w-8 h-8 text-green-500 dark:text-green-400"
+                                        fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="sr-only">Success</span>
                                 </div>
+                                <p class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
+                                    Pedido Creado Satisfactoriamente.
+                                </p>
+                                <a href="{{ route('ticket.pedido', $table['id']) }}" target="_blank" onclick="imprimirTicket()">
+                                    <button type="button" wire:click='createdTicket'
+                                        class="py-2 px-3 text-sm font-medium text-center text-white rounded-lg bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-900">
+                                        Imprimir y continuar
+                                    </button>
+                                </a>
                             </div>
                         </div>
-                    </fieldset>
+                    </div>
+                </fieldset>
+                
+                <script>
+                    function imprimirTicket() {
+                        // Evitar que el enlace se siga ejecutando
+                        event.preventDefault();
+                    
+                        // Obtener la URL del enlace
+                        var url = this.href;
+                    
+                        // Realizar una petición AJAX para llamar a la función ticketPedido()
+                        $.ajax({
+                            url: url,
+                            method: 'GET',
+                            success: function(response) {
+                                // Abrir la vista del ticket parcial en una nueva pestaña
+                                window.open(response.pdf.TicketParcial);
+                    
+                                // Esperar un corto período de tiempo antes de abrir la vista del ticket de bebidas
+                                setTimeout(function() {
+                                    // Abrir la vista del ticket de bebidas en una nueva pestaña
+                                    window.open(response.pdf.TicketBebidas);
+                                }, 500); // Puedes ajustar el tiempo de espera si es necesario
+                            }
+                        });
+                    }                    
+                </script>
+                
                 @endif
             </div>
         </div>

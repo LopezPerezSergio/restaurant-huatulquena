@@ -125,14 +125,14 @@
                     </label>
                     <input type="text" name="nombre" id="nombre"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        value="{{ $employee['nombre'] }}" placeholder="Nombre" required="">
+                        value="{{ $employee['nombre'] }}" placeholder="Nombre" required="" pattern="^[A-ZÁÉÍÓÚÑ][A-Za-zÁÉÍÓÚáéíóúñ\s]+$">
                 </div>
                 <div>
                     <label for="apellidos"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Apellidos</label>
                     <input type="text" name="apellidos" id="apellidos"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        value="{{ $employee['apellidos'] }}" placeholder="Apellidos" required="">
+                        value="{{ $employee['apellidos'] }}" placeholder="Apellidos" required="" pattern="^[A-ZÁÉÍÓÚÑ][A-Za-zÁÉÍÓÚáéíóúñ\s]+$">
                 </div>
                 <div>
                     <label for="telefono"
@@ -148,7 +148,7 @@
                         Acceso</label>
                     <input type="text" name="codigoAcceso" id="codigoAcceso"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        value="{{ $employee['codigoAcceso'] }}" placeholder="Codigo de Acceso" required="">
+                        value="{{ $employee['codigoAcceso'] }}" placeholder="Codigo de Acceso" required=""  pattern="[0-9]{4}">
                 </div>
                 <div>
                     <label for="rol"
@@ -168,16 +168,16 @@
                     <div>
                         <label for="sueldo"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sueldo/Dia</label>
-                        <input type="number" name="sueldo" id="sueldo"
+                        <input type="text" name="sueldo" id="sueldo"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            value="{{ $employee['sueldo'] }}" placeholder="$299" required="">
+                            value="{{ $employee['sueldo'] }}" placeholder="ej. 200 o 200.00" pattern="^(?!-)([0-9]{1,4}(\.[0-9]{2})?)$">
                     </div>
                     <div>
                         <label for="porcentaje"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Comision</label>
-                        <input type="number" name="porcentaje" id="porcentaje"
+                        <input type="text" name="porcentaje" id="porcentaje"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            value="{{ $employee['porcentaje'] }}" placeholder="9%" required="">
+                            value="{{ $employee['porcentaje'] }}" placeholder="ej. 1 al 15" pattern="^(0[0-9]|1[0-5])$">
                     </div>
                 </div>
 

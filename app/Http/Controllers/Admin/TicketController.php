@@ -115,13 +115,32 @@ class TicketController extends Controller
                 $imprimirProductos[] = $pedidoProducto;
             }
         }
-        $pdf = PDF::setPaper('8.5x11')->loadView('pdf.ticketParcial', compact('imprimirProductos', 'products'), [
+
+        $imprimirProductosBebidas = [];
+
+        foreach ($imprimirProductos as $bebida) {
+            $producto = $products[array_search($bebida['id_producto'], array_column($products, 'id'))];
+            if ($producto['categoriaName'] === 'BEBIDA') {
+                $imprimirProductosBebidas[] = $bebida;
+            }
+        }
+
+        $pdfTicketParcial = PDF::setPaper('8.5x11')->loadView('pdf.ticketParcial', compact('imprimirProductos', 'products'), [
             'table' => $tableA['nombre'],
             'idTable' => $tableA['idCuenta'],
             'employee' => $employee['nombre'] . ' ' . $employee['apellidos']
-
         ]);
-
-        return $pdf->stream('Ticket-Pedido');
+        
+        $pdfTicketBebidas = PDF::setPaper('8.5x11')->loadView('pdf.ticketBebidas', compact('imprimirProductosBebidas', 'products'), [
+            'table' => $tableA['nombre'],
+            'idTable' => $tableA['idCuenta'],
+            'employee' => $employee['nombre'] . ' ' . $employee['apellidos']
+        ]);
+        return $pdfTicketParcial->stream('Ticket-Pedido');
+        // return ([
+        //     $pdfTicketParcial->stream('Ticket-PEDIDO'),
+        //     $pdfTicketBebidas->stream('Ticket-BEBIDAS')
+        // ]);
+        // return $pdf->stream('Ticket-Pedido');
     }
 }

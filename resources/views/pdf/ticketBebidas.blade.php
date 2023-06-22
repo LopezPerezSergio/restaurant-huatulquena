@@ -129,7 +129,7 @@
 
         <tr>
             @foreach ($products as $product)
-                @foreach ($imprimirProductos as $pedidoArray)
+                @foreach ($imprimirProductosBebidas as $pedidoArray)
                     @if ($pedidoArray['id_producto'] == $product['id'])
         <tr>
             <td class="center" style="padding-left: 30px;">
