@@ -14,6 +14,7 @@ class AdminMesas extends Component
     public $employees;
 
     public $id_table = '';
+    public $name_table;
     public $cuenta;
     public $total;
 
@@ -120,6 +121,7 @@ class AdminMesas extends Component
 
         foreach ($this->tables as $table) {
             if ($table['id'] == $id) {
+                $this->name_table = $table['nombre'];
                 $url = config('app.api') . '/cuenta/items/' . $table['idCuenta'];
 
                 $response = Http::withToken($user['token'])->get($url);
@@ -128,7 +130,7 @@ class AdminMesas extends Component
                 $this->cuenta = $this->cuenta->first();
             }
         }
-        //dd($this->cuenta);
+        // dd( $this->name_table);
         // dump($this->cuenta);
         $this->showModal = !$this->showModal;
     }

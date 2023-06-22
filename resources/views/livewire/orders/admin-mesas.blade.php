@@ -181,11 +181,7 @@
                                                 <div class="flex-1 min-w-0">
                                                     <p
                                                         class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                        No hay productos
-                                                    </p>
-                                                    <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                                        Selecione productos para agregarlos a la
-                                                        orden
+                                                        Mesa disponible
                                                     </p>
                                                 </div>
                                             </div>
@@ -306,7 +302,7 @@
                     <!-- Modal header -->
                     <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                         <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                            Cuenta de {{ $table['nombre'] }}
+                            Cuenta de {{ $name_table }}
                         </h3>
                         <button type="button"
                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"

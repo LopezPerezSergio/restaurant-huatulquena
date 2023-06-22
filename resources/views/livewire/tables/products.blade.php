@@ -115,7 +115,7 @@
                                         {{ $product['categoriaName'] }}
                                     </td>
                                     <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        ${{ $product['precio'] }}
+                                        ${{ $product['precio'] }}.00
                                     </td>
                                     <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <div class="flex items-center space-x-4">
@@ -131,7 +131,7 @@
                                                 </svg>
                                                 Editar
                                             </a>
-                                            <button type="button"
+                                            {{-- <button type="button"
                                                 data-drawer-target="drawer-read-product-{{ $product['id'] }}-advanced"
                                                 data-drawer-show="drawer-read-product-{{ $product['id'] }}-advanced"
                                                 aria-controls="drawer-read-product-{{ $product['id'] }}-advanced"
@@ -143,7 +143,7 @@
                                                         d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z" />
                                                 </svg>
                                                 Ver
-                                            </button>
+                                            </button> --}}
 
                                             <form method="post"
                                                 action="{{ route('products.destroy', $product['id']) }}">
