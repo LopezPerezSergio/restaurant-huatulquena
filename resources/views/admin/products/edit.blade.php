@@ -24,14 +24,14 @@
                 <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
                 <input type="text" name="nombre" id="nombre"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Nombre" required="" value="{{ $product['nombre'] }}">
+                    placeholder="Nombre" required="" pattern="^[A-ZÁÉÍÓÚÑ][A-Za-zÁÉÍÓÚáéíóúñ\s]+$" value="{{ $product['nombre'] }}">
             </div>
             <div>
                 <label for="tamanio" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Tamaño</label>
                 <select id="tamanio" name="tamanio"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option>Selecciona un tamaño</option>
+                    <option value="" disabled selected>Selecciona un tamaño</option>
                     <option value="S" @if ($product['tamanio'] == 'S') selected @endif>Chico</option>
                     <option value="M" @if ($product['tamanio'] == 'M') selected @endif>Mediano</option>
                     <option value="L" @if ($product['tamanio'] == 'L') selected @endif>Grande</option>
@@ -44,7 +44,7 @@
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio</label>
                 <input type="number" name="precio" id="precio"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="$999" required="" value="{{ $product['precio'] }}">
+                    placeholder="$999" required="" pattern="^(?!-)([0-9]{1,4}(\.[0-9]{2})?)$" value="{{ $product['precio'] }}">
             </div>
             <div>
                 <label for="contador"
@@ -65,7 +65,7 @@
                     Categoría</label>
                 <select id="categoria" name="categoria"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option selected>Selecciona un categoría</option>
+                    <option value="" disabled selected>Selecciona un categoría</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category['id'] }}" @if ($category['nombre'] === $product['categoriaName']) selected @endif>
                             {{ $category['nombre'] }}

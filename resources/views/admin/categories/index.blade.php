@@ -74,7 +74,7 @@
                             </button>
                         </div>
 
-                        <div id="{{ $category['id'] }}-dropdown"
+                        {{--  <div id="{{ $category['id'] }}-dropdown"
                             class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                             <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
                                 aria-labelledby="{{ $category['id'] }}-dropdown-button">
@@ -86,7 +86,47 @@
                                     </button>
                                 </li>
                             </ul>
-                        </div>
+                        </div>  --}}
+                                        <div id="{{ $category['id'] }}-dropdown"
+                                            class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
+                                                aria-labelledby="{{ $category['id'] }}-dropdown-button">
+                                                <li>
+                                                    {{-- boton de modal edit --}}
+                                                    <button id="edit{{ $category['id'] }}ModalButton"
+                                                        data-modal-toggle="edit{{ $category['id'] }}Modal"
+                                                        type="button"
+                                                        class=" w-full block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                        Editar
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                            {{--  <div class="py-1">
+                                                <a href="#"
+                                                    class="block py-2 px-4 text-sm text-red-700 hover:bg-red-100 dark:hover:bg-gray-600 dark:text-red-400 dark:hover:text-red">Eliminar</a>
+                                            </div>  --}}
+                                        </div>
+
+
+                                        <div id="{{ $category['id'] }}-dropdown"
+                                        class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                                        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
+                                            aria-labelledby="{{ $category['id'] }}-dropdown-button">
+                                            <li>
+                                                {{-- boton de modal edit --}}
+                                                <button id="edit{{ $category['id'] }}ModalButton"
+                                                    data-modal-toggle="edit{{ $category['id'] }}Modal"
+                                                    type="button"
+                                                    class=" w-full block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                    Editar
+                                                </button>
+                                            </li>
+                                        </ul>
+                                        <div class="py-1">
+                                            <a href="#"
+                                                class="block py-2 px-4 text-sm text-red-700 hover:bg-red-100 dark:hover:bg-gray-600 dark:text-red-400 dark:hover:text-red">Eliminar</a>
+                                        </div>
+                                    </div>
                         @endforeach
                     </div>
                 </div>
@@ -110,7 +150,7 @@
                     categoría</label>
                 <input type="text" name="nombre" id="nombre"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Nombre" required="">
+                    placeholder="Nombre" required="" >
             </div>
         </div>
     </x-modal.create>
@@ -177,6 +217,40 @@
             @endforelse
         </x-slot:data>
     </x-previews.categories>
+
+    {{--  <x-modal-edit>
+        <x-slot name="modal">
+            {{ $category['id'] }}
+        </x-slot>
+        <x-slot name="url">
+            {{ route('categories.update', $category['id']) }}
+        </x-slot>
+        <x-slot name="title">
+            Editar Categoría
+        </x-slot>
+        <div>
+            <label for="nombre"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
+            <input type="text" name="nombre" id="nombre"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="Nombre" required="" value="{{ $category['nombre'] }}">
+        </div>
+        <div></div>
+    
+        <x-modal-confirmation>
+            <x-slot name="id">
+                {{ $category['id'] }}
+            </x-slot>
+
+            <x-slot name="button">
+                Editar Categoría
+            </x-slot>
+
+            <x-slot name="message_confirmation_modal">
+                ¿Confirma que desea actualizar los datos de {{ $category['nombre'] }}?
+            </x-slot>
+        </x-modal-confirmation>
+    </x-modal-edit>  --}}
     @endforeach
 
 </x-app>
