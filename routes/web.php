@@ -62,7 +62,7 @@ Route::middleware('AuthApi')->prefix('restaurant')->group(function () {
     //ruta que muestra el reporte de ventas
     Route::get('reporte', [ReporteController::class, 'generarReporte'])->name('reporte');
     //para corte del dia 
-    Route::get('/generar-pdf', [ReporteController::class, 'generarPDF'])->name('reporteCaja');
+    Route::get('/reporteCaja', [ReporteController::class, 'corteCaja'])->name('reporteCaja');
 
     Route::resource('tables', TableController::class)->names('tables');
     Route::resource('orders', OrderController::class)->names('orders');

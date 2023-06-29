@@ -73,12 +73,16 @@ class ReporteController extends Controller
  
     }
     //funcion que genera el pdf del corte de caja
-    public function generarPdf(Request $request)
+    public function corteCaja(Request $request)
     {
         if (!session()->get('user')) {
             return redirect()->route('auth.login');
         }
         $user = session()->get('user');
+
+        $url = config('app.api') . '/employee';
+        $response = Http::withToken($user['token'])->get($url);
+        $empleados = $response->json('data');
 
         $url = config('app.api') . '/paymets/';
         $response = Http::withToken($user['token'])->get($url);
@@ -88,7 +92,7 @@ class ReporteController extends Controller
         $response = Http::withToken($user['token'])->get($url);
         $ventas = $response->json('data');
 
-        $html = view('pdf.corteCaja', compact('payments','ventas'))->render();
+        $html = view('pdf.corteCaja', compact('payments','ventas','empleados'))->render();
 
         // Crear una instancia de Dompdf
         $dompdf = new Dompdf();

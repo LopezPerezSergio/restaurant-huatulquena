@@ -26,7 +26,7 @@
         th, td {
             border: 1px solid black;
             padding: 8px;
-            text-align: left;
+            text-align: center;
         }
 
         th {
@@ -81,7 +81,7 @@
                     <td>{{ $venta['fecha'] }}</td>
                     <td>{{ $venta['nombreMesa'] }}</td>
                     <td>{{ $venta['nombreMesero'] }}</td>
-                    <td>{{ $venta['total'] }}</td>
+                    <td style="text-align: right;">${{ $venta['total'] }}.00 MX</td>
                 </tr>
                 @php
                 $totalGeneral += $venta['total'];
@@ -89,7 +89,7 @@
             @endforeach
             <tr>
                 <td colspan="4" style="text-align: right;"><strong>Total General:</strong></td>
-                <td>{{ $totalGeneral }}</td>
+                <td style="text-align: right;">${{ $totalGeneral }}.00 MX</td>
             </tr>
         </tbody>
     </table>
