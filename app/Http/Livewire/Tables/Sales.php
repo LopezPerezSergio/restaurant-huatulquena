@@ -26,7 +26,7 @@ class Sales extends Component
     
      public function render()
      {  
-       
+    //    dd($this->empleados);
         $this->fechaActual = date('Y-m-d');
         // Apply filters to the $ventas array
         $filteredSales = $this->filterSales();

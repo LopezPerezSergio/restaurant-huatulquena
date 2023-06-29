@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\TableController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\SaleController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Auth\AuthController;
@@ -72,5 +73,8 @@ Route::middleware('AuthApi')->prefix('restaurant')->group(function () {
     //Rutas para los tickets
     Route::get('ticket/pedido/{table}', [TicketController::class, 'ticketPedido'])->name('ticket.pedido');
     Route::post('ticket/pdf/{table}', [TicketController::class, 'final'])->name('ticket.pedido1');
+
+    //inventario 
+    Route::resource('inventory', InventoryController::class)->names('inventory');
 });
 

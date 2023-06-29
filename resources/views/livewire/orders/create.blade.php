@@ -367,18 +367,34 @@
 
                                 <div
                                     class="w-full bg-gray-50 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                                    <ul
-                                        class="overflow-y-auto text-sm font-medium text-center text-gray-500 divide-x divide-gray-200  sm:flex dark:divide-gray-600 dark:text-gray-400">
-
-                                        @foreach ($categories as $category)
-                                            <li class="w-full">
-                                                <button type="button" wire:click="changeTab({{ $category['id'] }})"
-                                                    class="inline-block w-full p-3 @if ($loop->first) rounded-tl-lg @endif @if ($loop->last) rounded-tr-lg @endif  bg-gray-50 hover:bg-gray-100 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600">
-                                                    {{ $category['nombre'] }}
-                                                </button>
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                    <div class="overflow-x-auto">
+                                        <ul class="flex flex-nowrap overflow-x-auto text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 sm:flex dark:divide-gray-600 dark:text-gray-400">
+                                            @foreach ($categories as $category)
+                                                <li>
+                                                    <button type="button" wire:click="changeTab({{ $category['id'] }})"
+                                                        class="inline-block p-3 bg-gray-50 hover:bg-gray-100 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600">
+                                                        <strong style="color: black;">{{ $category['nombre'] }}</strong>
+                                                    </button>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                    {{--  <div class="w-full bg-gray-50 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                                        <div class="overflow-x-auto">
+                                            <ul class="flex flex-nowrap overflow-x-auto text-xs font-medium text-center text-gray-500 divide-x divide-gray-200 sm:flex dark:divide-gray-600 dark:text-gray-400">
+                                                @foreach ($categories as $category)
+                                                    <li>
+                                                        <button type="button" wire:click="changeTab({{ $category['id'] }})"
+                                                            class="inline-block p-1 bg-gray-50 hover:bg-gray-100 focus:outline-none dark:bg-gray-700 dark:hover:bg-gray-600">
+                                                            <strong style="color: black;">{{ $category['nombre'] }}</strong>
+                                                        </button>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>  --}}
+                                    
+                                    
+                                    
 
                                     <div id="fullWidthTabContent"
                                         class="border-t border-gray-200 dark:border-gray-600">
