@@ -10,86 +10,69 @@ use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
+    
     public function __invoke()
     {
+        $fecha = Carbon::now();
+        $isTenPM = $fecha->isSameHour('22:00:00');
+
         if (!session()->get('user')) {
             return redirect()->route('auth.login');
         }
         $user = session()->get('user');
+
+        ////////////////
+        $url = config('app.api') . '/product/cont';
+        $response = Http::withToken($user['token'])->get($url);
+        $products_cont = $response->json('data');
+
+        $productContV = [];
+        $productContC = [];
+
+        for ($i = 0; $i < count($products_cont); $i++) {
+            if ($products_cont[$i]['tipo'] == 'vendidos') {
+                $productContV[] = $products_cont[$i];
+            } elseif ($products_cont[$i]['tipo'] == 'cancelados') {
+                $productContC[] = $products_cont[$i];
+            }
+        }
+        
+        //////////////////
 
         //DATOS PARA GRAFICAS DE PRODUCTOS
         $url = config('app.api') . '/product';
         $response = Http::withToken($user['token'])->get($url);
         $products = $response->json('data');
 
-        $productsName = [];
-
-        $productsNameVendidos = [];
-        $productsVendidos = [];
-
-        $productsNameMenosVendidos = [];
-        $productsMenosVendidos = [];
-
-        $productsNameCancelados = [];
-        $productsCancelados = [];
-
-        for ($i = 0; $i < count($products); $i++) { ///agregamos a los arreglos los datos que ocuparemos
-            $productsName[] = $products[$i]['nombre'];
-            $productsVendidos[] = $products[$i]['contador'];
-            $productsCancelados[] = $products[$i]['cancelados'];
-        }
         
 
-        $productsNameVendidos = $productsName;
-        $n = count($productsVendidos);
-        for ($i = 0; $i < $n - 1; $i++) { //ordenamiento burbuja de productos mas vendidos de mayor a menor
-            for ($j = 0; $j < $n - $i - 1; $j++) {
-                if ($productsVendidos[$j] < $productsVendidos[$j + 1]) { //productos mas vendidos
-                    // Intercambiar elementos si están en orden incorrecto
-                    $temp = $productsVendidos[$j];
-                    $temp2 = $productsNameVendidos[$j];
+        //GUARDAR LOS DATOS AL FIN DE MES EN LA NUEVA ENTIDAD
+        // if ($fecha->isLastOfMonth() && $isTenPM) {
+        //     // dd( "Es el último día del mes a las 10pm");
+        //     //AQUI IRA LA RUTA PARA GUARDAR 
+        //     for ($i = 0; $i < 5; $i++) {
 
-                    $productsVendidos[$j] = $productsVendidos[$j + 1];
-                    $productsNameVendidos[$j] = $productsNameVendidos[$j + 1];
+        //         $url = config('app.api') . '/product/cont';
+        //         $response = Http::withToken($user['token'])->post($url, [
+        //             'nombre' =>  $productsNameCancelados2[$i],
+        //             'tipo' =>  'cancelados',
+        //             'cantidad' =>  $productsCancelados2[$i],
+        //             'fecha' =>  $fecha,
+        //         ]);
+        //     }
 
-                    $productsVendidos[$j + 1] = $temp;
-                    $productsNameVendidos[$j + 1] = $temp2;
-                }
-            }
-        }        
-        $productsVendidos2 = [];
-        $productsnameVendidos2 = [];
-        for ($i = 0; $i < 5; $i++) {  //extraemos solo los 10 mas vendidos
-            $productsVendidos2[] = $productsVendidos[$i];
-            $productsNameVendidos2[] = $productsNameVendidos[$i];
-        }
-
-        /////////////////////////////////////////////
-
-        $productsNameCancelados = $productsName;
-        $n = count($productsCancelados);
-        for ($i = 0; $i < $n - 1; $i++) { //ordenamiento burbuja de productos mas cancelados de mayor a menor
-            for ($j = 0; $j < $n - $i - 1; $j++) {
-                if ($productsCancelados[$j] < $productsCancelados[$j + 1]) { //productos mas cancelados
-                    // Intercambiar elementos si están en orden incorrecto
-                    $temp = $productsCancelados[$j];
-                    $temp2 = $productsNameCancelados[$j];
-
-                    $productsCancelados[$j] = $productsCancelados[$j + 1];
-                    $productsNameCancelados[$j] = $productsNameCancelados[$j + 1];
-
-                    $productsCancelados[$j + 1] = $temp;
-                    $productsNameCancelados[$j + 1] = $temp2;
-                }
-            }
-        }
-
-        $productsCancelados2 = [];
-        $productsnameCancelados2 = [];
-        for ($i = 0; $i < 5; $i++) {  //extraemos solo los 10 mas vendidos
-            $productsCancelados2[] = $productsCancelados[$i];
-            $productsNameCancelados2[] = $productsNameCancelados[$i];
-        }
+        //     for ($i = 0; $i < 5; $i++) {
+        //         $url = config('app.api') . '/product/cont';
+        //         $response = Http::withToken($user['token'])->post($url, [
+        //             'nombre' =>  $productsNameVendidos2[$i],
+        //             'tipo' =>  'vendidos',
+        //             'cantidad' =>  $productsVendidos2[$i],
+        //             'fecha' =>  $fecha,
+        //         ]);
+        //     }
+        // } else {
+        //     //  dd( "No es el último día del mes a las 10pm");
+        // }
 
         //DATOS PARA GRAFICAS DE VENTAS
         $url = config('app.api') . '/venta/';
@@ -168,7 +151,19 @@ class DashboardController extends Controller
         //  PRODUCTOS MAS VENDIDOS(productsNameVendidos2, productsVendidos2)
         //  PRODUCTOS MAS CANCELADOS(productsNameCancelados2, productsCancelados2)
 
-        return view('admin.dashboard', compact('meses', 'ventasMes', 'anios', 'ventasAnio', 'promedioA', 'productsNameVendidos2',
-         'productsVendidos2', 'productsNameCancelados2', 'productsCancelados2'));
+        // dd($productContC);
+
+        return view('admin.dashboard', compact(
+            'products',
+            'meses',
+            'ventasMes',
+            'anios',
+            'ventasAnio',
+            'promedioA',
+            
+            'productContV',
+            'productContC',
+
+        ));
     }
 }
