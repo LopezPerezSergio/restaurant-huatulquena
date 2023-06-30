@@ -58,9 +58,9 @@
                 <div>
                     <label for="rol" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecciona un
                         rol</label>
-                    <select id="rol" name="rol"
+                    <select id="rol" name="rol" required
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                        <option selected>Selecciona un rol</option>
+                        <option value="" disabled selected>Selecciona un rol</option>
                         @foreach ($roles as $rol)
                             <option value="{{ $rol['id'] }}">{{ $rol['nombre'] }}</option>
                         @endforeach
@@ -101,8 +101,25 @@
                     if (sueldoInput.value) {
                         porcentajeInput.disabled = true;
                         porcentajeInput.value = '';
+                        porcentajeInput.removeAttribute('required');
+                        sueldoInput.setAttribute('required', 'required');
                     } else {
                         porcentajeInput.disabled = false;
+                        porcentajeInput.setAttribute('required', 'required');
+                        sueldoInput.removeAttribute('required');
+                    }
+                });
+        
+                porcentajeInput.addEventListener('input', () => {
+                    if (porcentajeInput.value) {
+                        sueldoInput.disabled = true;
+                        sueldoInput.value = '';
+                        sueldoInput.removeAttribute('required');
+                        porcentajeInput.setAttribute('required', 'required');
+                    } else {
+                        sueldoInput.disabled = false;
+                        sueldoInput.setAttribute('required', 'required');
+                        porcentajeInput.removeAttribute('required');
                     }
                 });
             </script>
@@ -151,19 +168,20 @@
                         value="{{ $employee['codigoAcceso'] }}" placeholder="Codigo de Acceso" required=""  pattern="[0-9]{4}">
                 </div>
                 <div>
-                    <label for="rol"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecciona
-                        un
-                        rol</label>
-                    <select id="rol" name="rol"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                        <option selected>Selecciona un rol</option>
-                        @foreach ($roles as $rol)
-                            <option @if ($rol['nombre'] == $employee['rolName']) selected @endif value="{{ $rol['id'] }}">
-                                {{ $rol['nombre'] }}</option>
-                        @endforeach
+                    <label for="rol" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Selecciona un rol
+                    </label>
+                    <select id="rol" name="rol" required
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                      <option value="" disabled selected>Selecciona un rol</option>
+                      @foreach ($roles as $rol)
+                        <option @if ($rol['nombre'] == $employee['rolName']) selected @endif value="{{ $rol['id'] }}">
+                          {{ $rol['nombre'] }}
+                        </option>
+                      @endforeach
                     </select>
                 </div>
+                  
                 <div class="grid gap-4 md:gap-6 sm:grid-cols-2">
                     <div>
                         <label for="sueldo"

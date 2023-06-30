@@ -23,7 +23,7 @@
                     <!-- Modal header -->
                     <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                         <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                            Terms of Service
+                            Corte de Caja del {{$fechaActual}}
                         </h3>
                         <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="modalContent">
                             <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -36,23 +36,21 @@
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        Ingresos
-                                        <th>
-                                        <?php
-                                        
-                                        $totalVentas = 0;
-                                        foreach($ventas as $venta){
-                                            if($venta['fecha']==$fechaActual)
-                                            $totalVentas += $venta["total"];
-                                        }
-                                        echo "$" . $totalVentas;
-                                        ?>
-                                    </th>
-                                    </th>
+                                    <th colspan="3"  scope="col" class="px-6 py-3" style="text-align: right; padding-right: 30px; font-size: 16px;"> 
+                                        Ingresos del día
+                                    </th>   
+                                    <td scope="col" class="px-6 py-4" style="text-align: right; font-size: 16px;">
+                                    <?php
+                                    $totalVentas = 0;
+                                    foreach($ventas as $venta){
+                                        if($venta['fecha']==$fechaActual)
+                                        $totalVentas += $venta["total"];
+                                    }
+                                    echo "$" . $totalVentas.".00 MX";
+                                    ?>
+                                    </td>    
                                 </tr>
                                 <tr>
-                                    
                                     <th scope="col" class="px-6 py-3 rounded-l-lg">
                                         CONCEPTO
                                     </th>
@@ -70,42 +68,76 @@
                             <tbody>
                                 @foreach($payments as $pagos)
                                 @if($pagos['fecha']==$fechaActual)
+                               
                                 <tr class="bg-white dark:bg-gray-800">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <th scope="row" class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{$pagos['nombre']}}
                                     </th>
-                                    <td class="px-6 py-4">
-                                        {{$pagos['descripcion']}}
+                                    <td class="px-6 py-2">
+                                        @if(is_numeric($pagos['descripcion']))
+                                            @php
+                                            $variable = 'Nomina';
+                                            @endphp
+                                        @else
+                                            @php
+                                            $variable = $pagos['descripcion'];
+                                            @endphp
+                                        @endif
+
+                                        {{$variable}}
                                     </td>
-                                    <td class="px-6 py-4">
-                                        ${{$pagos['pago']}}
+                                    <td class="px-6 py-2">
+                                        @php
+                                        $descripcion = 'Otros Pagos';
+                                    
+                                        foreach ($empleados as $nombreEmpleado) {
+                                            if ($pagos['nombre'] == $nombreEmpleado['nombre']) {
+                                                $descripcion = 'Pago Empleado';
+                                                break; // Agrega un break para salir del bucle una vez que se haya encontrado el empleado
+                                            } elseif ($pagos['nombre'] == 'Agua' || $pagos['nombre'] == 'Luz') {
+                                                $descripcion = 'Pago de servicios';
+                                            }
+                                        }
+                                        @endphp
+                                    
+                                        {{$descripcion}}
+                                    </td>                                    
+                                    
+                                    <td class="px-6 py-2" style="text-align: right;">
+                                        <?php
+                                        $valorFormateado = number_format($pagos['pago'], 2, '.', ',');
+                                        echo '$' . $valorFormateado . ' MX';
+                                        ?>
                                     </td>
+                                    
                                 </tr>
                                 @endif
-                                @endforeach          
+                                @endforeach         
                             </tbody>
                             <tfoot>
                                 <tr class="font-semibold text-gray-900 dark:text-white">
                                     <th scope="row" class="px-6 py-3 text-base">Total de Pagos</th>
-                                    <td class="px-6 py-3">
+                                    <td class="px-6 py-3" style="text-align: right;">
                                         <?php
                                         $totalPagos = 0;
                                         foreach($payments as $pagos){
                                         if($pagos['fecha']==$fechaActual){
                                         
                                             $totalPagos += $pagos['pago'];
+                                            $valorFormateado = number_format($totalPagos, 2, '.', ',');
                                         }
                                     }
-                                        echo "$" . $totalPagos;
+                                        echo "$" . $valorFormateado ." MX";
                                         ?>
                                     </td>
                                 </tr>
                                 <tr class="font-semibold text-gray-900 dark:text-white">
                                 <th scope="row" class="px-6 py-3 text-base">Total del dia</th>
-                                    <td class="px-6 py-3">
+                                    <td class="px-6 py-3" style="text-align: right;">
                                         <?php
                                         $totalDia = $totalVentas - $totalPagos;
-                                        echo "$" . $totalDia;
+                                        $valorFormateado = number_format($totalDia, 2, '.', ',');
+                                        echo "$" . $valorFormateado. ".00 MX";
                                         ?>
                                     </td>
                                 </tr>
@@ -117,11 +149,11 @@
                     <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                         <form id="pdfForm" action="{{ route('reporteCaja') }}" method="GET" target="_blank" class="flex">
                             <button id="acceptButton" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                ACEPTAR
+                                Descargar Corte
                             </button>
                         </form>
                         
-                        <button data-modal-hide="modalContent" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Decline</button>
+                        <button data-modal-hide="modalContent" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cerrar Ventana</button>
                     </div>                    
                 </div>
             </div>

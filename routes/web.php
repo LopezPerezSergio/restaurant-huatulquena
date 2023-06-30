@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\TableController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\SaleController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Auth\AuthController;
@@ -61,7 +62,7 @@ Route::middleware('AuthApi')->prefix('restaurant')->group(function () {
     //ruta que muestra el reporte de ventas
     Route::get('reporte', [ReporteController::class, 'generarReporte'])->name('reporte');
     //para corte del dia 
-    Route::get('/generar-pdf', [ReporteController::class, 'generarPDF'])->name('reporteCaja');
+    Route::get('/reporteCaja', [ReporteController::class, 'corteCaja'])->name('reporteCaja');
 
     Route::resource('tables', TableController::class)->names('tables');
     Route::resource('orders', OrderController::class)->names('orders');
@@ -72,5 +73,8 @@ Route::middleware('AuthApi')->prefix('restaurant')->group(function () {
     //Rutas para los tickets
     Route::get('ticket/pedido/{table}', [TicketController::class, 'ticketPedido'])->name('ticket.pedido');
     Route::post('ticket/pdf/{table}', [TicketController::class, 'final'])->name('ticket.pedido1');
+
+    //inventario 
+    Route::resource('inventory', InventoryController::class)->names('inventory');
 });
 
