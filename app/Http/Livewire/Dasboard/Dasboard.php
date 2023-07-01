@@ -35,9 +35,50 @@ class Dasboard extends Component
 
     public function render()
     {
+        $this->resetCount();
         return view('livewire.dasboard.dasboard');
+        
     }
 
+    public function resetCount()
+    {
+        
+         if (!session()->get('user')) {
+            return redirect()->route('auth.login');
+        }
+        $user = session()->get('user');
+
+        $isTenPM = $this->fecha->isSameHour('22:00:00');
+
+        //GUARDAR LOS DATOS AL FIN DE MES EN LA NUEVA ENTIDAD
+        if ($this->fecha->isLastOfMonth() && $isTenPM) {
+            // dd( "Es el último día del mes a las 10pm");
+            //AQUI IRA LA RUTA PARA GUARDAR 
+            for ($i = 0; $i < 5; $i++) {
+
+                $url = config('app.api') . '/product/cont';
+                $response = Http::withToken($user['token'])->post($url, [
+                    'nombre' =>  $this->productsNameCancelados2[$i],
+                    'tipo' =>  'cancelados',
+                    'cantidad' =>  $this->productsCancelados2[$i],
+                    'fecha' =>  $this->fecha,
+                ]);
+            }
+
+            for ($i = 0; $i < 5; $i++) {
+                $url = config('app.api') . '/product/cont';
+                $response = Http::withToken($user['token'])->post($url, [
+                    'nombre' =>  $this->productsNameVendidos2[$i],
+                    'tipo' =>  'vendidos',
+                    'cantidad' =>  $this->productsVendidos2[$i],
+                    'fecha' =>  $this->fecha,
+                ]);
+            }
+        } 
+    }
+    
+
+    //PARA PRODUCTOS MAS VENDIDOS
 
     public function actualizarVariable()
     {        
@@ -55,25 +96,6 @@ class Dasboard extends Component
 
         }
     }
-
-    public function actualizarVariable2()
-    {
-    //    dd($this->productsCancelados2);
-        $this->reset(['productsCancelados2', 'productsNameCancelados2']);
-
-        if ($this->selectMesCancelados == $this->fecha->month) {
-
-            $this->calculosMesActualC();
-            $this->emit('variableActualizada2', $this->productsCancelados2, $this->productsNameCancelados2);
-
-        }else{
-
-            $this->calculosMesAntC($this->selectMesCancelados);
-            $this->emit('variableActualizada2', $this->productsCancelados2, $this->productsNameCancelados2);
-        }
-    }
-
-    //PARA PRODUCTOS MAS VENDIDOS
     public function calculosMesActual()
     {     
         $productsName = [];
@@ -127,7 +149,24 @@ class Dasboard extends Component
     }
 
     ///PARA PRODUCTOS CANCELADOS
-    public function calculosMesActualC(){
+
+    public function actualizarVariable2()
+    {
+        $this->reset(['productsCancelados2', 'productsNameCancelados2']);
+
+        if ($this->selectMesCancelados == $this->fecha->month) {
+
+            $this->calculosMesActualC();
+            $this->emit('variableActualizada2', $this->productsCancelados2, $this->productsNameCancelados2);
+
+        }else{
+
+            $this->calculosMesAntC($this->selectMesCancelados);
+            $this->emit('variableActualizada2', $this->productsCancelados2, $this->productsNameCancelados2);
+        }
+    }
+    public function calculosMesActualC()
+    {
         $productsName = [];
 
         $productsNameCancelados = [];
@@ -164,24 +203,7 @@ class Dasboard extends Component
     public function calculosMesAntC($mes)
     {
         $this->reset(['productsVendidos2', 'productsNameVendidos2']);
-        // if (!session()->get('user')) {
-        //     return redirect()->route('auth.login');
-        // }
-        // $user = session()->get('user');
-
-        // ////////////////
-        // $url = config('app.api') . '/product/cont';
-        // $response = Http::withToken($user['token'])->get($url);
-        // $products_cont = $response->json('data');
-
        
-
-        // for ($i = 0; $i < count($products_cont); $i++) {
-        //     if ($products_cont[$i]['tipo'] == 'cancelados') {
-        //         $this->productContC[] = $products_cont[$i];
-        //     }
-        // }
-
         for ($i = 0; $i < count($this->productContC); $i++) {
             $aux = Carbon::parse($this->productContC[$i]['fecha']);
             if ($mes == $aux->month) {
