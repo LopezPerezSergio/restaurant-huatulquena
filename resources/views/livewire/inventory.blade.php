@@ -96,18 +96,7 @@
                                 <td class="px-4 py-3">
                                     <span
                                         class="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">
-                                        @if ($product['unidad'] == 'l')
-                                            Litro(s)
-                                        @endif
-                                        @if ($product['unidad'] == 'k')
-                                            Kilo(s)
-                                        @endif
-                                        @if ($product['unidad'] == 'p')
-                                            Pieza(s)
-                                        @endif
-                                        @if ($product['unidad'] == 'e')
-                                            Envase(s)
-                                        @endif
+                                        {{$product['unidad']}}
                                     </span>
                                 </td>
                                 <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">

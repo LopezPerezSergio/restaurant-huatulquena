@@ -71,7 +71,7 @@
                     Unidad
                 </label>
                 <input disabled id="unidad"
-                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">              
+                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">            
             </div>
             
             <div>
@@ -156,7 +156,7 @@
               const categoriaSeleccionada = selectCategoria.value;
               
               if (categoriaSeleccionada === "p") {
-                inputUnidad.value = "Kilos/Gramos";
+                inputUnidad.value = "Kilogramos";
               } else if (categoriaSeleccionada === "l") {
                 inputUnidad.value = "SHOT";
               } else if (categoriaSeleccionada === "b") {
