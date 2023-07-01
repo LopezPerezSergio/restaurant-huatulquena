@@ -57,18 +57,18 @@
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <th scope="col" class="p-4">Nombre Producto</th>
-                                <th scope="col" class="p-4">Familia</th>
-                                <th scope="col" class="p-4">Cantidad</th>
-                                <th scope="col" class="p-4">Unidad</th>
-                                <th scope="col" class="p-4">Cantidad Restante</th>
+                                <th scope="col" class="p-4" style="text-align: center">Nombre Producto</th>
+                                <th scope="col" class="p-4" style="text-align: center">Familia</th>
+                                <th scope="col" class="p-4" style="text-align: center">Cantidad</th>
+                                <th scope="col" class="p-4" style="text-align: center">Unidad</th>
+                                <th scope="col" class="p-4" style="text-align: center">Cant. Restante</th>
                                 {{--  <th scope="col" class="p-4">Estado</th>  --}}
                                 <th scope="col" class="p-4">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($filterProducts as $product)
-                            <tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <tr style="text-align: center" class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
                                 <th class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $product['nombre'] }}
                                 </div>
@@ -90,17 +90,20 @@
                                 </span>
                                     </div>
                                 </th>
+
                                 <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {{ $product['cantidad'] }}
                                 </td>
+
                                 <td class="px-4 py-3">
                                     <span
                                         class="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">
                                         {{$product['unidad']}}
                                     </span>
                                 </td>
-                                <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{'cantidad restante'}}
+
+                                <td  class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{$product['cantidadRestante']}}
                                 </td>
 
                                 {{--  <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
