@@ -11,12 +11,16 @@ class InventoryController extends Controller
     if (!session()->get('user')) {
         return redirect()->route('auth.login');
     }
-
     $user = session()->get('user');
+
+    $url = config('app.api') . '/product';
+    $response = Http::withToken($user['token'])->get($url);
+    $productos = $response->json('data');
+
     $inventory = [
         [
             'id' => 1,
-            'familia' => 'ce',
+            'familia' => 'b',
             'nombre' => 'Cerveza Stella Artois',
             'ubicacion' => 'a',
             'unidad' => 'l',
@@ -27,8 +31,8 @@ class InventoryController extends Controller
         ],
         [
             'id' => 2,
-            'familia' => 'co',
-            'nombre' => 'Helado de Vainilla',
+            'familia' => 'l',
+            'nombre' => 'licor',
             'ubicacion' => 'c',
             'unidad' => 'e',
             'cantidad' => 5,
@@ -38,7 +42,7 @@ class InventoryController extends Controller
         ],
         [
             'id' => 3,
-            'familia' => 'ca',
+            'familia' => 'p',
             'nombre' => 'Filete de Res',
             'ubicacion' => 'r',
             'unidad' => 'k',
@@ -47,22 +51,11 @@ class InventoryController extends Controller
             'valor' => 450,
             'status' => 1,
         ],
-        [
-            'id' => 4,
-            'familia' => 've',
-            'nombre' => 'Lechuga',
-            'ubicacion' => 'a',
-            'unidad' => 'p',
-            'cantidad' => 20,
-            'costo' => 10,
-            'valor' => 200,
-            'status' => 0,
-        ],
     ];
     
     
 
-    return view('admin.inventory.index', compact('inventory'));
+    return view('admin.inventory.index', compact('inventory','productos'));
 }
     /**
          * Display the specified resource.
