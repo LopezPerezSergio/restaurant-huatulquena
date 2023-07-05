@@ -11,58 +11,46 @@ class InventoryController extends Controller
     if (!session()->get('user')) {
         return redirect()->route('auth.login');
     }
-
     $user = session()->get('user');
+
+    $url = config('app.api') . '/product';
+    $response = Http::withToken($user['token'])->get($url);
+    $productos = $response->json('data');
+
+    // cantidadRestante sera por cada producto que encuentre en la tabla productos producto['nombre'] 
+    // restara a inventory['cantidadRestante'] la cantidad que se ocupa por cada producto de la lista 
+    // inventory['productos'] que coincida con productos['nombre]
     $inventory = [
         [
             'id' => 1,
-            'familia' => 'ce',
             'nombre' => 'Cerveza Stella Artois',
-            'ubicacion' => 'a',
-            'unidad' => 'l',
-            'cantidad' => 10,
-            'costo' => 50,
-            'valor' => 500,
-            'status' => 1,
+            'familia' => 'b',   
+            'cantidad'=>'10',
+            'productos'=> 'Michelada, Michelada Mediana',
+            'unidad' => 'ENVASE',
+            'cantidadRestante'=>'5',
         ],
         [
             'id' => 2,
-            'familia' => 'co',
-            'nombre' => 'Helado de Vainilla',
-            'ubicacion' => 'c',
-            'unidad' => 'e',
-            'cantidad' => 5,
-            'costo' => 80,
-            'valor' => 400,
-            'status' => 1,
+            'familia' => 'l',
+            'nombre' => 'licor',
+            'unidad' => 'SHOT',
+            'cantidad' => 200,
+            'cantidadRestante'=>'50',
         ],
         [
             'id' => 3,
-            'familia' => 'ca',
+            'familia' => 'p',
             'nombre' => 'Filete de Res',
-            'ubicacion' => 'r',
-            'unidad' => 'k',
+            'unidad' => 'kilogramos',
             'cantidad' => 3,
-            'costo' => 150,
-            'valor' => 450,
-            'status' => 1,
-        ],
-        [
-            'id' => 4,
-            'familia' => 've',
-            'nombre' => 'Lechuga',
-            'ubicacion' => 'a',
-            'unidad' => 'p',
-            'cantidad' => 20,
-            'costo' => 10,
-            'valor' => 200,
-            'status' => 0,
+            'cantidadRestante'=>'1',
         ],
     ];
     
     
 
-    return view('admin.inventory.index', compact('inventory'));
+    return view('admin.inventory.index', compact('inventory','productos'));
 }
     /**
          * Display the specified resource.

@@ -7,6 +7,7 @@ use Livewire\Component;
 class Inventory extends Component
 {
     public $inventory;
+    public $productos;
     public $search = '';
      /* Variable que contendra la lista de productos en inventario para el filtrado */
      public $filterProducts;
@@ -18,6 +19,7 @@ class Inventory extends Component
 
     public function render()
     {
+        // dd($this->productos);
         // dd($this->inventory);
         return view('livewire.inventory');
     }   
