@@ -62,7 +62,7 @@
                                 <th scope="col" class="p-4" style="text-align: center">Cantidad</th>
                                 <th scope="col" class="p-4" style="text-align: center">Unidad</th>
                                 <th scope="col" class="p-4" style="text-align: center">Cant. Restante</th>
-                                {{--  <th scope="col" class="p-4">Estado</th>  --}}
+                                 <th scope="col" class="p-4">Estado</th> 
                                 <th scope="col" class="p-4">Acciones</th>
                             </tr>
                         </thead>
@@ -76,18 +76,19 @@
 
                                 <th scope="row"
                                     class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    <span
+                                    {{$product['categoria']}}
+                                    {{-- <span
                                     class="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">
-                                    @if ($product['familia'] == 'b')
+                                    @if ($product['categoria'] == 'b')
                                         Bebidas
                                     @endif
-                                    @if ($product['familia'] == 'l')
+                                    @if ($product['categoria'] == 'l')
                                         Licores
                                     @endif
-                                    @if ($product['familia'] == 'p')
+                                    @if ($product['categoria'] == 'p')
                                         Proteína
                                     @endif
-                                </span>
+                                </span> --}}
                                     </div>
                                 </th>
 
@@ -103,10 +104,10 @@
                                 </td>
 
                                 <td  class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{$product['cantidadRestante']}}
+                                    {{$product['contador']}}
                                 </td>
 
-                                {{--  <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                 <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     <div class="flex items-center">
                                         <div
                                             class="h-4 w-4 rounded-full inline-block mr-2 {{ $product['status'] == '1' ? 'bg-green-600 text-green-600' : 'bg-red-600 text-red-600' }}">
@@ -114,7 +115,7 @@
                                         {{ $product['status'] == '1' ? 'Activo' : 'Inactivo' }}
 
                                     </div>
-                                </td>  --}}
+                                </td> 
                                 
                                 <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     <div class="flex items-center space-x-4">
@@ -210,18 +211,18 @@
                         @foreach ($inventory as $category)
                         @php
                             $categoryName = '';
-                            if ($category['familia'] == 'l') {
+                            if ($category['categoria'] == 'l') {
                                 $categoryName = 'Licores';
-                            } elseif ($category['familia'] == 'p') {
+                            } elseif ($category['categoria'] == 'p') {
                                 $categoryName = 'Proteina';
-                            } elseif ($category['familia'] == 'b') {
+                            } elseif ($category['categoria'] == 'b') {
                                 $categoryName = 'Bebidas';
                             } 
                         @endphp
                         <li class="flex items-center">
                             <button type="button"
-                                wire:click="$set('filter_category', '{{ $category['familia'] }}')"
-                                class="w-full flex items-center p-2 {{ $filter_category == $category['familia'] ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800' : 'text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                                wire:click="$set('filter_category', '{{ $category['categoria'] }}')"
+                                class="w-full flex items-center p-2 {{ $filter_category == $category['categoria'] ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800' : 'text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700' }}">
                                 <span class="ml-3">{{ $categoryName }}</span>
                             </button>
                         </li>
