@@ -245,14 +245,6 @@ class Create extends Component
         $response = Http::withToken($user['token'])->post($url, []);
         $cuenta = $response->json('data'); // id de cuenta
 
-        $allProductos = [];
-
-                foreach ($this->inventory as $item) {
-                    $productos = $item['productos'];
-                    $allProductos = array_merge($allProductos, $productos);
-                    
-                }  
-
         if ($cuenta) {
             /* Creo el pedido (order)*/
             $url = config('app.api') . '/order'; // localhost:8080/order
@@ -262,7 +254,18 @@ class Create extends Component
             ]);
             $pedido = $response->json('data');
 
+            
+              // recupera todos los productos en el inventario
+              $allProductos = [];
+            //   recupera los id del carrito
+            $productoIds = [];
             if ($pedido) {
+
+                foreach ($this->inventory as $item) 
+                {
+                    $productos = $item['productos'];
+                    $allProductos = array_merge($allProductos, $productos);       
+                } 
                 /* Creo la relacion de los productos con sus pedidos */
                 $url = config('app.api') . '/order/product/add'; // localhost:8080/order/product/add
                 foreach (Cart::content() as $product) {
@@ -272,22 +275,52 @@ class Create extends Component
                         'idPedido' => $pedido,
                         'idProducto' => $product->id,
                     ]);
-                    // dd($allProductos);
-                    // $matchingProduct = null;
-                    // foreach ($allProductos as $inventoryProduct) {
-                    //     if ($inventoryProduct == $product->id) {
-
-                    //         $matchingProduct = $inventoryProduct;
-                    //         break;
-                    //      }
-                    //  } 
-                    //  if ($matchingProduct) {
-                    //     foreach ($this->inventory as $item) {
-                    //         $item['contador']--;
-                    //     }  
-                    // }
+                    $productoIds[] = $product->id;
                 }  
+                // opcion 4
+                $url = 'http://localhost:8080/inventory';
+
+                    foreach ($this->inventory as $item) {
+                        $productos = $item['productos'];
+
+                        foreach ($productos as $producto) {
+                            if (in_array($producto, $productoIds)) {
+                                $idProducto = $producto;
+                                $item['contador']--;
+                            }
+                        }
+
+                        $response = Http::withToken($user['token'])->put($url . '/' . $item['id'], $item);
+                        // dd($response);
+                    }
+
+                // opcion 2
+                // foreach ($this->inventory as &$item) {
+                //     // dd($item);
+                //     foreach ($item['productos'] as &$producto) {
+                //         if (in_array($producto, $productoIds)) {
+                //             $productoKey = array_search($producto, $allProductos);
+                //             // dd($productoKey);
+                //             $item['contador'] = $item['contador'] - 1;
+                //             // dd( $item['contador'] = $item['contador'] - 1);
+                //             unset($allProductos[$productoKey]);
+                //         }
+                //     }
+                // }
+                // opcion 3
+
+                // foreach ($allProductos as $producto) {
+                //     if (in_array($producto, $productoIds)) {
+                //         $url = config('app.api') . '/inventory/' . $producto;
+                //         dd($url);
+                //         $response = Http::withToken($user['token'])->put($url, [
+                //             'contador' => $producto['contador'] - 1,
+                //         ]);
+                //     }
+                // }
+                
                
+                // http://localhost:8080/inventory/{id}
                 
 
                 $url = config('app.api') . '/employee/search-id/' . $this->employee_id;

@@ -189,7 +189,7 @@
                                 // Asignar los nombres seleccionados al campo de entrada "productos"
                                 productosInput.value = nombresSeleccionados.join(", ");
                                 //compo extra para los id
-                                productosInputID.value = idsSeleccionados.join(", ");
+                                productosInputID.value = idsSeleccionados.join(",");
                                  // Guardar los IDs seleccionados en una variable local
                                 localStorage.setItem("productosSeleccionados", JSON.stringify(idsSeleccionados));
                             });
