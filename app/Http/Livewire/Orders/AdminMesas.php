@@ -12,6 +12,7 @@ class AdminMesas extends Component
     public $ordProd;
     public $products;
     public $employees;
+    public $inventory; 
 
     public $id_table = '';
     public $name_table;

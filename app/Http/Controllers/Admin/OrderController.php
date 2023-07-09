@@ -49,8 +49,12 @@ class OrderController extends Controller
         $url = config('app.api') . '/employee';
         $response = Http::withToken($user['token'])->get($url);
         $employees = $response->json('data');
+
+        $url = config('app.api') . '/inventory';
+        $response = Http::withToken($user['token'])->get($url);
+        $inventory = $response->json('data');
                 
-        return view('admin.orders.index', compact('tables', 'products', 'employees'));
+        return view('admin.orders.index', compact('tables', 'products', 'employees','inventory'));
     }
 
     /**
@@ -89,6 +93,10 @@ class OrderController extends Controller
                 break;
             }
         }
+        //recuperar el inventario 
+        $url = config('app.api') . '/inventory';
+        $response = Http::withToken($user['token'])->get($url);
+        $inventory = $response->json('data');
 
         //recupero las categorias
         $url = config('app.api') . '/category';
@@ -118,7 +126,7 @@ class OrderController extends Controller
        
         $step = 1;
         return view('admin.orders.show', compact('table', 'employees', 'categories', 'products', 
-                    'cuenta', 'ordProd', 'step'));
+                    'cuenta', 'ordProd', 'step', 'inventory'));
     }
 
     /**

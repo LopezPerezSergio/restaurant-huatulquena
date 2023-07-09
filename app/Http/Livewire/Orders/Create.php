@@ -16,6 +16,7 @@ class Create extends Component
     public $categories;
     public $products;
     public $table;
+    public $inventory;
 
     /* ----------------------- Fase 1 -----------------------*/
     public $employee_id = ''; // Guarda el id del empleado seleccionado
@@ -51,6 +52,7 @@ class Create extends Component
 
     public function render()
     {
+        dd($this->inventory);
         return view('livewire.orders.create');
     }
 

@@ -158,7 +158,7 @@
         </x-slot:title>
 
         {{-- Codificacion componente  --}}
-        @livewire('orders.admin-mesas', ['tables' => $tables, 'products' => $products, 'employees'=> $employees]) {{-- Llamo el componente de livewire y le paso los roles a la propiedad roles del componente --}}
+        @livewire('orders.admin-mesas', ['tables' => $tables, 'products' => $products, 'employees'=> $employees, 'inventory'=>$inventory]) {{-- Llamo el componente de livewire y le paso los roles a la propiedad roles del componente --}}
 
 
     @endif

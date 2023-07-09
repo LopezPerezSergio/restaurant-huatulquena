@@ -22,6 +22,7 @@ class Update extends Component
      public $employees; // lista de los usuarios (meseros, admin, cajeros)
      public $categories;
      public $products;
+     public $inventory;
      public $ordProd; ///contiene la relacion pedido-producto
 
      public $table; //guarda la mesa seleccionada

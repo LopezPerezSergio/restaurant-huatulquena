@@ -17,7 +17,6 @@ class InventoryController extends Controller
     $response = Http::withToken($user['token'])->get($url);
     $productos = $response->json('data');
 
-    //recuperar el inventario 
     $url = config('app.api') . '/inventory';
     $response = Http::withToken($user['token'])->get($url);
     $inventory = $response->json('data');
@@ -55,37 +54,43 @@ class InventoryController extends Controller
     
     
 
-    return view('admin.inventory.index', compact('inventory','productos','inventory'));
-}
-public function store(Request $request)
-{
-    if (!session()->get('user')) {
-        return redirect()->route('auth.login');
+        return view('admin.inventory.index', compact('inventory','productos'));
     }
 
-    $user = session()->get('user');
+        public function store(Request $request)
+        {
+            if (!session()->get('user')) {
+                return redirect()->route('auth.login');
+            }
 
-    // Guardamos el producto
-     $url = config('app.api') . '/inventory';
-     $productos=explode(',', $request->input('productos'));
+            $user = session()->get('user');
+            // Guardamos el inventario
+            $url = config('app.api') . '/inventory';
 
-     $response = Http::withToken($user['token'])->post($url, [
-         'nombre' => $request->nombre,
-         'categoria' => $request->categoria,
-         'cantidad' => $request->cantidad,
-         'status' => $request->has('status') ? 1 : 0,
-         'contador' =>$request->contador,
-         'unidad'=>$request->unidad,
-         'productos' => $productos,
-     ]);
+            // $productos = $request->input('productos');
 
-     $response = $response['data'];
+            $valores = explode(',', $request->input('productos'));
+            //  $productosJson = json_encode($productos);
+            //  dd($valores);
 
-     session()->flash('alert-product', $response);
+            $response = Http::withToken($user['token'])->post($url, [
+                'nombre' => $request->nombre,
+                'categoria' => $request->categoria,
+                'cantidad' => $request->cantidad,
+                'unidad' => $request->unidad,
+                'status' => $request->has('status') ? 1 : 0,
+                'productos' => $valores, 
+                'contador' =>$request->contador,
+                
+            ]);
 
-     return redirect()->route('inventory.index');
+            $response = $response['data'];       
 
-}
+            session()->flash('alert-product', $response);
+
+            return redirect()->route('inventory.index');
+
+        }
     /**
          * Display the specified resource.
          */

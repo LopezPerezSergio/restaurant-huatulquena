@@ -43,8 +43,8 @@
             </div>
 
             <div>
-                <label for="familia" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoría(Familia)</label>
-                <select id="familia" name="familia" required
+                <label for="categoria" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoría(Familia)</label>
+                <select id="categoria" name="categoria" required
                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                  <option value="" disabled selected>Selecciona una Categoría</option>
                  <option value="p">Proteína</option>
@@ -70,10 +70,11 @@
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Unidad
                 </label>
-                <input disabled id="unidad"
+                {{--  <input disabled id="unidad"  type="hidden" --}}
+                <input  name="unidad" id="unidad" value=""
                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">            
             </div>
-            
+
             <div>
                 <label for="tituloSelect" id="tituloSelect" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Seleccione los Productos que contienen
@@ -89,6 +90,16 @@
                     </svg>
                 </button>
             
+                 {{--  campo oculto para los guardar los productos del dropdown  type="hidden"  --}}   
+            <div>
+                <input name="productos" id="productos" value="" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">            
+                
+            </div>
+            <div>
+                <input name="productosID" id="productosID" value="" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">            
+                
+            </div>
+           
                 <!-- Dropdown menu -->
                 <div id="dropdownSearch" class="z-10 hidden bg-white rounded-lg shadow w-60 dark:bg-gray-700">
                     <div class="p-3">
@@ -111,6 +122,7 @@
                         aria-labelledby="dropdownSearchButton">
                         @foreach ($productos as $producto)
                         <li class="producto-item" data-categoria="{{ $producto['categoriaName'] }}">
+                        {{--  <li class="producto-item" data-categoria="{{ $producto['categoriaName'] }}" data-nombre="{{ $producto['nombre'] }}">  --}}
                             <div class="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                                 <input id="checkbox-item-{{ $producto['id'] }}" type="checkbox" value="{{ $producto['id'] }}"
                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
@@ -121,15 +133,71 @@
                         @endforeach
                     </ul>
                 </div>
-            </div>    
+            </div>  
+            
+            <div>
+                <label class="my-3 relative inline-flex items-center cursor-pointer">
+                    <input name="status" id="status" type="checkbox" value="1" class="sr-only peer ">
+                    <div
+                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                    </div>
+                    <span class="ml-4 text-sm font-medium text-gray-900 dark:text-gray-300">
+                        Estado (Activo - Inactivo)
+                    </span>
+                </label>
+            </div>
+            {{--  campo oculto contador  --}}
+            <div>
+                <input type="hidden" name="contador" id="contador" value="">
+            </div>
         </div>
         <script>
-            const selectCategoria = document.getElementById("familia");
+            const selectCategoria = document.getElementById("categoria");
             const inputUnidad = document.getElementById("unidad");
             const inputNombre = document.getElementById("nombre");
             const tituloSelect = document.getElementById("tituloSelect");
             const inputSearch = document.getElementById('input-group-search');
             const items = document.querySelectorAll('#dropdownSearch li');
+            const cantidadInput = document.getElementById('cantidad');
+            const contadorInput = document.getElementById('contador');
+                        // Obtener el elemento de entrada "productos"
+                        var productosInput = document.getElementById("productos");
+                        var productosInputID = document.getElementById("productosID");
+                        
+
+                        // Obtener todos los elementos de casilla de verificación
+                        var checkboxes = document.querySelectorAll(".producto-item input[type='checkbox']");
+                        
+                    
+                        // Agregar un manejador de eventos para el cambio de los checkboxes
+                        checkboxes.forEach(function(checkbox) {
+                            checkbox.addEventListener("change", function() {
+                                var nombresSeleccionados = [];
+                                var idsSeleccionados = [];
+                    
+                                // Iterar sobre las casillas de verificación para obtener los nombres seleccionados
+                                checkboxes.forEach(function(checkbox) {
+                                    if (checkbox.checked) {
+                                        var nombre = checkbox.parentNode.querySelector("label").textContent;
+                                        var id = checkbox.value;
+                                        nombresSeleccionados.push(nombre);
+                                        idsSeleccionados.push(id);
+                                    }
+                                });
+
+                    
+                                // Asignar los nombres seleccionados al campo de entrada "productos"
+                                productosInput.value = nombresSeleccionados.join(", ");
+                                //compo extra para los id
+                                productosInputID.value = idsSeleccionados.join(", ");
+                                 // Guardar los IDs seleccionados en una variable local
+                                localStorage.setItem("productosSeleccionados", JSON.stringify(idsSeleccionados));
+                            });
+                        });            
+
+            cantidadInput.addEventListener('input', function() {
+                contadorInput.value = cantidadInput.value;
+            });
 
                 {{--  Para buscar  --}}
                 inputSearch.addEventListener('input', function() {
@@ -168,7 +236,7 @@
 
             {{--  PARA FILTRAR LOS PRODUCTOS MOSTRADOS  --}}
             document.addEventListener('DOMContentLoaded', function () {
-                var familiaSelect = document.getElementById('familia');
+                var familiaSelect = document.getElementById('categoria');
                 var productoItems = document.getElementsByClassName('producto-item');
         
                 familiaSelect.addEventListener('change', function () {
