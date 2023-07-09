@@ -44,7 +44,7 @@ class Inventory extends Component
     {
         if ($value) {
             $this->filterProducts = array_filter($this->inventory, function ($product) use ($value) {
-                return str_contains(strtolower($product['familia']), strtolower($value));
+                return str_contains(strtolower($product['categoria']), strtolower($value));
             });
         } else {
             $this->filterProducts = $this->inventory;

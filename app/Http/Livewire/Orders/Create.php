@@ -52,7 +52,7 @@ class Create extends Component
 
     public function render()
     {
-        dd($this->inventory);
+        // dd($this->inventory);
         return view('livewire.orders.create');
     }
 
@@ -245,6 +245,14 @@ class Create extends Component
         $response = Http::withToken($user['token'])->post($url, []);
         $cuenta = $response->json('data'); // id de cuenta
 
+        $allProductos = [];
+
+                foreach ($this->inventory as $item) {
+                    $productos = $item['productos'];
+                    $allProductos = array_merge($allProductos, $productos);
+                    
+                }  
+
         if ($cuenta) {
             /* Creo el pedido (order)*/
             $url = config('app.api') . '/order'; // localhost:8080/order
@@ -264,7 +272,23 @@ class Create extends Component
                         'idPedido' => $pedido,
                         'idProducto' => $product->id,
                     ]);
-                }
+                    // dd($allProductos);
+                    // $matchingProduct = null;
+                    // foreach ($allProductos as $inventoryProduct) {
+                    //     if ($inventoryProduct == $product->id) {
+
+                    //         $matchingProduct = $inventoryProduct;
+                    //         break;
+                    //      }
+                    //  } 
+                    //  if ($matchingProduct) {
+                    //     foreach ($this->inventory as $item) {
+                    //         $item['contador']--;
+                    //     }  
+                    // }
+                }  
+               
+                
 
                 $url = config('app.api') . '/employee/search-id/' . $this->employee_id;
                 $response = Http::withToken($user['token'])->get($url);
