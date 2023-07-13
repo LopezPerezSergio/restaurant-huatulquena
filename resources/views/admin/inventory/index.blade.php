@@ -214,11 +214,13 @@
                         }
                     });
                 });
-                {{--  para pasar el nombre ingresado al titulo del dropdown   --}}
+
+            {{--  para pasar el nombre ingresado al titulo del dropdown   --}}
             inputNombre.addEventListener("input", function() {
                 const nombreProducto = inputNombre.value.trim();
                 tituloSelect.textContent = `Seleccione los Productos que contienen ${nombreProducto}`;
             });
+
             {{--  para poner la unidad de medida  --}}
             selectCategoria.addEventListener("change", function() {
               const categoriaSeleccionada = selectCategoria.value;

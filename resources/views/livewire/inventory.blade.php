@@ -103,7 +103,15 @@
                                 </td>
 
                                 <td  class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{$product['contador']}}
+                                    @if ($product['unidad'] == "Kilogramos")
+                                        {{$product['contador']}}  g
+                                       
+                                            
+                                        @else
+                                        {{$product['contador']}}    
+                                        
+                                    @endif
+                                    
                                 </td>
 
                                 <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -145,8 +153,8 @@
                                             Ver
                                         </button> --}}
 
-                                        {{--  <form method="post"
-                                            action="{{ route('products.destroy', $product['id']) }}">
+                                         <form method="post"
+                                            action="{{ route('inventory.destroy', $product['id']) }}">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"
@@ -160,7 +168,7 @@
                                                 </svg>
                                                 Borrar
                                             </button>
-                                        </form>  --}}
+                                        </form> 
 
                                     </div>
                                 </td>

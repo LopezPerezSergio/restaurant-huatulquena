@@ -79,6 +79,17 @@ public function store(Request $request)
      */
     public function destroy(string $id)
     {
-        //
+        if (!session()->get('user')) {
+            return redirect()->route('auth.login');
+        }
+
+        $user = session()->get('user');
+        $url = config('app.api') . '/inventory/'. $id;
+        
+        $response = Http::withToken($user['token'])->delete($url);
+
+        $response = $response['data'];
+
+        return redirect()->route('inventory.index');
     }
 }

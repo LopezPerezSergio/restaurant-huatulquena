@@ -31,11 +31,11 @@ class Create extends Component
     ];
     public $description = ''; // Guarda la descripcion que le vamos a pasar al producto
     public $showModalDesc = false;
-    public $productId= '';
-    public $productTam= '';
-    public $productCat= '';
-    public $productImg= '';
-    public $productDesc= '';
+    public $productId = '';
+    public $productTam = '';
+    public $productCat = '';
+    public $productImg = '';
+    public $productDesc = '';
 
     // Variables para el buscador
     public $search = '';
@@ -158,14 +158,12 @@ class Create extends Component
 
         Cart::update($rowId, ['options' => $this->options]);
         $this->reset(['description', 'showModalDesc']);
-
     }
 
     // Metodo para cerrar y visualzar el modal de descripcion
     public function openModalDescripcion()
     {
         $this->showModalDesc = !$this->showModalDesc;
-              
     }
 
     public function seleccionDesc($rowId, $tamanio, $category, $image)
@@ -177,7 +175,6 @@ class Create extends Component
         $this->productDesc = '';
 
         $this->showModalDesc = !$this->showModalDesc;
-        
     }
 
     /* Metodo para eliminar un producto de la lista */
@@ -254,18 +251,15 @@ class Create extends Component
             ]);
             $pedido = $response->json('data');
 
-            
-              // recupera todos los productos en el inventario
-              $allProductos = [];
-            //   recupera los id del carrito
-            $productoIds = [];
+
             if ($pedido) {
 
-                foreach ($this->inventory as $item) 
-                {
-                    $productos = $item['productos'];
-                    $allProductos = array_merge($allProductos, $productos);       
-                } 
+                //recupera los id del carrito Y la cantidad de cada producto y caracteristicas
+                $productCant = [];
+                $productoIds = [];
+                $productCante = [];
+                $productSize = [];
+
                 /* Creo la relacion de los productos con sus pedidos */
                 $url = config('app.api') . '/order/product/add'; // localhost:8080/order/product/add
                 foreach (Cart::content() as $product) {
@@ -276,52 +270,20 @@ class Create extends Component
                         'idProducto' => $product->id,
                     ]);
                     $productoIds[] = $product->id;
-                }  
-                // opcion 4
-                $url = 'http://localhost:8080/inventory';
+                    $productCant[] = $product->qty;
+                    $productCante[] = $product->options->category;
+                    $productSize[] = $product->options->size;
+                }
 
-                    foreach ($this->inventory as $item) {
-                        $productos = $item['productos'];
-
-                        foreach ($productos as $producto) {
-                            if (in_array($producto, $productoIds)) {
-                                $idProducto = $producto;
-                                $item['contador']--;
-                            }
-                        }
-
-                        $response = Http::withToken($user['token'])->put($url . '/' . $item['id'], $item);
-                        // dd($response);
-                    }
-
-                // opcion 2
-                // foreach ($this->inventory as &$item) {
-                //     // dd($item);
-                //     foreach ($item['productos'] as &$producto) {
-                //         if (in_array($producto, $productoIds)) {
-                //             $productoKey = array_search($producto, $allProductos);
-                //             // dd($productoKey);
-                //             $item['contador'] = $item['contador'] - 1;
-                //             // dd( $item['contador'] = $item['contador'] - 1);
-                //             unset($allProductos[$productoKey]);
-                //         }
-                //     }
-                // }
-                // opcion 3
-
-                // foreach ($allProductos as $producto) {
-                //     if (in_array($producto, $productoIds)) {
-                //         $url = config('app.api') . '/inventory/' . $producto;
-                //         dd($url);
-                //         $response = Http::withToken($user['token'])->put($url, [
-                //             'contador' => $producto['contador'] - 1,
-                //         ]);
-                //     }
-                // }
-                
-               
-                // http://localhost:8080/inventory/{id}
-                
+                // ------------------- DECREMENTO DE INVENTARIO
+                $this->decremetInventory(
+                    $productoIds,
+                     $productCant,
+                     $productCante,
+                     $productSize
+                     
+                 );
+                // -------------------
 
                 $url = config('app.api') . '/employee/search-id/' . $this->employee_id;
                 $response = Http::withToken($user['token'])->get($url);
@@ -341,6 +303,52 @@ class Create extends Component
             }
         }
     }
+
+    public function decremetInventory($ids,$cant, $category, $size)  {
+
+        if (!session()->get('user')) {
+            return redirect()->route('auth.login');
+        }
+
+        $user = session()->get('user');
+        $url = 'http://localhost:8080/inventory';
+
+        foreach ($this->inventory as $item) {
+            $idProductos = $item['productos'];
+
+            foreach ($idProductos as $idProducto) {
+
+                if (in_array($idProducto, $ids)) { //se comprueba si el id existe dentro de $productoIds
+                    $index = array_search($idProducto, $ids);
+
+                    if ($category[$index] == 'Mariscos' || $category[$index] == 'Alimentos') {
+                        $decGramos = 0;
+                        if ($size[$index] == 'L') {
+                            $decGramos = 150 * $cant[$index] ;
+                        } elseif ($size[$index] == 'M') {
+                            $decGramos = 100 * $cant[$index];
+                        } elseif ($size[$index] == 'S') {
+                            $decGramos = 50 * $cant[$index];
+                        }
+                        // dd($decGramos, $cant[$index]);
+                        
+                        $item['contador'] = $item['contador'] * 1000;
+                        
+                        $item['contador'] = $item['contador'] -  $decGramos;
+                        // dd( $item['contador']);
+                        $item['contador'] = $item['contador'] / 1000; 
+                    } else {
+                        $item['contador'] = $item['contador'] - $cant[$index];
+                    }
+
+                    $response = Http::withToken($user['token'])->put($url . '/' . $item['id'], $item);
+                }
+            }
+        }
+
+    }
+
+
 
     /* ----------------------- Fase 4 -----------------------*/
 

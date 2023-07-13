@@ -461,12 +461,8 @@ class Update extends Component
  
          $user = session()->get('user');
  
-        //  /* Creo la cuenta */
-        //  $url = config('app.api') . '/cuenta'; // localhost:8080/cuenta
-        //  $response = Http::withToken($user['token'])->post($url, []);
-        //  $cuenta = $response->json('data'); // id de cuenta
- 
          if ($this->table['idCuenta']) {
+
              /* Creo el pedido (order)*/
              $url = config('app.api') . '/order'; // localhost:8080/order
              $response = Http::withToken($user['token'])->post($url, [
@@ -474,8 +470,16 @@ class Update extends Component
                  'idCuenta' => $this->table['idCuenta'],
              ]);
              $pedido = $response->json('data');
-             //dd($pedido);
+
+             
              if ($pedido) {
+
+                //recupera los id del carrito Y la cantidad de cada producto y caracteristicas
+                $productCant = [];
+                $productoIds = [];
+                $productCante = [];
+                $productSize = [];
+
                  /* Creo la relacion de los productos con sus pedidos */
                  $url = config('app.api') . '/order/product/add'; // localhost:8080/order/product/add
                  foreach (Cart::content() as $product) {
@@ -485,13 +489,72 @@ class Update extends Component
                          'idPedido' => $pedido,
                          'idProducto' => $product->id,
                      ]);
+                     $productoIds[] = $product->id;
+                     $productCant[] = $product->qty;
+                     $productCante[] = $product->options->category;
+                     $productSize[] = $product->options->size;
                  }
+ 
+                 // ------------------- DECREMENTO DE INVENTARIO
+                 $this->decremetInventory(
+                    $productoIds,
+                     $productCant,
+                     $productCante,
+                     $productSize
+                     
+                 );
+                 
+                 // -------------------
                  $this->step++;
              }
          }
         // $this->clear();
         
      }
+
+     public function decremetInventory($ids,$cant, $category, $size)  {
+
+        if (!session()->get('user')) {
+            return redirect()->route('auth.login');
+        }
+
+        $user = session()->get('user');
+        $url = 'http://localhost:8080/inventory';
+
+        foreach ($this->inventory as $item) {
+            $idProductos = $item['productos'];
+
+            foreach ($idProductos as $idProducto) {
+
+                if (in_array($idProducto, $ids)) { //se comprueba si el id existe dentro de $productoIds
+                    $index = array_search($idProducto, $ids);
+
+                    if ($category[$index] == 'Mariscos' || $category[$index] == 'Alimentos') {
+                        $decGramos = 0;
+                        if ($size[$index] == 'L') {
+                            $decGramos = 150 * $cant[$index] ;
+                        } elseif ($size[$index] == 'M') {
+                            $decGramos = 100 * $cant[$index];
+                        } elseif ($size[$index] == 'S') {
+                            $decGramos = 50 * $cant[$index];
+                        }
+                        // dd($decGramos, $cant[$index]);
+                        
+                        $item['contador'] = $item['contador'] * 1000;
+                        
+                        $item['contador'] = $item['contador'] -  $decGramos;
+                        // dd( $item['contador']);
+                        $item['contador'] = $item['contador'] / 1000; 
+                    } else {
+                        $item['contador'] = $item['contador'] - $cant[$index];
+                    }
+
+                    $response = Http::withToken($user['token'])->put($url . '/' . $item['id'], $item);
+                }
+            }
+        }
+
+    }
 
     /* ----------------------- STEP 5 -----------------------*/
     //GENERAR EL TICKET
